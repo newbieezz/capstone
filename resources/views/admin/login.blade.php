@@ -18,7 +18,14 @@
   <!-- endinject -->
   <link rel="shortcut icon" href="{{ url('admin/images/favicon.png') }}" />
 </head>
-
+<style>
+  .center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+</style>
 <body>
   <div class="container-scroller">
     <div class="container-fluid page-body-wrapper full-page-wrapper">
@@ -27,7 +34,7 @@
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light text-left py-5 px-4 px-sm-5">
               <div class="brand-logo">
-                <img src="{{ url('admin/images/logo.svg') }}" alt="logo">
+               <img class="center" src="{{ url('admin/images/logo.png') }}" alt="logo">
               </div>
               <h4>Hello! let's get started</h4>
               <h6 class="font-weight-light">Sign in to continue.</h6>
