@@ -70,10 +70,6 @@
                           <input type="text" class="form-control" readonly="" value="{{  $vendorDetails['vendor_business']['shop_city']}}">
                         </div>
                         <div class="form-group">
-                          <label for="vendor_city">Shop Country</label>
-                          <input type="text" class="form-control" readonly="" value="{{  $vendorDetails['vendor_business']['shop_country'] }}">
-                        </div>
-                        <div class="form-group">
                           <label for="vendor_pincode">Shop Pin Code</label>
                           <input type="text" class="form-control" readonly="" value="{{  $vendorDetails['vendor_business']['shop_pincode'] }}">
                         </div>

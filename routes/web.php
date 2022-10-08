@@ -91,6 +91,13 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('delete-brand/{id}','BrandController@deleteBrand');
         // Add Brand Functionality 
         Route::match(['get','post'],'add-edit-brand/{id?}','BrandController@addEditBrand');
+
+        // PRODUCtS
+        Route::get('products','ProductsController@products');
+        // Update Product Status
+        Route::post('update-product-status','ProductsController@updateProductStatus');
+        // Delete Product Functionality 
+        Route::get('delete-product/{id}','ProductsController@deleteProduct');
     });
 });
 

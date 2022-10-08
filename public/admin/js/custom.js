@@ -8,6 +8,7 @@ $(document).ready(function(){
     $('#sections').DataTable();
     $('#categories').DataTable();
     $('#brands').DataTable();
+    $('#products').DataTable();
     // Check if the Admin Password is correct or not
     $("#current_password").keyup(function(){
         var current_password = $("#current_password").val();
@@ -86,6 +87,31 @@ $(document).ready(function(){
         });
     });
 
+    //update product status
+    $(document).on("click",".updateProductStatus",function(){
+        var status = $(this).children("i").attr("status");
+        var product_id = $(this).attr("product_id");
+
+        $.ajax({
+            headers:{
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+
+            type:'post',
+            url: '/admin/update-product-status',
+            data: {status:status,product_id:product_id},
+            success:function(resp){
+                //alert(resp);
+                if(resp['status']==0){ //update the value in the html
+                    $("#product-"+product_id).html("<i style='font-size:30px;' class='mdi mdi-check-circle-outline' status='Inactive'> </i> ");
+                } else if(resp['status']==1){ //update the value in the html
+                    $("#product-"+product_id).html("<i style='font-size:30px;' class='mdi mdi-check-circle' status='Active'> </i> ");
+                }
+            },error:function(){
+                alert("Error");
+            }
+        });
+    });
     // confirm deletion alert
     $(".confirmDelete").click(function(){
         var module =  $(this).attr('module');
