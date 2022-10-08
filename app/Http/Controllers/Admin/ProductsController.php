@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Intervention\Image\Facades\Image;
+use App\Models\Section;
+use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
+
 class ProductsController extends Controller
 {
     public function products(){
@@ -41,77 +46,81 @@ class ProductsController extends Controller
             // Add Product Functionality
             $title = "Add Product";
             $product = new Product;
-            $getCategories = array();
             $message = "Product added successfully!";
         } else {
             // Edit Functionality
-            $title = "Edit product";
-            $product = Product::find($id);
-            //getting the categories along with then subproduct, gets the subcategories also
-            $getProduct = Product::with('subcategories')->where(['parent_id'=>0,'section_id'=>$product['section_id']])->get();
-            $message = "product updated successfully!";
+            $title = "Edit Product";
         }
-
+        //get the data
         if($request->isMethod('post')){
             $data = $request->all();
 
-            // Array of Validation Rules
+              // Array of Validation Rules
             $rules = [
+                'category_id' => 'required',
                 'product_name' => 'required|regex:/^[\pL\s\-]+$/u',
-                'section_id' => 'required',
-                'url' => 'required',
+                'product_code' => 'required|regex:/^\W+$/',
+                'product_price' => 'required|numeric',
             ];
             $customMessages = [
-                'product_name.required' => 'product Name is required!',
-                'product_name.regex' => 'Valid product Name is required!',
-                'section_id.required' => 'Section is required!',
-                'url.required' => 'product URL is required!',
+                'category_id.required' => 'Category is required!',
+                'product_name.required' => 'Product Name is required!',
+                'product_name.regex' => 'Valid Product Name is required!',
+                'product_code.required' => 'Product Code is required!',
+                'product_code.regex' => 'Valid Product Code is required!',
+                'product_price.required' => 'Product Price is required!',
+                'product_price.numeric' => 'Valid Product Price is required!',
             ];
                 $this->validate($request,$rules,$customMessages);
 
-            if($data['product_discount']==""){
-                $data['product_discount'] =0;
+             //insert/save the data into the products table
+            $categoryDetails = Category::find($data['category_id']);
+            $product->section_id = $categoryDetails['section_id'];
+            //save the category id from the form
+            $product->category_id = $data['category_id'];
+            $product->brand_id = $data['brand_id'];
+            //fetch the admin type using the auth::guard
+            $adminType = Auth::guard('admin')->user()->type;
+            $vendor_id = Auth::guard('admin')->user()->vendor_id;
+            $admin_id = Auth::guard('admin')->user()->admin_id;
+            //saving in the products table
+            $product->admin_type = $adminType;
+            $product->admin_id = $admin_id;
+            if($adminType=="vendor"){
+                $product->vendor_id = $vendor_id;
+            }else {
+                $product->vendor_id = 0;
             }
 
-                // Upload product Image/Photo
-                if($request->hasFile('product_image')){
-                    $image_tmp = $request->file('product_image');
-                    if($image_tmp->isValid()){
-                        // Building function to get the image extension of the file
-                        $extension = $image_tmp->getClientOriginalExtension();
-                        // Generate new image name
-                        $imageName = rand(111,99999).'.'.$extension;
-                        $imagePath = 'front/images/product_images/'.$imageName;
-                        // Upload the Image
-                        Image::make($image_tmp)->save($imagePath);
-                        // Save the Image
-                        $product->product_image = $imageName;
-                    }
-                } else {
-                    $product->product_image = "";
-                }
+            $product->product_name = $data['product_name'];
+            $product->product_code = $data['product_code'];
+            $product->product_price = $data['product_price'];
+            $product->product_discount = $data['product_discount'];
+            $product->description = $data['description'];
+            $product->meta_title = $data['meta_title'];
+            $product->meta_description = $data['meta_description'];
+            $product->meta_keywords = $data['meta_keywords'];
+            if(!empty($data['is_featured'])){
+                $product->is_featured = $data['is_featured'];
+            } else {
+                $product->is_featured = "No";
+            }
+            $product->status = 1;
+            $product->save();
+            return redirect('admin/products')->with('success_message', $message);
 
-                $product->section_id = $data['section_id'];
-                $product->parent_id = $data['parent_id'];
-                $product->product_name = $data['product_name'];
-                $product->product_discount = $data['product_discount'];
-                $product->description = $data['description'];
-                $product->url = $data['url'];
-                $product->meta_title= $data['meta_title'];
-                $product->meta_description = $data['meta_description'];
-                $product->meta_keywords = $data['meta_keywords'];
-                $product->status = 1;
-                $product->save();
-
-                return redirect('admin/products')->with('success_message', $message);
         }
 
-        // $getSections = Section::get()->toArray();
 
-        return view('admin.products.add_edit_product')->with(compact('title','product','getSections','getProducts'));
+        // get sections with categories and sub categories
+        $categories = Section::with('categories')->get()->toArray();
+        // get all the brands
+        $brands = Brand::where('status',1)->get()->toArray();
+        return view('admin.products.add_edit_product')->with(compact('title','categories','brands'));
     }
 
-        // delete product
+
+     // delete product
     public function deleteProduct($id){
         Session::put('page','products');
         //delete from categories table by id

@@ -98,6 +98,8 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::post('update-product-status','ProductsController@updateProductStatus');
         // Delete Product Functionality 
         Route::get('delete-product/{id}','ProductsController@deleteProduct');
+        // Add-Edit Product
+        Route::match(['get','post'],'add-edit-product/{id?}','ProductsController@addEditProduct');
     });
 });
 
