@@ -8,8 +8,6 @@
                         <div class="card"> 
                             <div class="card-body"> 
                               <h4 class="card-title">Products</h4> 
-                              <a style="max-width: 150px; float: left; display:inline-block;" href="{{ url('admin/add-edit-product') }}" 
-                                class="btn btn-block btn-primary">Add Product</a>
                                 @if(Session::has('success_message'))
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                                     <strong>Success: </strong> {{ Session::get('success_message')}}
@@ -18,6 +16,8 @@
                                     </button>
                                 </div>
                                 @endif
+                                <a style="max-width: 150px; float: left; display:inline-block;" href="{{ url('admin/add-edit-product') }}" 
+                                class="btn btn-block btn-primary">Add Product</a>
                               <div class="table-responsive pt-3"> 
                               <table id="products" class="table table-bordered"> 
                               <thead> 
@@ -26,6 +26,7 @@
                                     <th> Product Name </th> 
                                     <th> Product Code </th> 
                                     <th> Product Price </th>  
+                                    <th> Photo </th> 
                                     <th> Category </th>   
                                     <th> Section </th>  
                                     <th> Added by </th>     
@@ -40,6 +41,12 @@
                                      <td> {{ $product['product_name']}}  </td>
                                      <td> {{ $product['product_code']}}  </td> 
                                      <td> {{ $product['product_price']}}  </td>  
+                                     <td> @if(!empty($product['product_image']))
+                                            <img src="{{ asset('front/images/product_images/small/'.$product['product_image']) }}">
+                                          @else
+                                          <img src="{{ asset('front/images/product_images/small/noimage.png') }}">
+                                          @endif
+                                     </td>
                                      <td> {{ $product['category'] ['category_name']}}  </td>
                                      <td> {{ $product['section'] ['name']}}  </td> 
                                      <td> @if ($product['admin_type']=="vendor") 
