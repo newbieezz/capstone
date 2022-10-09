@@ -105,6 +105,9 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         //Delete Video
         Route::get('delete-product-video/{id}','ProductsController@deleteProductVideo');
 
+        //ATTRIBUTES
+        Route::match(['get','post'],'add-edit-attributes/{id?}','ProductsController@addAttributes');
+
     });
 });
 

@@ -68,7 +68,9 @@
                                     </td>                      
                                      <td>    &nbsp;
                                          <a href="{{ url('admin/add-edit-product/'.$product['id']) }}">
-                                         <i style="font-size:30px" class="mdi mdi-lead-pencil"> </i> </a> &nbsp; &nbsp;  &nbsp;
+                                         <i style="font-size:30px" class="mdi mdi-lead-pencil"> </i> </a> &nbsp; &nbsp; 
+                                         <a href="{{ url('admin/add-edit-attributes/'.$product['id']) }}">
+                                          <i style="font-size:30px" class="mdi mdi-plus-box"> </i> </a> &nbsp; &nbsp;
                                          <a href="javascript:void(0)" class="confirmDelete" module="product" moduleid="{{$product['id']}}">
                                          <i style="font-size:30px" class="mdi mdi-delete-forever"> </i> </a>
                                     </td>  

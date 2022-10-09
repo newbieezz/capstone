@@ -10,11 +10,13 @@ use Illuminate\Support\Facades\Session;
 use Intervention\Image\Facades\Image;
 use App\Models\Section;
 use App\Models\Category;
+use App\Models\ProductsAttribute;
 use Illuminate\Support\Facades\Auth;
 
 class ProductsController extends Controller
 {
     public function products(){
+        Session::put('page','products');
         $products = Product::with(['section'=>function($query){
             $query->select('id','name');
         },'category'=>function($query){
@@ -25,6 +27,7 @@ class ProductsController extends Controller
 
         // Update Product Status
     public function updateProductStatus(Request $request){
+        Session::put('page','products');
         if($request->ajax()){
              $data = $request->all();
             //making the inactive->active, vice versa
@@ -50,6 +53,7 @@ class ProductsController extends Controller
             $message = "Product added successfully!";
         } else {
             // Edit Functionality
+            Session::put('page','products');
             $title = "Edit Product";
             $product = Product::find($id);
             $message = "Product updated successfully!";
@@ -168,6 +172,7 @@ class ProductsController extends Controller
     }
     //delete product image
     public function deleteProductImage($id){
+        Session::put('page','products');
         //get the image from the product folder and database
         $productImage = Product::select('product_image')->where('id',$id)->first();
 
@@ -213,5 +218,55 @@ class ProductsController extends Controller
         $message = "Product Video has been deleted successfully";
         return redirect()->back()->with('success_message',$message);
 
+    }
+
+    //add attributes
+    public function addAttributes(Request $request,$id){
+        $product = Product::select('id','product_name','product_code','product_price','product_image')->with('attributes')->find($id);
+        Session::put('page','products');
+        if($request->isMethod('post')){
+            $data = $request->all();
+
+            foreach($data['price'] as $key => $value){
+                if(!empty($value)){
+
+                    // sku duplicate check
+                    $skucount = ProductsAttribute::where('sku',$data['sku'][$key])->count();
+                    if($skucount>0){
+                        return redirect()->back()->with('error_message','SKU-Code already exists!
+                        Please add another code!');
+                    }
+
+                     // size duplicate check
+                     $sizecount = ProductsAttribute::where(['product_id'=>$id,'size',$data['size'][$key]])->count();
+                     if($sizecount>0){
+                         return redirect()->back()->with('error_message','Size already exists!
+                         Please add another size!');
+                     }
+
+                      // weight duplicate check
+                      $weightcount = ProductsAttribute::where(['product_id'=>$id,'weight',$data['weight'][$key]])->count();
+                      if($weightcount>0){
+                          return redirect()->back()->with('error_message','Weight already exists!
+                          Please add another weight!');
+                      }
+
+                    $attribute = new ProductsAttribute;
+                    //saving
+                    $attribute->product_id = $id;
+                    $attribute->price = $value;
+                    $attribute->size = $data['size'][$key];
+                    $attribute->weight = $data['weight'][$key];
+                    $attribute->sku = $data['sku'][$key];
+                    $attribute->stock = $data['stock'][$key];
+                    $attribute->status = 1;
+                    $attribute->save();
+                }
+            }
+
+            return redirect()->back()->with('success_message','Product Atrributes has been added successfully!');
+        }
+
+        return view('admin.attributes.add_edit_attributes')->with(compact('product'));
     }
 }

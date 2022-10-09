@@ -19,4 +19,10 @@ class Product extends Model
         //every product belongs to a category
         return $this->belongsTo('App\Models\Category','category_id');
     }
+
+    //relation to attributes
+    public function attributes(){
+        //one product can have many attributes
+        return $this->hasMany('App\Models\ProductsAttribute');
+    }
 }
