@@ -57,22 +57,24 @@
                                           @endif
                                      </td>
                                      <td> @if($product['status']==1)   &nbsp;
-                                            <a class="updateProductStatus" id="product-{{$product['id']}}" product_id="{{$product['id']}}"
-                                                href="javascript:void(0)"> 
+                                            <a title="Active" class="updateProductStatus" id="product-{{$product['id']}}" product_id="{{$product['id']}}"
+                                                href="javascript:void(0)">  
                                             <i style="font-size:30px" class="mdi mdi-check-circle" status="Active"> </i> </a>
                                           @else  &nbsp;
-                                          <a class="updateProductStatus" id="product-{{$product['id']}}" product_id="{{$product['id']}}"
+                                          <a title="Inactive" class="updateProductStatus" id="product-{{$product['id']}}" product_id="{{$product['id']}}"
                                                 href="javascript:void(0)"> 
                                             <i style="font-size:30px" class="mdi mdi-check-circle-outline" status="Inactive"> </i> </a>
                                           @endif
                                     </td>                      
                                      <td>    &nbsp;
-                                         <a href="{{ url('admin/add-edit-product/'.$product['id']) }}">
+                                         <a title="Edit Product" href="{{ url('admin/add-edit-product/'.$product['id']) }}">
                                          <i style="font-size:30px" class="mdi mdi-lead-pencil"> </i> </a> &nbsp; &nbsp; 
-                                         <a href="{{ url('admin/add-edit-attributes/'.$product['id']) }}">
-                                          <i style="font-size:30px" class="mdi mdi-plus-box"> </i> </a> &nbsp; &nbsp;
-                                         <a href="javascript:void(0)" class="confirmDelete" module="product" moduleid="{{$product['id']}}">
-                                         <i style="font-size:30px" class="mdi mdi-delete-forever"> </i> </a>
+                                            <a title="Add Attributes" href="{{ url('admin/add-edit-attributes/'.$product['id']) }}">
+                                            <i style="font-size:30px" class="mdi mdi-plus-circle"> </i> </a> &nbsp; &nbsp;  
+                                         <a title="Add Multiple Image" href="{{ url('admin/add-images/'.$product['id']) }}">
+                                         <i style="font-size:30px" class="mdi mdi-library-plus"> </i> </a> &nbsp; &nbsp;
+                                            <a title="Delete" href="javascript:void(0)" class="confirmDelete" module="product" moduleid="{{$product['id']}}">
+                                            <i style="font-size:30px" class="mdi mdi-delete-forever"> </i> </a>
                                     </td>  
                                 </tr> 
                                 @endforeach

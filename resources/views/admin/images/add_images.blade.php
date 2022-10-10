@@ -7,16 +7,16 @@
             <div class="col-md-12 grid-margin">
                 <div class="row">
                     <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                        <h3 class="font-weight-bold">Attributes</h3>
+                        <h3 class="font-weight-bold">Product Images</h3>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-8 grid-margin stretch-card">
+            <div class="col-md-7 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Add Attributes</h4>
+                  <h4 class="card-title">Add Images</h4>
                 
                   <!--Validation Error Message -->
                     @if ($errors->any())
@@ -45,11 +45,8 @@
                         </button>
                       </div>
                   @endif
-                  <form class="forms-sample" action="{{ url('admin/add-edit-attributes/'.$product['id']) }}" 
-                  method="post"> @csrf
-                  <form class="forms-sample" @if(empty($product['id'])) action="{{ url('admin/add-edit-product') }}"
-                        @else action="{{ url('admin/add-edit-product/'.$product['id']) }}" @endif
-                        method="post"enctype="multipart/form-data"> @csrf
+                  <form class="forms-sample" action="{{ url('admin/add-images/'.$product['id']) }}" 
+                  method="post" enctype="multipart/form-data"> @csrf
                     <div class="form-group">
                         <label for="product_name">Product Name</label>
                             &nbsp; {{ $product['product_name'] }}
@@ -72,64 +69,45 @@
                       </div>
                       <div class="form-group">
                         <div class="field_wrapper">
-                            <div>
-                                <input type="text" name="size[]" placeholder="Size" style="width:120px;" required=""/>
-                                <input type="text" name="weight[]" placeholder="Weight" style="width:120px;" required=""/>
-                                <input type="text" name="sku[]" placeholder="SKU-Code" style="width:120px;" required=""/>
-                                <input type="text" name="price[]" placeholder="Price" style="width:120px;" required=""/>
-                                <input type="text" name="stock[]" placeholder="Stock" style="width:120px;" required=""/>
-                                <a href="javascript:void(0);" class="add_button" title="Add field">  Add</a>
-                            </div>
+                               <input type="file" name="images[]" multiple="" id="images">
                         </div>
                       </div>
-                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                    <button class="btn btn-light">Cancel</button>
+                      <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                      <button class="btn btn-light">Cancel</button>
                   </form>
                     <br> <br>
-                    <h4 class="card-title">Product Attributes</h4>
-                    <form method="post" action="{{ url('admin/edit-attributes/'.$product['product_name']) }}"> @csrf
+                    <h4 class="card-title">Product Images</h4>
                     <table id="products" class="table table-bordered"> 
                     <thead> 
                       <tr> 
                           <th> ID </th> 
-                          <th> Size </th> 
-                          <th> Weight </th> 
-                          <th> SKU-Code </th>  
-                          <th> Price </th> 
-                          <th> Stock </th>   
-                          <th> Status </th> 
+                          <th> Image </th> 
+                          <th> Actions </th> 
                       </tr> 
                     </thead> 
                     <tbody> 
-                    @foreach ($product['attributes'] as $attribute)
-                    <input type="text" style="display: none;" name="attributeId[]" value="{{ $attribute['id']}}">
+                    @foreach ($product['images'] as $image)
                       <tr> 
-                           <td> {{ $attribute['id']}}  </td> 
-                           <td> {{ $attribute['size']}}  </td>
-                           <td> {{ $attribute['weight']}}  </td> 
-                           <td> {{ $attribute['sku']}}  </td>
+                           <td> {{ $image['id']}}  </td> 
                            <td> 
-                               <input type="number" name="price[]" value="{{ $attribute['price']}}" required="" style="width:70px;">
-                           </td>  
-                           <td>
-                            <input type="number" name="stock[]" value="{{ $attribute['stock']}}" required="" style="width:70px;"> 
-                           </td>    
-                           <td> @if($attribute['status']==1)   &nbsp;
-                                  <a class="updateAttributeStatus" id="attribute-{{$attribute['id']}}" attribute_id="{{$attribute['id']}}"
+                                <img src="{{ url('front/images/product_images/large/'.$image['image']) }}"">
+                           </td>
+                           <td> @if($image['status']==1)   &nbsp;
+                                  <a title="Active" class="updateImageStatus" id="image-{{$image['id']}}" image_id="{{$image['id']}}"
                                       href="javascript:void(0)">  
                                   <i style="font-size:30px" class="mdi mdi-check-circle" status="Active"> </i> </a>
                                 @else  &nbsp;
-                                <a class="updateAttributeStatus" id="attribute-{{$attribute['id']}}" attribute_id="{{$attribute['id']}}"
+                                <a title="Inactive" class="updateImageStatus" id="image-{{$image['id']}}" image_id="{{$image['id']}}"
                                       href="javascript:void(0)"> 
                                   <i style="font-size:30px" class="mdi mdi-check-circle-outline" status="Inactive"> </i> </a>
-                                @endif
+                                @endif &nbsp; &nbsp;
+                                <a title="Delete" href="javascript:void(0)" class="confirmDelete" module="image" moduleid="{{$image['id']}}">
+                                <i style="font-size:30px" class="mdi mdi-delete-forever"> </i> </a>
                           </td>                       
                       </tr> 
                       @endforeach
                     </tbody> 
                     </table> 
-                      <button type="submit" class="btn btn-primary mr-2">Update Attributes</button>
-                  </form>
                 </div>
               </div>
             </div>

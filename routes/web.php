@@ -107,7 +107,19 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
 
         //ATTRIBUTES
         Route::match(['get','post'],'add-edit-attributes/{id?}','ProductsController@addAttributes');
+        // Update Attribute Status
+        Route::post('update-attribute-status','ProductsController@updateAttributeStatus');
+        // Delete Attribute Functionality 
+        Route::get('delete-atttribute/{id}','ProductsController@deleteAttribute');
+        // Edit/Update Attribute
+        Route::match(['get','post'],'edit-attributes/{id}','ProductsController@editAttributes');
 
+        //IMAGES
+        Route::match(['get','post'],'add-images/{id}','ProductsController@addImages');
+         // Update Image Status
+        Route::post('update-image-status','ProductsController@updateImageStatus');
+        // Delete Image Functionality 
+        Route::get('delete-image/{id}','ProductsController@deleteImage');
     });
 });
 

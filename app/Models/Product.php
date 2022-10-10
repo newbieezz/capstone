@@ -25,4 +25,9 @@ class Product extends Model
         //one product can have many attributes
         return $this->hasMany('App\Models\ProductsAttribute');
     }
+
+    public function images(){
+        //one product can have many images
+        return $this->hasMany('App\Models\ProductsImage');
+    }
 }

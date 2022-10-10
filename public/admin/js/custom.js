@@ -230,4 +230,55 @@ $(document).ready(function(){
         x--; //Decrement field counter
     });
 
+    //update Attribute Status
+    $(document).on("click",".updateAttributeStatus",function(){
+        var status = $(this).children("i").attr("status");
+        var attribute_id = $(this).attr("attribute_id");
+
+        $.ajax({
+            headers:{
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+
+            type:'post',
+            url: '/admin/update-attribute-status',
+            data: {status:status,attribute_id:attribute_id},
+            success:function(resp){
+                //alert(resp);
+                if(resp['status']==0){ //update the value in the html
+                    $("#attribute-"+attribute_id).html("<i style='font-size:30px;' class='mdi mdi-check-circle-outline' status='Inactive'> </i> ");
+                } else if(resp['status']==1){ //update the value in the html
+                    $("#attribute-"+attribute_id).html("<i style='font-size:30px;' class='mdi mdi-check-circle' status='Active'> </i> ");
+                }
+            },error:function(){
+                alert("Error");
+            }
+        });
+    });
+
+    //update Image Status
+    $(document).on("click",".updateImageStatus",function(){
+        var status = $(this).children("i").attr("status");
+        var image_id = $(this).attr("image_id");
+
+        $.ajax({
+            headers:{
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+
+            type:'post',
+            url: '/admin/update-image-status',
+            data: {status:status,image_id:image_id},
+            success:function(resp){
+                //alert(resp);
+                if(resp['status']==0){ //update the value in the html
+                    $("#image-"+image_id).html("<i style='font-size:30px;' class='mdi mdi-check-circle-outline' status='Inactive'> </i> ");
+                } else if(resp['status']==1){ //update the value in the html
+                    $("#image-"+image_id).html("<i style='font-size:30px;' class='mdi mdi-check-circle' status='Active'> </i> ");
+                }
+            },error:function(){
+                alert("Error");
+            }
+        });
+    });
 });
