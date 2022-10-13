@@ -73,24 +73,6 @@
                     </ul>
                 </div>
             </li>
-            <!--User Management -->
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#ui-users" aria-expanded="false" aria-controls="ui-users">
-                <i class="icon-head menu-icon"></i>
-                <span class="menu-title">User Management</span>
-                <i class="menu-arrow"></i>
-                </a>
-                <div class="collapse" id="ui-users">
-                    <ul class="nav flex-column sub-menu" style="background: #fff !important; color:#4B49AC !important">
-                        <li class="nav-item"> <a @if(Session::get('page')=="users") style="background:#4B49AC !important; color:aliceblue !important;" 
-                                                 @else style="background: #fff !important; color:#4B49AC !important;" @endif
-                            class="nav-link" href="{{ url('admin/users') }}">Users</a></li>
-                        <li class="nav-item"> <a @if(Session::get('page')=="subscribers") style="background:#4B49AC !important; color:aliceblue !important;" 
-                                                 @else style="background: #fff !important; color:#4B49AC !important;" @endif
-                            class="nav-link" href="{{ url('admin/subscribers') }}">Subscribers</a></li>                    
-                    </ul>
-                </div>
-            </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#ui-catalogue" aria-expanded="false" aria-controls="ui-catalogue">
                 <i class="icon-bar-graph menu-icon"></i>
@@ -114,8 +96,41 @@
                     </ul>
                 </div>
             </li>
+             <!--User Management -->
+             <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#ui-users" aria-expanded="false" aria-controls="ui-users">
+                <i class="icon-head menu-icon"></i>
+                <span class="menu-title">Manage Users</span>
+                <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="ui-users">
+                    <ul class="nav flex-column sub-menu" style="background: #fff !important; color:#4B49AC !important">
+                        <li class="nav-item"> <a @if(Session::get('page')=="users") style="background:#4B49AC !important; color:aliceblue !important;" 
+                                                 @else style="background: #fff !important; color:#4B49AC !important;" @endif
+                            class="nav-link" href="{{ url('admin/users') }}">Users</a></li>
+                        <li class="nav-item"> <a @if(Session::get('page')=="subscribers") style="background:#4B49AC !important; color:aliceblue !important;" 
+                                                 @else style="background: #fff !important; color:#4B49AC !important;" @endif
+                            class="nav-link" href="{{ url('admin/subscribers') }}">Subscribers</a></li>                    
+                    </ul>
+                </div>
+            </li>
+             <!--Banners Management -->
+             <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#ui-banners" aria-expanded="false" aria-controls="ui-banners">
+                <i class="icon-head menu-icon"></i>
+                <span class="menu-title">Manage Banners</span>
+                <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="ui-banners">
+                    <ul class="nav flex-column sub-menu" style="background: #fff !important; color:#4B49AC !important">
+                        <li class="nav-item"> <a @if(Session::get('page')=="users") style="background:#4B49AC !important; color:aliceblue !important;" 
+                                                 @else style="background: #fff !important; color:#4B49AC !important;" @endif
+                            class="nav-link" href="{{ url('admin/banners') }}">Slider Banners</a></li>                  
+                    </ul>
+                </div>
+            </li>
         @endif
-
+            
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
             <i class="icon-grid-2 menu-icon"></i>

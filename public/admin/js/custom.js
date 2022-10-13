@@ -9,6 +9,7 @@ $(document).ready(function(){
     $('#categories').DataTable();
     $('#brands').DataTable();
     $('#products').DataTable();
+    $('#banners').DataTable();
     // Check if the Admin Password is correct or not
     $("#current_password").keyup(function(){
         var current_password = $("#current_password").val();
@@ -275,6 +276,32 @@ $(document).ready(function(){
                     $("#image-"+image_id).html("<i style='font-size:30px;' class='mdi mdi-check-circle-outline' status='Inactive'> </i> ");
                 } else if(resp['status']==1){ //update the value in the html
                     $("#image-"+image_id).html("<i style='font-size:30px;' class='mdi mdi-check-circle' status='Active'> </i> ");
+                }
+            },error:function(){
+                alert("Error");
+            }
+        });
+    });
+
+    //update banner status
+    $(document).on("click",".updateBannerStatus",function(){
+        var status = $(this).children("i").attr("status");
+        var banner_id = $(this).attr("banner_id");
+
+        $.ajax({
+            headers:{
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+
+            type:'post',
+            url: '/admin/update-banner-status',
+            data: {status:status,banner_id:banner_id},
+            success:function(resp){
+                //alert(resp);
+                if(resp['status']==0){ //update the value in the html
+                    $("#banner-"+banner_id).html("<i style='font-size:30px;' class='mdi mdi-check-circle-outline' status='Inactive'> </i> ");
+                } else if(resp['status']==1){ //update the value in the html
+                    $("#banner-"+banner_id).html("<i style='font-size:30px;' class='mdi mdi-check-circle' status='Active'> </i> ");
                 }
             },error:function(){
                 alert("Error");
