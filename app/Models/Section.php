@@ -14,4 +14,11 @@ class Section extends Model
         return $this->hasMany('App\Models\Category','section_id')->where(['parent_id'=>0,'status'=>1])
         ->with('subcategories');
     }
+
+    //static function to use on the front/index header
+    public static function sections(){                  //convert into array of data-toArray()
+        $getSections= Section::with('categories')->where('status','1')->get()->toArray(); //show only avtive sections
+       
+        return $getSections;
+    }
 }

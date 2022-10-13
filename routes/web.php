@@ -123,3 +123,8 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
     });
 });
 
+//Route Group for the Front Views 
+Route::namespace('App\Http\Controllers\Front')->group(function(){
+    //Route for the Index page
+    Route::get('/','IndexController@index');
+});
