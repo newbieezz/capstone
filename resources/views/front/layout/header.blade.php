@@ -11,13 +11,12 @@
                     <ul class="primary-nav g-nav">
                         <li>
                             <a href="tel:+111222333">
-                                <i class="fas fa-phone u-c-brand u-s-m-r-9"></i>
-                                Telephone:+111-222-333</a>
+                                <i class="mdi mdi-phone"></i>
+                                +639280442135</a>
                         </li>
                         <li>
                             <a href="mailto:info@sitemakers.in">
-                                <i class="fas fa-envelope u-c-brand u-s-m-r-9"></i>
-                                E-mail: info@sitemakers.in
+                                <i class="mdi mdi-email" style="size: 237em">E-mail: pstoremart@gmail.com</i>
                             </a>
                         </li>
                     </ul>
@@ -93,7 +92,7 @@
                     <div class="col-lg-3 col-md-9 col-sm-6">
                         <div class="brand-logo text-lg-center">
                             <a href="index.html">
-                                <img src="{{ asset('front/images/main-logo/stack-developers-logo.png') }}" alt="Stack Developers" class="app-brand-logo">
+                                <img src="{{ asset('front/images/main-logo/tlogo.png') }}" alt="Stack Developers" class="app-brand-logo">
                             </a>
                         </div>
                     </div>

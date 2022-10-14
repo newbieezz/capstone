@@ -11,8 +11,9 @@ class IndexController extends Controller
     
     public function index(){
         //get all the banners and return in the index file
-        $banners = Banner::where('status',1)->get()->toArray();
-        return view('front.index')->with(compact('banners'));
+        $sliderbanners = Banner::where('type','Slider')->where('status',1)->get()->toArray();
+        $fixbanners = Banner::where('type','Fix')->where('status',1)->get()->toArray();
+        return view('front.index')->with(compact('sliderbanners','fixbanners'));
     }
 
 

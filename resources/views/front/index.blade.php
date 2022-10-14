@@ -3,7 +3,7 @@
 <!-- Main-Slider -->
 <div class="default-height ph-item">
     <div class="slider-main owl-carousel">
-        @foreach($banners as $banner)
+        @foreach($sliderbanners as $banner)
         <div class="bg-image">
             <div class="slide-content">
                     <h1> <a @if(!empty($banner['link'])) href="{{ url($banner['link']) }}" @else href="javascript:;" @endif>
@@ -14,17 +14,19 @@
         @endforeach
  </div>
 </div>
-    <!-- Main-Slider /- -->
+    <!-- If the fix banner is coming only, then execute/- -->
+ @if(isset($fixBanners [0] ['image']))
     <!-- Banner-Layer -->
-<div class="banner-layer">
-    <div class="container">
-        <div class="image-banner">
-            <a target="_blank" rel="nofollow" href="https://youtube.com/stackdevelopers" class="mx-auto banner-hover effect-dark-opacity">
-                <img class="img-fluid" src="{{ asset('front/images/banners/stack-developers.png') }}" alt="Winter Season Banner">
-            </a>
+    <div class="banner-layer">
+        <div class="container">
+            <div class="image-banner">
+                <a target="_blank" rel="nofollow" href="{{ url($fixBanners [0] ['link']) }}" class="mx-auto banner-hover effect-dark-opacity">
+                    <img class="img-fluid" src="{{ asset('front/images/banner_images/'.$fixBanners [0] ['image']) }}" alt="$fixBanners [0] ['alt']" title="$fixBanners [0] ['title']">
+                </a>
+            </div>
         </div>
     </div>
-</div>
+ @endif
     <!-- Banner-Layer /- -->
     <!-- Top Collection -->
 <section class="section-maker">
@@ -1085,8 +1087,8 @@
 <div class="banner-layer">
         <div class="container">
             <div class="image-banner">
-                <a target="_blank" rel="nofollow" href="https://youtube.com/stackdevelopers" class="mx-auto banner-hover effect-dark-opacity">
-                    <img class="img-fluid" src="{{ asset('front/images/banners/stack-developers.png') }}" alt="Winter Season Banner">
+                <a target="_blank" rel="nofollow" href="" class="mx-auto banner-hover effect-dark-opacity">
+                    <img class="img-fluid" src="{{ asset('front/images/banners/logoo.png') }}" alt="Winter Season Banner">
                 </a>
             </div>
         </div>

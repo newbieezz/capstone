@@ -8,8 +8,8 @@
     <![endif]-->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content="">
-    <title>P-Store Mart</title>
+    <meta name="csrf-token" content="{{ csrf_token()}}" />
+    <title>P-Store </title>
     <!-- Standard Favicon -->
     <link href="favicon.ico" rel="shortcut icon">
     <!-- Base Google Font for Web-app -->
@@ -21,6 +21,8 @@
     <!-- Font Awesome 5 -->
     <link rel="stylesheet" href="{{ url('front/css/fontawesome.min.css') }}">
     <!-- Ion-Icons 4 -->
+    <link rel="stylesheet" href="{{ url('admin/vendors/mdi/css/materialdesignicons.min.css') }}">
+    <link rel="stylesheet" href="{{ url('admin/vendors/ti-icons/css/themify-icons.css') }}">
     <link rel="stylesheet" href="{{ url('front/css/ionicons.min.css') }}">
     <!-- Animate CSS -->
     <link rel="stylesheet" href="{{ url('front/css/animate.min.css') }}">

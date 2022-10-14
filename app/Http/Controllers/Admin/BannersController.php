@@ -73,11 +73,21 @@ class BannersController extends Controller
 
         if($request->isMethod('post')){
             $data = $request->all();
-       
+
+                $banner->type = $data['type'];
                 $banner->link = $data['link'];
                 $banner->title = $data['title'];
                 $banner->alt = $data['alt'];
                 $banner->status = 1;
+
+                if($data['type']=="Slider"){
+                    $width = "1920";
+                    $height = "720";
+                }else if($data['type']=="Fix"){
+                    $width = "1920";
+                    $height = "420";
+                }
+
             // Upload banner Image/Photo
             if($request->hasFile('image')){
                 $image_tmp = $request->file('image');
@@ -88,7 +98,7 @@ class BannersController extends Controller
                     $imageName = rand(111,99999).'.'.$extension;
                     $imagePath = 'front/images/banner_images/'.$imageName;
                     // Upload the Image
-                    Image::make($image_tmp)->resize(1920,720)->save($imagePath);
+                    Image::make($image_tmp)->resize($width,$height)->save($imagePath);
                     // Save the Image
                     $banner->image = $imageName;
                 }
