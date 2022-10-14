@@ -74,7 +74,9 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#ui-catalogue" aria-expanded="false" aria-controls="ui-catalogue">
+                <a @if(Session::get('page')=="sections" || Session::get('page')=="categories" || Session::get('page')=="brands" || Session::get('page')=="products") 
+                    style="background: #4B49AC !important; color:#fff !important" @endif
+                    class="nav-link" data-toggle="collapse" href="#ui-catalogue" aria-expanded="false" aria-controls="ui-catalogue">
                 <i class="icon-bar-graph menu-icon"></i>
                 <span class="menu-title">Manage Catalogue</span>
                 <i class="menu-arrow"></i>
@@ -98,7 +100,9 @@
             </li>
              <!--User Management -->
              <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#ui-users" aria-expanded="false" aria-controls="ui-users">
+                <a @if(Session::get('page')=="users" || Session::get('page')=="subscribers" ) 
+                    style="background: #4B49AC !important; color:#fff !important" @endif
+                    class="nav-link" data-toggle="collapse" href="#ui-users" aria-expanded="false" aria-controls="ui-users">
                 <i class="icon-head menu-icon"></i>
                 <span class="menu-title">Manage Users</span>
                 <i class="menu-arrow"></i>
@@ -116,14 +120,16 @@
             </li>
              <!--Banners Management -->
              <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#ui-banners" aria-expanded="false" aria-controls="ui-banners">
+                <a @if(Session::get('page')=="banners") 
+                    style="background: #4B49AC !important; color:#fff !important" @endif
+                    class="nav-link" data-toggle="collapse" href="#ui-banners" aria-expanded="false" aria-controls="ui-banners">
                 <i class="icon-head menu-icon"></i>
                 <span class="menu-title">Manage Banners</span>
                 <i class="menu-arrow"></i>
                 </a>
                 <div class="collapse" id="ui-banners">
                     <ul class="nav flex-column sub-menu" style="background: #fff !important; color:#4B49AC !important">
-                        <li class="nav-item"> <a @if(Session::get('page')=="users") style="background:#4B49AC !important; color:aliceblue !important;" 
+                        <li class="nav-item"> <a @if(Session::get('page')=="banners") style="background:#4B49AC !important; color:aliceblue !important;" 
                                                  @else style="background: #fff !important; color:#4B49AC !important;" @endif
                             class="nav-link" href="{{ url('admin/banners') }}">Slider Banners</a></li>                  
                     </ul>
