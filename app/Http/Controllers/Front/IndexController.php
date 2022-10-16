@@ -16,8 +16,11 @@ class IndexController extends Controller
         $fixbanners = Banner::where('type','Fix')->where('status',1)->get()->toArray();
         //fetch the products from the products table and show the last 8 products  added
         $newProducts = Product::orderBy('id','Desc')->where('status',1)->limit(8)->get()->toArray();
+        //query for showing the bestseller products
+        $bestSeller = Product::where(['is_bestseller'=>'Yes','status'=>1])->inRandomOrder()->get()->toArray();
 
-        return view('front.index')->with(compact('sliderbanners','fixbanners','newProducts'));
+
+        return view('front.index')->with(compact('sliderbanners','fixbanners','newProducts','bestSeller'));
     }
 
 
