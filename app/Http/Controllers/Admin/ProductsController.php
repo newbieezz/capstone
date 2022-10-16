@@ -130,12 +130,16 @@ class ProductsController extends Controller
             //saving in the products table
             $product->admin_type = $adminType;
             $product->admin_id = $admin_id;
-            if($adminType=="vendor"){
+
+            if($adminType=="vendor"){ //identifies the admin type as the product being added
                 $product->vendor_id = $vendor_id;
             }else {
                 $product->vendor_id = 0;
             }
 
+            if(empty($data['product_discount'])){ //if discount is empty value will be automatic 0
+                $data['product_discount'] = 0;
+            }
             $product->product_name = $data['product_name'];
             $product->product_code = $data['product_code'];
             $product->product_price = $data['product_price'];

@@ -30,4 +30,32 @@ class Product extends Model
         //one product can have many images
         return $this->hasMany('App\Models\ProductsImage');
     }
+
+    //for the product discount, static to call it anywhere such as model controller etc
+    public static function getDiscountedPrice($product_id){
+        $proDetails = Product::select('product_price','product_discount','category_id')->where
+                      ('id',$product_id)->first();
+        //use array json to avoid more issue rather than using toArray
+        $proDetails = json_decode(json_encode($proDetails),true);
+        //fetch the category of the product
+        $catDetails = Category::select('category_discount')->where('id',$proDetails['category_id'])->first();
+        $catDetails = json_decode(json_encode($catDetails),true);
+   
+        //condition to compare if a product is having a product discount or not
+        if($proDetails['product_discount'] > 0) {
+            //if added and exist, calculate the discounted price
+            $discounted_price = $proDetails['product_price'] - ($proDetails['product_price']*
+                                $proDetails['product_discount']/100);
+
+        } else if($catDetails['category_discount'] > 0){
+            //if product is not but category discount is added
+            $discounted_price = $proDetails['product_price'] - ($proDetails['product_price']*
+                                 $catDetails['category_discount']/100);
+
+        } else {
+            $discounted_price = 0;
+        }
+
+        return $discounted_price;
+    }
 }

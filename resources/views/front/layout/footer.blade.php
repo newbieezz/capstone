@@ -24,13 +24,13 @@
                 <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-12">
                         <div class="footer-list">
-                            <h6>COMPANY</h6>
+                            <h6>P-Store Mart</h6>
                             <ul>
                                 <li>
                                     <a href="about.html">About Us</a>
                                 </li>
                                 <li>
-                                    <a href="contact.html">Contact Us</a>
+                                    <a href="contact.html">Terms & Condition</a>
                                 </li>
                                 <li>
                                     <a href="faq.html">FAQ</a>
@@ -40,16 +40,16 @@
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-12">
                         <div class="footer-list">
-                            <h6>COLLECTION</h6>
+                            <h6>Multi-Vendor</h6>
                             <ul>
                                 <li>
-                                    <a href="cart.html">Men Clothing</a>
+                                    <a href="cart.html">Mini Marts</a>
                                 </li>
                                 <li>
-                                    <a href="checkout.html">Women Clothing</a>
+                                    <a href="checkout.html">Sari-Sari Stores</a>
                                 </li>
                                 <li>
-                                    <a href="account.html">Kids Clothing</a>
+                                    <a href="account.html">Fresh Produces</a>
                                 </li>
                             </ul>
                         </div>
@@ -76,19 +76,19 @@
                             <ul>
                                 <li>
                                     <i class="fas fa-location-arrow u-s-m-r-9"></i>
-                                    <span>Stack Developers Youtube Channel</span>
+                                    <span>P-Store Developers: Raketship</span>
                                 </li>
                                 <li>
-                                    <a href="tel:+111-222-333">
+                                    <a href="+639280442135">
                                         <i class="fas fa-phone u-s-m-r-9"></i>
-                                        <span>+111-222-333</span>
+                                        <span>+63-9280-442135</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="mailto:info@sitemakers.in">
                                         <i class="fas fa-envelope u-s-m-r-9"></i>
                                         <span>
-                                            info@sitemakers.in</span>
+                                            pstoremart@gmail.com</span>
                                     </a>
                                 </li>
                             </ul>
@@ -139,7 +139,7 @@
                     </ul>
                 </div>
                 <p class="copyright-text">Copyright &copy; 2022
-                    <a target="_blank" rel="nofollow" href="https://youtube.com/stackdevelopers">Stack Developers</a> | All Right Reserved</p>
+                    <a target="_blank" rel="nofollow" href="">Raketship</a> | All Right Reserved</p>
             </div>
         </div>
         <!-- Bottom-Footer /- -->
