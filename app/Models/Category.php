@@ -27,18 +27,38 @@ class Category extends Model
 
     //fetch category id to pass the url
     public static function categoryDetails($url){
-        $categoryDetails = Category::select('id','category_name','url')->with('subcategories')
-                            ->where('url',$url)->first()->toArray();
+        $categoryDetails = Category::select('id','parent_id','category_name','url','description')->with(['subcategories'=>
+                            function($query){
+                                $query->select('id','parent_id','category_name','url','description');
+                            }])->where('url',$url)->first()->toArray();
 
         //array to add category and subcat id
         $catIds = array();
         $catIds[] = $categoryDetails['id'];
+
+        
+        if($categoryDetails['parent_id']==0){
+            //breadcrumb for main category
+            $breadcrumbs = '<li class="is-marked">
+                            <a href="'.url($categoryDetails['url']).'">'.$categoryDetails['category_name'].'</a>
+                            </li>';
+        }else {
+            //breadcrumb for main and sub category
+            $parentCategory = Category::select('category_name','url')->where('id',$categoryDetails['parent_id'])->first()->toArray();
+            $breadcrumbs = '<li class="has-separator">
+                            <a href="'.url($categoryDetails['url']).'">'.$parentCategory['category_name'].'</a></li>
+                            <li class="is-marked">
+                            <a href="'.url($categoryDetails['url']).'">'.$categoryDetails['category_name'].'</a>
+                            </li>';
+        }
+
+
         //display all category id's with subcats
         foreach($categoryDetails['subcategories'] as $key => $subcat) {
             $catIds[] = $subcat['id'];
         }
 
-        $resp = array('catIds'=>$catIds,'categoryDetails'=>$categoryDetails);
+        $resp = array('catIds'=>$catIds,'categoryDetails'=>$categoryDetails,'breadcrumbs'=>$breadcrumbs);
         return $resp;
     }
 }

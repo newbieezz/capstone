@@ -26,14 +26,9 @@
             <div class="shop-intro">
                 <ul class="bread-crumb">
                     <li class="has-separator">
-                        <a href="index.html">Home</a>
+                        <a href="{{ url('/') }}">Home</a>
                     </li>
-                    <li class="has-separator">
-                        <a href="shop-v1-root-category.html">Men Clothing </a>
-                    </li>
-                    <li class="is-marked">
-                        <a href="listing.html">T-Shirts</a>
-                    </li>
+                    <?php echo $categoryDetails['breadcrumbs']; ?>
                 </ul>
             </div>
             <!-- Shop-Intro /- -->
@@ -52,30 +47,39 @@
                             </a>
                         </div>
                         <!-- Toolbar Sorter 1  -->
-                        <div class="toolbar-sorter">
-                            <div class="select-box-wrapper">
-                                <label class="sr-only" for="sort-by">Sort By</label>
-                                <select class="select-box" id="sort-by">
-                                    <option selected="selected" value="">Sort By: Best Selling</option>
-                                    <option value="">Sort By: Latest</option>
-                                    <option value="">Sort By: Lowest Price</option>
-                                    <option value="">Sort By: Highest Price</option>
-                                    <option value="">Sort By: Best Rating</option>
-                                </select>
+                        <form name="sortProducts" id="sortProducts" >
+                            <div class="toolbar-sorter">
+                                <div class="select-box-wrapper">
+                                    <label class="sr-only" for="sort-by">Sort By</label>
+                                    <select name="sort" id="sort" class="select-box" >
+                                        {{-- <option selected="selected" value="">Sort By: Best Selling</option> --}}
+                                        <option selected="">Select</option>
+                                        <option value="product_latest" @if(isset($_GET['sort']) && $_GET['sort']=="product_latest") selected="" @endif>
+                                            Sort By: Latest</option>
+                                        <option value="price_lowest" @if(isset($_GET['sort']) && $_GET['sort']=="price_lowest") selected="" @endif>
+                                            Sort By: Lowest Price</option>
+                                        <option value="price_highest" @if(isset($_GET['sort']) && $_GET['sort']=="price_highest") selected="" @endif>
+                                            Sort By: Highest Price</option>
+                                        <option value="name_a_z" @if(isset($_GET['sort']) && $_GET['sort']=="name_a_z") selected="" @endif>
+                                            Sort By: Name A - Z</option>
+                                        <option value="name_z_a" @if(isset($_GET['sort']) && $_GET['sort']=="name_z_a") selected="" @endif>
+                                            Sort By: Name Z - A</option>
+                                        {{-- <option value="">Sort By: Best Rating</option> --}}
+                                    </select>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                         <!-- //end Toolbar Sorter 1  -->
                         <!-- Toolbar Sorter 2  -->
-                        <div class="toolbar-sorter-2">
+                        {{-- <div class="toolbar-sorter-2">
                             <div class="select-box-wrapper">
                                 <label class="sr-only" for="show-records">Show Records Per Page</label>
                                 <select class="select-box" id="show-records">
-                                    <option selected="selected" value="">Show: 8</option>
-                                    <option value="">Show: 16</option>
-                                    <option value="">Show: 28</option>
+                                    <option selected="selected" value="">Showing: {{ count($categoryProducts) }}</option>
+                                    <option value="">Showing All</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
                         <!-- //end Toolbar Sorter 2  -->
                     </div>
                     <!-- Page-Bar /- -->
@@ -109,7 +113,7 @@
                                                     <a href="shop-v1-root-category.html">{{ $product['product_code'] }}</a>
                                                 </li>
                                                 <li>
-                                                    <a href="shop-v3-sub-sub-category.html">{{ $product['product_name'] }}</a>
+                                                    <a href="shop-v3-sub-sub-category.html">{{ $product['brand'] ['name'] }}</a>
                                                 </li>
                                             </ul>
                                             <h6 class="item-title">
@@ -144,18 +148,27 @@
                                         </div>
                                         @endif
                                     </div>
+                                    <?php $isProductNew = Product::isProductNew($product['id']); ?>
+                                    @if($isProductNew == "Yes")
                                     <div class="tag new">
                                         <span>NEW</span>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         @endforeach
                     </div>
-                    <!-- Row-of-Product-Container /- -->
+                    <!-- Simple Paganitaion /- -->
+                    @if(isset($_GET['sort']))
+                        <div> {{ $categoryProducts->appends(['sort'=>$_GET['sort']])->links() }}</div> <div>&nbsp;</div> 
+                    @else
+                        <div> {{ $categoryProducts->links() }}</div> <div>&nbsp;</div> 
+                    @endif
+                    <div>{{ $categoryDetails['categoryDetails']['description'] }}</div>
                 </div>
                 <!-- Shop-Right-Wrapper /- -->
                 <!-- Shop-Pagination -->
-                <div class="pagination-area">
+                 <?php /* {{-- <div class="pagination-area">
                     <div class="pagination-number">
                         <ul>
                             <li style="display: none">
@@ -185,7 +198,7 @@
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div>  --}}  */?>
                 <!-- Shop-Pagination /- -->
             </div>
         </div>
