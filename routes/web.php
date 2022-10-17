@@ -139,7 +139,7 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
     //dynamic routes for the product listing page fetch by category
     $catUrl = Category::select('url')->where('status',1)->get()->pluck('url')->toArray();
     foreach($catUrl as $key => $url) {
-        Route::get('/'.$url,'ProductController@listing');
+        Route::match(['get','post'],'/'.$url,'ProductController@listing');
     }
 
 });
