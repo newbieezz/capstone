@@ -8,16 +8,16 @@
                         <div class="card"> 
                             <div class="card-body"> 
                               <h4 class="card-title">Brands</h4> 
+                              @if(Session::has('success_message'))
+                              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                  <strong>Success: </strong> {{ Session::get('success_message')}}
+                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                  </button>
+                              </div>
+                              @endif
                               <a style="max-width: 150px; float: left; display:inline-block;" href="{{ url('admin/add-edit-brand') }}" 
                                 class="btn btn-block btn-primary">Add Brand</a>
-                                @if(Session::has('success_message'))
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <strong>Success: </strong> {{ Session::get('success_message')}}
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                @endif
                               <div class="table-responsive pt-3"> 
                               <table id="brands" class="table table-bordered"> 
                               <thead> 

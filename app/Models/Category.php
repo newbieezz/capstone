@@ -24,4 +24,21 @@ class Category extends Model
         // every category can have many subcategories, creating a has to many relation
         return $this->hasMany('App\Models\Category','parent_id')->where('status',1);
     }
+
+    //fetch category id to pass the url
+    public static function categoryDetails($url){
+        $categoryDetails = Category::select('id','category_name','url')->with('subcategories')
+                            ->where('url',$url)->first()->toArray();
+
+        //array to add category and subcat id
+        $catIds = array();
+        $catIds[] = $categoryDetails['id'];
+        //display all category id's with subcats
+        foreach($categoryDetails['subcategories'] as $key => $subcat) {
+            $catIds[] = $subcat['id'];
+        }
+
+        $resp = array('catIds'=>$catIds,'categoryDetails'=>$categoryDetails);
+        return $resp;
+    }
 }

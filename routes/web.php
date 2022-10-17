@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Models\Category;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -136,4 +136,10 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
 Route::namespace('App\Http\Controllers\Front')->group(function(){
     //Route for the Index page
     Route::get('/','IndexController@index');
+    //dynamic routes for the product listing page fetch by category
+    $catUrl = Category::select('url')->where('status',1)->get()->pluck('url')->toArray();
+    foreach($catUrl as $key => $url) {
+        Route::get('/'.$url,'ProductController@listing');
+    }
+
 });
