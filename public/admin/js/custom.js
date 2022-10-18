@@ -10,6 +10,7 @@ $(document).ready(function(){
     $('#brands').DataTable();
     $('#products').DataTable();
     $('#banners').DataTable();
+    $('#filters').DataTable();
     // Check if the Admin Password is correct or not
     $("#current_password").keyup(function(){
         var current_password = $("#current_password").val();
@@ -308,4 +309,57 @@ $(document).ready(function(){
             }
         });
     });
+
+    //update filter status
+    $(document).on("click",".updateFilterStatus",function(){
+        var status = $(this).children("i").attr("status");
+        var filter_id = $(this).attr("filter_id");
+
+        $.ajax({
+            headers:{
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+
+            type:'post',
+            url: '/admin/update-filter-status',
+            data: {status:status,filter_id:filter_id},
+            success:function(resp){
+                //alert(resp);
+                if(resp['status']==0){ //update the value in the html
+                    $("#filter-"+filter_id).html("<i style='font-size:30px;' class='mdi mdi-check-circle-outline' status='Inactive'> </i> ");
+                } else if(resp['status']==1){ //update the value in the html
+                    $("#filter-"+filter_id).html("<i style='font-size:30px;' class='mdi mdi-check-circle' status='Active'> </i> ");
+                }
+            },error:function(){
+                alert("Error");
+            }
+        });
+    });
+
+    //update filter value status
+    $(document).on("click",".updateFilterValueStatus",function(){
+        var status = $(this).children("i").attr("status");
+        var filter_id = $(this).attr("filter_id");
+
+        $.ajax({
+            headers:{
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+
+            type:'post',
+            url: '/admin/update-filter-value-status',
+            data: {status:status,filter_id:filter_id},
+            success:function(resp){
+                //alert(resp);
+                if(resp['status']==0){ //update the value in the html
+                    $("#filter-"+filter_id).html("<i style='font-size:30px;' class='mdi mdi-check-circle-outline' status='Inactive'> </i> ");
+                } else if(resp['status']==1){ //update the value in the html
+                    $("#filter-"+filter_id).html("<i style='font-size:30px;' class='mdi mdi-check-circle' status='Active'> </i> ");
+                }
+            },error:function(){
+                alert("Error");
+            }
+        });
+    });
+    
 });

@@ -129,6 +129,13 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('delete-banner/{id}','BannersController@deleteBanner');
         // Add-Edit Banner
         Route::match(['get','post'],'add-edit-banner/{id?}','BannersController@addEditBanner');
+
+        //PRODUcT FILTERS
+        Route::get('filters','FilterController@filters');
+        Route::get('filters-value','FilterController@filtersValue');
+        // Update Filter Status
+        Route::post('update-filter-status','FilterController@updateFilterStatus');
+        Route::post('update-filter-value-status','FilterController@updateFilterValueStatus');
     });
 });
 
