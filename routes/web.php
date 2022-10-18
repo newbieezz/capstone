@@ -136,6 +136,8 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         // Update Filter Status
         Route::post('update-filter-status','FilterController@updateFilterStatus');
         Route::post('update-filter-value-status','FilterController@updateFilterValueStatus');
+        //Add-Edit Filter Column
+        Route::match(['get','post'],'add-edit-filter/{id?}','FilterController@addEditFilter');
     });
 });
 
