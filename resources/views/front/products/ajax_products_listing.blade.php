@@ -29,7 +29,7 @@
                                 <a href="shop-v1-root-category.html">{{ $product['product_code'] }}</a>
                             </li>
                             <li>
-                                <a href="shop-v3-sub-sub-category.html">{{ $product['brand'] ['name'] }}</a>
+                                <a href="listing.html">{{$product ['brands'] ['name'] }}</a>
                             </li>
                         </ul>
                         <h6 class="item-title">

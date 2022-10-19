@@ -59,11 +59,13 @@ class Product extends Model
         return $discounted_price;
     }
 
-    public function brand(){
-        //every product belongs to some brand
-        return $this->belongsTo('App\Models\Brand','brand_id');
-    }
-
+    // public function brand(){
+    //     //every product belongs to some brand
+    //     return $this->belongsTo('App\Models\Brand','brand_id');
+    // }
+        public function brands(){
+            return $this->belongsTo('App\Models\Brand','brand_id');
+        }
     public static function isProductNew($product_id){
         //get the latest products added
         $productIds = Product::select('id')->where('status',1)->orderby('id','Desc')->Limit(4)->pluck('id');

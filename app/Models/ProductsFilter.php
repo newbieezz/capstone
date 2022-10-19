@@ -14,4 +14,28 @@ class ProductsFilter extends Model
         
         return  $getFilterName->filter_name;
     }
+
+    public function filter_values(){
+        //one filter column can has one or many values
+        return $this->hasMany('App\Models\ProductsFiltersValue','filter_id');
+    }
+
+    //fetch alll the filters to show on the sidebar
+    public static function productFilters(){
+        $productFilters = ProductsFilter::with('filter_values')->where('status',1)->get()->toArray();
+        // dd($productFilters);
+        return $productFilters;
+    }
+
+    public static function filterAvailable($filter_id, $category_id){
+        $filterAvailable = ProductsFilter::select('cat_ids')->where(['id'=>$filter_id,'status'=>1])->first()->toArray();
+        $catIdsArr = explode(",",$filterAvailable['cat_ids']);
+        //check wether the catefory_id is matching in the catIds Array/ show categories under the same catIds
+        if(in_array($category_id,$catIdsArr)){
+            $available = "Yes";
+        } else {
+            $available = "No";
+        }
+        return $available;
+    }
 }

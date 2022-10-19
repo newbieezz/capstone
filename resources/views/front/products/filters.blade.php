@@ -1,3 +1,8 @@
+<?php 
+    use App\Models\ProductsFilter; 
+    $productFilters = ProductsFilter::productFilters();
+    // dd($productFilters);
+?>
 <!-- Shop-Left-Side-Bar-Wrapper -->
 <div class="col-lg-3 col-md-3 col-sm-12">
     <!-- Fetch-Categories-from-Root-Category  -->
@@ -142,31 +147,30 @@
         </form>
     </div>
     <!-- Filter-Color /- -->
-    <!-- Filter-Brand -->
-    <div class="facet-filter-associates">
-        <h3 class="title-name">Brand</h3>
-        <form class="facet-form" action="#" method="post">
-            <div class="associate-wrapper">
-                <input type="checkbox" class="check-box" id="cbs-21">
-                <label class="label-text" for="cbs-21">Calvin Klein
-                    <span class="total-fetch-items">(0)</span>
-                </label>
-                <input type="checkbox" class="check-box" id="cbs-22">
-                <label class="label-text" for="cbs-22">Diesel
-                    <span class="total-fetch-items">(0)</span>
-                </label>
-                <input type="checkbox" class="check-box" id="cbs-23">
-                <label class="label-text" for="cbs-23">Polo
-                    <span class="total-fetch-items">(0)</span>
-                </label>
-                <input type="checkbox" class="check-box" id="cbs-24">
-                <label class="label-text" for="cbs-24">Tommy Hilfiger
-                    <span class="total-fetch-items">(0)</span>
-                </label>
+    <!-- Filter $productFilters-->
+    @foreach($productFilters as $filter)
+    {{-- calling the function filterAvailable passing with filter_id and category id withing tha categoryDetails array--}}
+    <?php 
+        $filterAvailable = ProductsFilter::filterAvailable($filter['id'], $categoryDetails['categoryDetails'] ['id']);
+    ?> {{-- If filterAvailable is yes then display, none if not--}}
+        @if($filterAvailable=="Yes")
+        @if(count($filter['filter_values']) > 0)
+            <div class="facet-filter-associates">
+                <h3 class="title-name">{{ $filter['filter_name'] }}</h3>
+                <form class="facet-form" action="#" method="post">
+                    <div class="associate-wrapper">
+                        @foreach ($filter['filter_values'] as $value)
+                            <input type="checkbox" class="check-box" id="{{ $value['filter_value'] }}">
+                            <label class="label-text" for="{{ $value['filter_value'] }}">{{ ucwords($value['filter_value']) }}
+                            </label>
+                        @endforeach
+                    </div>
+                </form>
             </div>
-        </form>
-    </div>
-    <!-- Filter-Brand /- -->
+        @endif
+        @endif
+    @endforeach
+    <!-- Filter  /- -->
     <!-- Filter-Price -->
     <div class="facet-filter-by-price">
         <h3 class="title-name">Price</h3>

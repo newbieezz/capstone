@@ -23,8 +23,9 @@ class ProductController extends Controller
                     //get category details
                     $categoryDetails = Category::categoryDetails($url);
                     //fetch all the products in the category with use of simple pagination
-                    $categoryProducts = Product::with('brand')->whereIn('category_id',$categoryDetails['catIds'])
+                    $categoryProducts = Product::with('brands')->whereIn('category_id',$categoryDetails['catIds'])
                                         ->where('status',1);
+                        
                     //condition for sorting
                     if(isset($_GET['sort']) && !empty($_GET['sort'])){
                         if($_GET['sort']=="product_latest"){
@@ -60,7 +61,7 @@ class ProductController extends Controller
                 //get category details
                 $categoryDetails = Category::categoryDetails($url);
                 //fetch all the products in the category with use of simple pagination
-                $categoryProducts = Product::with('brand')->whereIn('category_id',$categoryDetails['catIds'])
+                $categoryProducts = Product::with('brands')->whereIn('category_id',$categoryDetails['catIds'])
                                     ->where('status',1);
                 //condition for sorting
                 if(isset($_GET['sort']) && !empty($_GET['sort'])){
