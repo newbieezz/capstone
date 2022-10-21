@@ -49,6 +49,21 @@
     </div>
     <!-- Fetch-Categories-from-Root-Category  /- -->
     <!-- Filters -->
+    <?php $getBrands = ProductsFilter::getBrands($url); ?>
+    <div class="facet-filter-associates">
+        <h3 class="title-name">Brand</h3>
+        <form class="facet-form" action="#" method="post">
+            <div class="associate-wrapper">
+                <!-- display the size whatever is being added-->
+                @foreach($getBrands as $key => $brand)
+                <input type="checkbox" class="check-box brand" name="brand[]" id="brand{{$key}}" value="{{ $brand['id'] }}">
+                <label class="label-text" for="brand{{$key}}">{{ $brand['name'] }}
+                    {{-- <span class="total-fetch-items">(2)</span> --}}
+                </label>
+                @endforeach
+            </div>
+        </form>
+    </div>
     <!-- Filter-Size Calling the function from productsFilter model -->
     <?php $getSizes = ProductsFilter::getSizes($url); ?>
     <div class="facet-filter-associates">
@@ -65,8 +80,22 @@
             </div>
         </form>
     </div>
-    <!-- Filter-Size -->
-
+    <!-- Filter-PRICE -->
+    <div class="facet-filter-associates">
+        <h3 class="title-name">Price</h3>
+        <form class="facet-form" action="#" method="post">
+            <div class="associate-wrapper">
+                <?php $prices = array('0-100','100-300','300-500','500-1000','1000-5000'); ?>
+                <!-- display the prices-->
+                @foreach($prices as $key => $price)
+                <input type="checkbox" class="check-box price" name="price[]" id="price{{$key}}" value="{{ $price }}">
+                <label class="label-text" for="price{{$key}}">₱ {{ $price }}
+                    {{-- <span class="total-fetch-items">(2)</span> --}}
+                </label>
+                @endforeach
+            </div>
+        </form>
+    </div>
     <!-- Filter $productFilters-->
     @foreach($productFilters as $filter)
     {{-- calling the function filterAvailable passing with filter_id and category id withing tha categoryDetails array--}}
@@ -93,7 +122,7 @@
     @endforeach
     <!-- Filter  /- -->
     <!-- Filter-Price -->
-    <div class="facet-filter-by-price">
+    {{-- <div class="facet-filter-by-price">
         <h3 class="title-name">Price</h3>
         <form class="facet-form" action="#" method="post">
             <!-- Final-Result -->
@@ -111,10 +140,10 @@
             <!-- Range-Manipulator /- -->
             <button type="submit" class="button button-primary">Filter</button>
         </form>
-    </div>
+    </div> --}}
     <!-- Filter-Price /- -->
     <!-- Filter-Free-Shipping -->
-    <div class="facet-filter-by-shipping">
+    {{-- <div class="facet-filter-by-shipping">
         <h3 class="title-name">Shipping</h3>
         <form class="facet-form" action="#" method="post">
             <input type="checkbox" class="check-box" id="cb-free-ship">
@@ -177,7 +206,7 @@
             </div>
             <!-- 1 & Up Stars /- -->
         </div>
-    </div>
+    </div> --}}
     <!-- Filter-Rating -->
     <!-- Filters /- -->
 </div>

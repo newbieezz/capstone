@@ -49,5 +49,15 @@ class ProductsFilter extends Model
         return $getProductSizes;
      }
 
+    //get the brands for every category
+    public static function getBrands($url){
+        //fetch the category details from the url (use the function from category model)
+        $categoryDetails = Category::categoryDetails($url); //fetcht eh category ids from this function
+        $getProductIds = Product::select('id')->whereIn('category_id',$categoryDetails['catIds'])->pluck('id')->toArray();
+        $brandIds = Product::select('brand_id')->whereIn('id',$getProductIds)->groupBy('brand_id')->pluck('brand_id')->toArray();
+        $brandDetails = Brand::select('id','name')->whereIn('id',$brandIds)->get()->toArray();
+        // echo "<pre>";print_r($brandDetails);die;
+        return $brandDetails;
+     }
 
 }

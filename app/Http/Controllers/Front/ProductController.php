@@ -16,6 +16,7 @@ class ProductController extends Controller
     public function listing(Request $request){
         if($request->ajax()){
             $data = $request->all();
+            // echo "<pre>"; print_r($data); die; //debug to check if data passes
                 //fetch current url route
                 $url = $data['url'];
                 $_GET['sort'] = $data['sort'];
@@ -43,6 +44,25 @@ class ProductController extends Controller
                     if(isset($data['size']) && !empty($data['size'])){
                         $productIds = ProductsAttribute::select('product_id')->whereIn('size',$data['size'])
                                       ->pluck('product_id')->toArray();//fetching th product Ids
+                        $categoryProducts->whereIn('products.id',$productIds);
+                    }
+
+                    //checking for price
+                    if(isset($data['price']) && !empty($data['price'])){
+                        foreach($data['price'] as $key => $price){
+                            $priceArray = explode('-',$price);//every price will convert to an element of an array
+                            $productIds[] = Product::select('id')->whereBetween('product_price',[$priceArray[0],$priceArray[1]])
+                                            ->pluck('id')->toArray();//fetching th product Ids
+                        
+                        }
+                        $productIds = call_user_func_array('array_merge',$productIds);//merge all the products into one array
+                        $categoryProducts->whereIn('products.id',$productIds);
+                    }
+
+                    //checking for product brand
+                    if(isset($data['brand']) && !empty($data['brand'])){
+                        $productIds = Product::select('id')->whereIn('brand_id',$data['brand'])
+                                      ->pluck('id')->toArray();//fetching th product Ids
                         $categoryProducts->whereIn('products.id',$productIds);
                     }
 
