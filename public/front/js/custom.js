@@ -1,25 +1,12 @@
-$(document).ready(function(){
 
-    $("#sort").on("change",function(){
-        //change if user select any option
-        // this.form.submit();
-        var sort = $("#sort").val();
-        var url = $("#url").val();
-
-        //pass the ajax to the function
-        $.ajax({
-            headers:{
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            url:url,
-            method:'Post',
-            data:{sort:sort,url:url},
-            success:function(data){
-                $('.filter_product').html(data);
-            },error:function(){
-                alert("Error");
-            }
-        });
+//required function to operate check box on the filter 
+function get_filter(class_name){
+    var filter = [];
+    //check whenever the class name getchecked
+    $('.'+class_name+':checked').each(function(){
+        //push is to push the elements to the array
+        filter.push($(this).val());
     });
 
-});
+    return filter;
+}

@@ -67,6 +67,7 @@
                   </div>
                   <div class="loadFilters"> <!--Load the filters as product is updated -->
                     @include('admin.filters.category_filters')
+                    {{-- @include('admin.filters.category_filters') --}}
                   </div>
                   <div class="form-group">
                     <label for="brand_id">Select Brand</label>

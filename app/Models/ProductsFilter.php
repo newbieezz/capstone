@@ -38,4 +38,16 @@ class ProductsFilter extends Model
         }
         return $available;
     }
+
+    //get the sizes for every category
+    public static function getSizes($url){
+        //fetch the category details from the url (use the function from category model)
+        $categoryDetails = Category::categoryDetails($url); //fetcht eh category ids from this function
+        $getProductIds = Product::select('id')->whereIn('category_id',$categoryDetails['catIds'])->pluck('id')->toArray();
+        $getProductSizes = ProductsAttribute::select('size')->whereIn('product_id',$getProductIds)->groupBy('size')->pluck('size')->toArray();//only gets the size from the products attribut table
+   
+        return $getProductSizes;
+     }
+
+
 }

@@ -254,37 +254,37 @@ class ProductsController extends Controller
         if($request->isMethod('post')){
             $data = $request->all();
 
-            foreach($data['price'] as $key => $value){
+            foreach($data['sku'] as $key => $value){
                 if(!empty($value)){
 
                     // sku duplicate check
-                    $skucount = ProductsAttribute::where('sku',$data['sku'][$key])->count();
-                    if($skucount>0){
-                        return redirect()->back()->with('error_message','SKU-Code already exists!
-                        Please add another code!');
-                    }
+                    // $skucount = ProductsAttribute::where('sku',$value)->count();
+                    // if($skucount>0){
+                    //     return redirect()->back()->with('error_message','SKU-Code already exists!
+                    //     Please add another code!');
+                    // }
 
-                     // size duplicate check
-                     $sizecount = ProductsAttribute::where(['product_id'=>$id,'size',$data['size'][$key]])->count();
-                     if($sizecount>0){
-                         return redirect()->back()->with('error_message','Size already exists!
-                         Please add another size!');
-                     }
+                    //  // size duplicate check
+                    //  $sizecount = ProductsAttribute::where(['product_id'=>$id,'size',$data['size'][$key]])->count();
+                    //  if($sizecount>0){
+                    //      return redirect()->back()->with('error_message','Size already exists!
+                    //      Please add another size!');
+                    //  }
 
-                      // weight duplicate check
-                      $weightcount = ProductsAttribute::where(['product_id'=>$id,'weight',$data['weight'][$key]])->count();
-                      if($weightcount>0){
-                          return redirect()->back()->with('error_message','Weight already exists!
-                          Please add another weight!');
-                      }
+                    //   // weight duplicate check
+                    //   $weightcount = ProductsAttribute::where(['product_id'=>$id,'weight',$data['weight'][$key]])->count();
+                    //   if($weightcount>0){
+                    //       return redirect()->back()->with('error_message','Weight already exists!
+                    //       Please add another weight!');
+                    //   }
 
                     $attribute = new ProductsAttribute;
                     //saving
                     $attribute->product_id = $id;
-                    $attribute->price = $value;
+                    $attribute->sku = $value;
                     $attribute->size = $data['size'][$key];
                     $attribute->weight = $data['weight'][$key];
-                    $attribute->sku = $data['sku'][$key];
+                    $attribute->price = $data['price'][$key];
                     $attribute->stock = $data['stock'][$key];
                     $attribute->status = 1;
                     $attribute->save();

@@ -112,8 +112,9 @@
 <script type="text/javascript" src="{{ url('front/js/jquery.custom-countdown.min.js') }}"></script>
 <!-- Owl Carousel -->
 <script type="text/javascript" src="{{ url('front/js/owl.carousel.min.js') }}"></script>
-<!-- Custom Js -->
+<!-- Custom Files -->
 <script type="text/javascript" src="{{ url('front/js/custom.js') }}"></script>
+@include('front.layout.scripts')
 <!-- Main -->
 <script type="text/javascript" src="{{ url('front/js/app.js') }}"></script>
 </body>

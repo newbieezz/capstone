@@ -7,7 +7,9 @@ use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\ProductsFilter;
 use App\Models\Brand;
+use App\Models\ProductsAttribute;
 
 class ProductController extends Controller
 {
@@ -25,7 +27,25 @@ class ProductController extends Controller
                     //fetch all the products in the category with use of simple pagination
                     $categoryProducts = Product::with('brands')->whereIn('category_id',$categoryDetails['catIds'])
                                         ->where('status',1);
-                        
+                      
+                    //checking for (filter) dynamically 
+                    $productFilters = ProductsFilter::productFilters(); //fetching the product filters
+                    foreach($productFilters as $key => $filter){
+                        //if particular filter is selected then check if it's coming(calue will come in $data)
+                        if(isset($filter['filter_column']) && isset($data[$filter['filter_column']]) && 
+                            !empty($filter['filter_column']) && !empty($data[$filter['filter_column']])){
+                            
+                            $categoryProducts->whereIn($filter['filter_column'],$data[$filter['filter_column']]);
+                        }
+                    }     
+                    
+                    //checking for size (product attribute)
+                    if(isset($data['size']) && !empty($data['size'])){
+                        $productIds = ProductsAttribute::select('product_id')->whereIn('size',$data['size'])
+                                      ->pluck('product_id')->toArray();//fetching th product Ids
+                        $categoryProducts->whereIn('products.id',$productIds);
+                    }
+
                     //condition for sorting
                     if(isset($_GET['sort']) && !empty($_GET['sort'])){
                         if($_GET['sort']=="product_latest"){
