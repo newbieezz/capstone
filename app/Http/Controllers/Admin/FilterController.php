@@ -9,6 +9,7 @@ use App\Models\ProductsFiltersValue;
 use App\Models\Section;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 
 class FilterController extends Controller
 {
@@ -129,5 +130,15 @@ class FilterController extends Controller
         $filters = ProductsFilter::where('status',1)->get()->toArray();
 
         return view('admin.filters.add_edit_filter_value')->with(compact('title','filters'));
+    }
+
+    //Reload CategoryFilters included in (add_edit_product)
+    public function categoryFilters(Request $request){
+        if($request->ajax()){
+            $data = $request->all();
+
+            $category_id = $data['category_id'];
+            return response()->json(['view'=>(String)View::make('admin.filters.category_filters')->with(compact('category_id'))]);
+        }
     }
 }

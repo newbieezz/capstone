@@ -11,6 +11,8 @@ use Intervention\Image\Facades\Image;
 use App\Models\Section;
 use App\Models\Category;
 use App\Models\ProductsAttribute;
+use App\Models\ProductsFilter;
+use App\Models\ProductsFiltersValue;
 use App\Models\ProductsImage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
@@ -123,6 +125,18 @@ class ProductsController extends Controller
             //save the category id from the form
             $product->category_id = $data['category_id'];
             $product->brand_id = $data['brand_id'];
+
+            //save and fetch the categoryfilter
+            $productFilters = ProductsFilter::productFilters();
+            foreach($productFilters as $filter){
+                $filterAvailable = ProductsFilter::filterAvailable($filter['id'],$data['category_id']);
+                if($filterAvailable == "Yes"){
+                    if(isset($filter['filter_column']) && $data[$filter['filter_column']]){
+                        $product->{$filter['filter_column']} = $data[$filter['filter_column']];
+                    }
+                }
+            }
+
             //fetch the admin type using the auth::guard
             $adminType = Auth::guard('admin')->user()->type;
             $vendor_id = Auth::guard('admin')->user()->vendor_id;

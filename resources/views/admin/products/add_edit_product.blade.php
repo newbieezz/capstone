@@ -3,7 +3,7 @@
 
 <div class="main-panel">
     <div class="content-wrapper">
-        <d class="row">
+        <div class="row">
             <div class="col-md-12 grid-margin">
                 <div class="row">
                     <div class="col-12 col-xl-8 mb-4 mb-xl-0">
@@ -11,7 +11,7 @@
                     </div>
                 </div>
             </div>
-        </d iv>
+        </div>
         <div class="row">
             <div class="col-md-6 grid-margin stretch-card">
               <div class="card">
@@ -64,6 +64,9 @@
                             @endforeach
                         @endforeach
                     </select>
+                  </div>
+                  <div class="loadFilters"> <!--Load the filters as product is updated -->
+                    @include('admin.filters.category_filters')
                   </div>
                   <div class="form-group">
                     <label for="brand_id">Select Brand</label>

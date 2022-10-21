@@ -337,7 +337,7 @@ $(document).ready(function(){
     });
 
     //update filter value status
-    $(document).on("click",".updateFilterValueStatus",function(){
+    $(document).on("click",".updateFilterValueStatus",function(){``
         var status = $(this).children("i").attr("status");
         var filter_id = $(this).attr("filter_id");
 
@@ -362,4 +362,20 @@ $(document).ready(function(){
         });
     });
     
+    //show filters on selection of category
+    //if the user select the category we will select the id 
+    $("#category_id").on('change',function(){
+        var category_id = $(this).val();
+        $.ajax({
+            headers:{
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type:'post',
+            url:'category-filters',
+            data:{category_id:category_id},
+            success:function(resp){
+                $(".loadFilters").html(resp.view);
+            }
+        });
+    });
 });
