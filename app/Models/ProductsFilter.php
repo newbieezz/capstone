@@ -56,7 +56,7 @@ class ProductsFilter extends Model
         $getProductIds = Product::select('id')->whereIn('category_id',$categoryDetails['catIds'])->pluck('id')->toArray();
         $brandIds = Product::select('brand_id')->whereIn('id',$getProductIds)->groupBy('brand_id')->pluck('brand_id')->toArray();
         $brandDetails = Brand::select('id','name')->whereIn('id',$brandIds)->get()->toArray();
-        // echo "<pre>";print_r($brandDetails);die;
+        //echo "<pre>";print_r($brandDetails);die;
         return $brandDetails;
      }
 

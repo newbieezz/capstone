@@ -9,7 +9,7 @@ $(document).ready(function(){
     $("#sort").on("change",function(){
         var size = get_filter('size');//get all the sizes
         var price = get_filter('price');
-        var brand = get_filter('brand');
+        var brands = get_filter('brands');
         var sort = $("#sort").val();
         var url = $("#url").val();
         @foreach($productFilters as $filters)
@@ -27,7 +27,7 @@ $(document).ready(function(){
                     @foreach($productFilters as $filters)
                       {{ $filters['filter_column'] }}:{{ $filters['filter_column'] }},
                     @endforeach
-                    url:url,sort:sort,size:size,price:price,brand:brand},
+                    url:url,sort:sort,size:size,price:price,brands:brands},
             success:function(data){
                 $('.filter_product').html(data);
             },error:function(){
@@ -42,7 +42,7 @@ $(document).ready(function(){
         // this.form.submit();
         var size = get_filter('size');//get all the sizes
         var price = get_filter('price');
-        var brand = get_filter('brand');
+        var brands = get_filter('brands');
         var sort = $("#sort").val();
         var url = $("#url").val();
         @foreach($productFilters as $filters)
@@ -60,7 +60,7 @@ $(document).ready(function(){
                     @foreach($productFilters as $filters)
                       {{ $filters['filter_column'] }}:{{ $filters['filter_column'] }},
                     @endforeach
-                    url:url,sort:sort,size:size,price:price,brand:brand},
+                    url:url,sort:sort,size:size,price:price,brands:brands},
             success:function(data){
                 $('.filter_product').html(data);
             },error:function(){
@@ -69,12 +69,12 @@ $(document).ready(function(){
         });
     });
     //brand filter
-    $(".brand").on("change",function(){
+    $(".brands").on("change",function(){
         //change if user select any option
         // this.form.submit();
         var size = get_filter('size');//get all the sizes
         var price = get_filter('price');
-        var brand = get_filter('brand');
+        var brands = get_filter('brands');
         var sort = $("#sort").val();
         var url = $("#url").val();
         @foreach($productFilters as $filters)
@@ -92,7 +92,7 @@ $(document).ready(function(){
                     @foreach($productFilters as $filters)
                       {{ $filters['filter_column'] }}:{{ $filters['filter_column'] }},
                     @endforeach
-                    url:url,sort:sort,size:size,price:price,brand:brand},
+                    url:url,sort:sort,size:size,price:price,brands:brands},
             success:function(data){
                 $('.filter_product').html(data);
             },error:function(){
@@ -106,7 +106,7 @@ $(document).ready(function(){
         // this.form.submit();
         var size = get_filter('size');//get all the sizes
         var price = get_filter('price');
-        var brand = get_filter('brand');
+        var brands = get_filter('brands');
         var sort = $("#sort").val();
         var url = $("#url").val();
         @foreach($productFilters as $filters)
@@ -124,7 +124,7 @@ $(document).ready(function(){
                     @foreach($productFilters as $filters)
                       {{ $filters['filter_column'] }}:{{ $filters['filter_column'] }},
                     @endforeach
-                    url:url,sort:sort,size:size,price:price,brand:brand},
+                    url:url,sort:sort,size:size,price:price,brands:brands},
             success:function(data){
                 $('.filter_product').html(data);
             },error:function(){
@@ -141,7 +141,7 @@ $(document).ready(function(){
             var url = $("#url").val();
             var size = get_filter('size');//get all the sizes
             var price = get_filter('price');
-            var brand = get_filter('brand');
+            var brands = get_filter('brands');
             //get whatever the selectec option is checked
             var sort = $("#sort option:selected").val();
             @foreach($productFilters as $filters)
@@ -159,7 +159,7 @@ $(document).ready(function(){
                     @foreach($productFilters as $filters)
                       {{ $filters['filter_column'] }}:{{ $filters['filter_column'] }},
                     @endforeach
-                    url:url,sort:sort,size:size,price:price,brand:brand},
+                    url:url,sort:sort,size:size,price:price,brands:brands},
                     success:function(data){
                     $('.filter_product').html(data);
                 },error:function(){

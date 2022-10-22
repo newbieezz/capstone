@@ -6,7 +6,7 @@
 <!-- Shop-Left-Side-Bar-Wrapper -->
 <div class="col-lg-3 col-md-3 col-sm-12">
     <!-- Fetch-Categories-from-Root-Category  -->
-    <div class="fetch-categories">
+    {{-- <div class="fetch-categories">
         <h3 class="title-name">Browse Categories</h3>
         <!-- Level 1 -->
         <h3 class="fetch-mark-category">
@@ -46,7 +46,7 @@
             </li>
         </ul>
         <!-- //end Level 2 -->
-    </div>
+    </div> --}}
     <!-- Fetch-Categories-from-Root-Category  /- -->
     <!-- Filters -->
     <?php $getBrands = ProductsFilter::getBrands($url); ?>
@@ -55,9 +55,9 @@
         <form class="facet-form" action="#" method="post">
             <div class="associate-wrapper">
                 <!-- display the size whatever is being added-->
-                @foreach($getBrands as $key => $brand)
-                <input type="checkbox" class="check-box brand" name="brand[]" id="brand{{$key}}" value="{{ $brand['id'] }}">
-                <label class="label-text" for="brand{{$key}}">{{ $brand['name'] }}
+                @foreach($getBrands as $key => $brands)
+                <input type="checkbox" class="check-box brands" name="brands[]" id="brands{{$key}}" value="{{ $brands['id'] }}">
+                <label class="label-text" for="brands{{$key}}">{{ $brands['name'] }}
                     {{-- <span class="total-fetch-items">(2)</span> --}}
                 </label>
                 @endforeach

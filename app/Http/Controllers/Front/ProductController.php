@@ -60,8 +60,8 @@ class ProductController extends Controller
                     }
 
                     //checking for product brand
-                    if(isset($data['brand']) && !empty($data['brand'])){
-                        $productIds = Product::select('id')->whereIn('brand_id',$data['brand'])
+                    if(isset($data['brands']) && !empty($data['brands'])){
+                        $productIds = Product::with('brands')->select('id')->whereIn('brand_id',$data['brands'])
                                       ->pluck('id')->toArray();//fetching th product Ids
                         $categoryProducts->whereIn('products.id',$productIds);
                     }
