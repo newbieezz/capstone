@@ -92,8 +92,44 @@ class VendorController extends Controller
             DB::commit();
 
             //redirect with success message
-            $message = "Thanks for registeriing as Vendor. We wil confirm by email once your account is approved.";
+            $message = "Thanks for registering as Vendor. Please confirm your email to confirm your account!";
             return redirect()->back()->with('success_message',$message);
+        }
+    }
+
+    //confirm vendor/send email
+    public function confirmVendor($email){
+        //decode vendor email
+       $email = base64_decode($email);
+
+        //check if vendor exists or not
+        $vendorCount = Vendor::where('email',$email)->count();
+        if($vendorCount > 0) {
+            //vendor email is already activated or not
+            $vendorDetails = Vendor::where('email',$email)->first();
+            if($vendorDetails->confirm=="Yes"){
+                $message = "Your Vendor Account is already confirmed. You can now login!";
+                return redirect('vendor/login-register')->with('error_message',$message);
+            } else {
+                //update confirm column to Yes in both admin/vendors tables to activate
+                Admin::where('email',$email)->update(['confirm'=>"Yes"]);
+                Vendor::where('email',$email)->update(['confirm'=>"Yes"]);
+
+                //send register email
+                $messageData = [
+                    'email' => $email,
+                    'name' => $vendorDetails->name,
+                    'mobile' => $vendorDetails->mobile,
+                ];
+                Mail::send('emails.vendor_confirmed',$messageData,function($message)use($email){
+                    $message->to($email)->subject('Your Vendor Account is Confirmed!');
+                });
+                //redirect vendor to the login/register page wtih success message
+                $message = "Your Vendor Email Account is confirmed. You can now login, do add your personal, business and bank details to activate your Vendor Account and fully use all the features!";
+                return redirect('vendor/login-register')->with('success_message',$message);
+            }
+        } else{
+            abort(404);
         }
     }
 }
