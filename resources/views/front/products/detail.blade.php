@@ -1,3 +1,5 @@
+<?php use App\Models\Product; ?>
+
 @extends('front.layout.layout')
 @section('content')
     <!-- Page Introduction Wrapper -->
@@ -71,15 +73,22 @@
                             </p>
                         </div>
                         <div class="section-3-price-original-discount u-s-p-y-14">
-                            <?php $getDiscountedPrice = Product::getDiscountedPrice($product['id']);  ?>
-                            @if ($getDiscountedPrice > 0)
-                                <div class="price">
-                                    <h4>$100.00</h4>
-                                </div>
-                                <div class="original-price">
-                                    <span>Original Price:</span>
-                                    <span>$120.00</span>
-                                </div>
+                            <?php $getDiscountedPrice = Product::getDiscountedPrice($productDetails['id']);  ?>
+                            <span class="getAttributePrice">
+                                @if ($getDiscountedPrice > 0)
+                                    <div class="price">
+                                        <h4>₱ {{ $getDiscountedPrice }}</h4>
+                                    </div>
+                                    <div class="original-price">
+                                        <span>Original Price:</span>
+                                        <span>₱ {{ $productDetails['product_price'] }}</span>
+                                    </div>
+                                @else
+                                    <div class="price">
+                                        <h4>₱ {{ $productDetails['product_price'] }}</h4>
+                                    </div>
+                                @endif 
+                            </span>
                                 {{-- <div class="discount-price">
                                     <span>Discount:</span>
                                     <span>15%</span>
@@ -87,50 +96,38 @@
                                 <div class="total-save">
                                     <span>Save:</span>
                                     <span>$20</span>
-                            </div> --}}
+                                </div> --}}
                         </div>
                         <div class="section-4-sku-information u-s-p-y-14">
                             <h6 class="information-heading u-s-m-b-8">Sku Information:</h6>
+                            <div class="left">
+                                <span>Product Code:</span>
+                                <span>{{ $productDetails['product_code'] }}</span>
+                            </div>
                             <div class="availability">
                                 <span>Availability:</span>
-                                <span>In Stock</span>
+                                @if($totalStock > 0)
+                                    <span>In stock</span>
+                                @else
+                                    <span style="color: red">Out of Stock</span>
+                                @endif
                             </div>
-                            <div class="left">
-                                <span>Only:</span>
-                                <span>50 left</span>
-                            </div>
+                            @if($totalStock > 0)
+                                <div class="left">
+                                    <span>Only:</span>
+                                    <span>{{ $totalStock }} left</span>
+                                </div>
+                            @endif
                         </div>
                         <div class="section-5-product-variants u-s-p-y-14">
-                            <h6 class="information-heading u-s-m-b-8">Product Variants:</h6>
-                            <div class="color u-s-m-b-11">
-                                <span>Available Color:</span>
-                                <div class="color-variant select-box-wrapper">
-                                    <select class="select-box product-color">
-                                        <option value="1">Heather Grey</option>
-                                        <option value="3">Black</option>
-                                        <option value="5">White</option>
-                                    </select>
-                                </div>
-                            </div>
                             <div class="sizes u-s-m-b-11">
                                 <span>Available Size:</span>
                                 <div class="size-variant select-box-wrapper">
-                                    <select class="select-box product-size">
-                                        <option value="">Male 2XL</option>
-                                        <option value="">Male 3XL</option>
-                                        <option value="">Kids 4</option>
-                                        <option value="">Kids 6</option>
-                                        <option value="">Kids 8</option>
-                                        <option value="">Kids 10</option>
-                                        <option value="">Kids 12</option>
-                                        <option value="">Female Small</option>
-                                        <option value="">Male Small</option>
-                                        <option value="">Female Medium</option>
-                                        <option value="">Male Medium</option>
-                                        <option value="">Female Large</option>
-                                        <option value="">Male Large</option>
-                                        <option value="">Female XL</option>
-                                        <option value="">Male XL</option>
+                                    <select name="size" id="getPrice" product-id="{{$productDetails['id']}}" class="select-box product-size">
+                                        <option value="">Select Size</option>
+                                        @foreach($productDetails['attributes'] as $attribute)
+                                            <option value="{{ $attribute['size'] }}">{{ $attribute['size'] }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -170,9 +167,7 @@
                                 <div class="quantity-wrapper u-s-m-b-22">
                                     <span>Quantity:</span>
                                     <div class="quantity">
-                                        <input type="text" class="quantity-text-field" value="1">
-                                        <a class="plus-a" data-max="1000">&#43;</a>
-                                        <a class="minus-a" data-min="1">&#45;</a>
+                                        <input type="number" class="quantity-text-field" name="quantity" value="1">
                                     </div>
                                 </div>
                                 <div>
@@ -194,7 +189,7 @@
                         <div class="detail-nav-wrapper u-s-m-b-30">
                             <ul class="nav single-product-nav justify-content-center">
                                 <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#description">Description</a>
+                                    <a class="nav-link active" data-toggle="tab" href="#video">Product Video</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#specification">Specifications</a>
@@ -205,13 +200,15 @@
                             </ul>
                         </div>
                         <div class="tab-content">
-                            <!-- Description-Tab -->
-                            <div class="tab-pane fade active show" id="description">
-                                <div class="description-whole-container">
-                                    <p class="desc-p u-s-m-b-26">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                    </p>
-                                    <img class="desc-img img-fluid u-s-m-b-26" src="{{ asset('front/images/product/product@3x.jpg') }}" alt="Product">
-                                    <iframe class="desc-iframe u-s-m-b-45" width="710" height="400" src="{{ asset('front/images/product/iframe-youtube.jpg') }}" allowfullscreen></iframe>
+                            <!-- Product Video-Tab -->
+                            <div class="tab-pane fade active show" id="video">
+                                <div>
+                                    @if($productDetails['product_video'])
+                                        <video width="320" height="240" controls>
+                                        <source src="{{ url('front/videos/product_videos/'.$productDetails['product_video']) }}" type="video/mp4"> </video>
+                                    @else
+                                        Prodcut Video does not exists
+                                    @endif
                                 </div>
                             </div>
                             <!-- Description-Tab /- -->

@@ -156,6 +156,8 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
     }
     //Product Detail Page
     Route::get('/product/{id?}','ProductController@detail');
+    //Get product attribute price, change price by sizes
+    Route::post('get-product-price','ProductController@getProductPrice');
     //Route for the Vendor Logn/Register
     Route::get('vendor/login-register','VendorController@loginRegister');  
     //Vendore Register

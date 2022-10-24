@@ -58,7 +58,33 @@ class Product extends Model
 
         return $discounted_price;
     }
+    public static function getDiscountAttributePrice($product_id,$size){
+        $proAttrPrice = ProductsAttribute::where(['product_id'=>$product_id,'size'=>$size])->first()->toArray();
+        //get product and category discount, fetch it from products table
+        $proDetails = Product::select('product_discount','category_id')->where
+                      ('id',$product_id)->first();//main price from here
+        $proDetails = json_decode(json_encode($proDetails),true);
+        //fetch the category of the product
+        $catDetails = Category::select('category_discount')->where('id',$proDetails['category_id'])->first();
+        $catDetails = json_decode(json_encode($catDetails),true);
 
+         //condition to compare if a product is having a product discount or not
+         if($proDetails['product_discount'] > 0) {
+            //if added and exist, calculate the discounted price
+            $final_price = $proAttrPrice['price'] - ($proDetails['product_price']*
+                                $proDetails['product_discount']/100);
+            $discount = $proAttrPrice['price'] - $final_price;
+        } else if($catDetails['category_discount'] > 0){
+            //if product is not but category discount is added
+            $final_price = $proAttrPrice['price'] - ($proDetails['product_price']*
+                                 $catDetails['category_discount']/100);
+            $discount = $proAttrPrice['price'] - $final_price;
+        } else {
+            $final_price = $proAttrPrice['price'];
+            $discount = 0;
+        }
+        return array('product_price'=>$proAttrPrice['price'],'final_price'=>$final_price,'discount'=>$discount);
+    }
     // public function brand(){
     //     //every product belongs to some brand
     //     return $this->belongsTo('App\Models\Brand','brand_id');

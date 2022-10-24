@@ -134,10 +134,23 @@ class ProductController extends Controller
     }
 
     public function detail($id){
-        $productDetails = Product::with('section','category','attributes','images','brands')->find($id)->toArray();
+        $productDetails = Product::with(['section','category','attributes'=>function($query){
+                            $query->where('stock','>',0)->where('status',1);
+                         },'images','brands'])->find($id)->toArray();
         //call category for the breadcrumbs, pass the urlt o get the complete category details
         $categoryDetails = Category::categoryDetails($productDetails['category']['url']);
         // dd($productDetails);
-        return view('front.products.detail')->with(compact('productDetails','categoryDetails'));
+
+        $totalStock = ProductsAttribute::where('product_id',$id)->sum('stock');
+        return view('front.products.detail')->with(compact('productDetails','categoryDetails','totalStock'));
+    }
+
+    public function getProductPrice(Request $request){
+        if($request->ajax()){
+            $data = $request->all();
+
+            $getDiscountAttributePrice = Product::getDiscountAttributePrice($data['product_id'],$data['size']);
+            return $getDiscountAttributePrice;
+        }
     }
 }
