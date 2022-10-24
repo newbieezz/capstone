@@ -30,7 +30,12 @@
                                      <td> {{ $admin['type']}}  </td> 
                                      <td> {{ $admin['mobile']}}  </td> 
                                      <td> {{ $admin['email']}}  </td>
-                                     <td> <img src="{{ asset('admin/images/photos/'.$admin['image']) }}" /></td> 
+                                     <td> @if($admin['image'] != "")
+                                             <img src="{{ asset('admin/images/photos/'.$admin['image']) }}" />
+                                          @else
+                                             <img src="{{ asset('admin/images/photos/noimage.gif') }}" />
+                                          @endif
+                                     </td> 
                                      <td> @if($admin['status']==1)  
                                             <a class="updateAdminStatus" id="admin-{{$admin['id']}}" admin_id="{{$admin['id']}}"
                                                 href="javascript:void(0)"> 

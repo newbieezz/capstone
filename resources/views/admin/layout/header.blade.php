@@ -73,6 +73,9 @@
                     @if(!empty(Auth::guard('admin')->user()->image))
                         <img src="{{ url('admin/images/photos/'.Auth::guard('admin')->user()->image) }}"
                         alt="profile">
+                    @else
+                        <img src="{{ url('admin/images/photos/noimage.gif') }}"
+                        alt="profile">
                     @endif
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
@@ -90,6 +93,7 @@
                 <a class="nav-link" href="#">
                 <i class="icon-ellipsis"></i>
                 </a>
+                
             </li>
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">

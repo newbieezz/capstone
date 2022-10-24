@@ -21,11 +21,26 @@ class ProductsController extends Controller
 {
     public function products(){
         Session::put('page','products');
+
+        $adminType = Auth::guard('admin')->user()->type;
+        $vendor_id = Auth::guard('admin')->user()->vendor_id;
+
+        if($adminType=="vendor"){
+            //check vendor status
+            $vendorStatus = Auth::guard('admin')->user()->status; //if 0 redirect to ask to fill for more details before he/she cann add some product
+            if($vendorStatus==0){
+                return redirect('admin/update-vendor-details/personal')->with('error_message','Your Vendor Account is not approved yet. Please make sure too fill your valid personal, business and bank details!');
+            }
+        }
         $products = Product::with(['section'=>function($query){
             $query->select('id','name');
-        },'category'=>function($query){
-            $query->select('id','category_name');
-        }])->get()->toArray(); //subquery-> add the section and category relation
+            },'category'=>function($query){
+                $query->select('id','category_name');
+        }]); //subquery-> add the section and category relation
+        if($adminType=="vendor"){
+            $products = $products->where('vendor_id',$vendor_id);
+        }
+        $products = $products->get()->toArray();
         return view('admin.products.products')->with(compact('products'));
     }
 
