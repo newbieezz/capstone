@@ -133,7 +133,11 @@ class ProductController extends Controller
 
     }
 
-    public function detail(){
-        return view('front.products.detail');
+    public function detail($id){
+        $productDetails = Product::with('section','category','attributes','images','brands')->find($id)->toArray();
+        //call category for the breadcrumbs, pass the urlt o get the complete category details
+        $categoryDetails = Category::categoryDetails($productDetails['category']['url']);
+        // dd($productDetails);
+        return view('front.products.detail')->with(compact('productDetails','categoryDetails'));
     }
 }
