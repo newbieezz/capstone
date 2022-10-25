@@ -71,12 +71,12 @@ class Product extends Model
          //condition to compare if a product is having a product discount or not
          if($proDetails['product_discount'] > 0) {
             //if added and exist, calculate the discounted price
-            $final_price = $proAttrPrice['price'] - ($proDetails['product_price']*
+            $final_price = $proAttrPrice['price'] - ($proAttrPrice['price']*
                                 $proDetails['product_discount']/100);
             $discount = $proAttrPrice['price'] - $final_price;
         } else if($catDetails['category_discount'] > 0){
             //if product is not but category discount is added
-            $final_price = $proAttrPrice['price'] - ($proDetails['product_price']*
+            $final_price = $proAttrPrice['price'] - ($proAttrPrice['price']*
                                  $catDetails['category_discount']/100);
             $discount = $proAttrPrice['price'] - $final_price;
         } else {

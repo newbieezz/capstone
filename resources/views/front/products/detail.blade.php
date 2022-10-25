@@ -123,7 +123,7 @@
                             <div class="sizes u-s-m-b-11">
                                 <span>Available Size:</span>
                                 <div class="size-variant select-box-wrapper">
-                                    <select name="size" id="getPrice" product-id="{{$productDetails['id']}}" class="select-box product-size">
+                                    <select name="size" id="getPrice" product-id="{{ $productDetails['id'] }}" class="select-box product-size">
                                         <option value="">Select Size</option>
                                         @foreach($productDetails['attributes'] as $attribute)
                                             <option value="{{ $attribute['size'] }}">{{ $attribute['size'] }}</option>
@@ -192,7 +192,7 @@
                                     <a class="nav-link active" data-toggle="tab" href="#video">Product Video</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#specification">Specifications</a>
+                                    <a class="nav-link" data-toggle="tab" href="#detail">Product Details</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#review">Reviews (15)</a>
@@ -213,7 +213,7 @@
                             </div>
                             <!-- Description-Tab /- -->
                             <!-- Specifications-Tab -->
-                            <div class="tab-pane fade" id="specification">
+                            <div class="tab-pane fade" id="detail">
                                 <div class="specification-whole-container">
                                     <div class="spec-ul u-s-m-b-50">
                                         <h4 class="spec-heading">Key Features</h4>
