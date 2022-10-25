@@ -154,6 +154,9 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
     foreach($catUrl as $key => $url) {
         Route::match(['get','post'],'/'.$url,'ProductController@listing');
     }
+
+    //Show all Vendor Products
+    Route::get('/products/{vendorid}','ProductController@vendorListing');
     //Product Detail Page
     Route::get('/product/{id?}','ProductController@detail');
     //Get product attribute price, change price by sizes

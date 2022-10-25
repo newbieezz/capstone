@@ -10,6 +10,8 @@ use App\Models\Product;
 use App\Models\ProductsFilter;
 use App\Models\Brand;
 use App\Models\ProductsAttribute;
+use App\Models\Vendor;
+use App\Models\VendorsBusinessDetails;
 
 class ProductController extends Controller
 {
@@ -136,7 +138,7 @@ class ProductController extends Controller
     public function detail($id){
         $productDetails = Product::with(['section','category','attributes'=>function($query){
                             $query->where('stock','>',0)->where('status',1);
-                         },'images','brands'])->find($id)->toArray();
+                         },'images','brands','vendor'])->find($id)->toArray();
         //call category for the breadcrumbs, pass the urlt o get the complete category details
         $categoryDetails = Category::categoryDetails($productDetails['category']['url']);
         // dd($productDetails);
@@ -152,5 +154,16 @@ class ProductController extends Controller
             $getDiscountAttributePrice = Product::getDiscountAttributePrice($data['product_id'],$data['size']);
             return $getDiscountAttributePrice;
         }
+    }
+
+    public function vendorListing($vendorid){
+        //fetch/get vendor shop name
+        $getVendorShop = Vendor::getVendorShop($vendorid);
+        //get vendor products
+        $vendorProducts = Product::with('brands')->where('vendor_id',$vendorid)->where('status',1);
+
+        $vendorProducts = $vendorProducts->paginate(30);
+        // dd($vendorProducts);
+       return view('front.products.vendor_listing')->with(compact('getVendorShop','vendorProducts'));
     }
 }

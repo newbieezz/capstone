@@ -31,6 +31,12 @@ class Product extends Model
         return $this->hasMany('App\Models\ProductsImage');
     }
 
+    //relation between vendor and product
+    public function vendor(){
+        //a product belongs to a vendor
+        return $this->belongsTo('App\Models\Vendor','vendor_id')->with('vendorshopdetails');
+    }
+
     //for the product discount, static to call it anywhere such as model controller etc
     public static function getDiscountedPrice($product_id){
         $proDetails = Product::select('product_price','product_discount','category_id')->where
@@ -89,9 +95,9 @@ class Product extends Model
     //     //every product belongs to some brand
     //     return $this->belongsTo('App\Models\Brand','brand_id');
     // }
-        public function brands(){
-            return $this->belongsTo('App\Models\Brand','brand_id');
-        }
+    public function brands(){
+        return $this->belongsTo('App\Models\Brand','brand_id');
+    }
     public static function isProductNew($product_id){
         //get the latest products added
         $productIds = Product::select('id')->where('status',1)->orderby('id','Desc')->Limit(4)->pluck('id');

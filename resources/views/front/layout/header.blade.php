@@ -56,19 +56,6 @@
                             </ul>
                         </li>
                         <li>
-                            <a>USD
-                                <i class="fas fa-chevron-down u-s-m-l-9"></i>
-                            </a>
-                            <ul class="g-dropdown" style="width:90px">
-                                <li>
-                                    <a href="#" class="u-c-brand">($) USD</a>
-                                </li>
-                                <li>
-                                    <a href="#">(£) GBP</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
                             <a>ENG
                                 <i class="fas fa-chevron-down u-s-m-l-9"></i>
                             </a>
@@ -91,7 +78,7 @@
                 <div class="row clearfix align-items-center">
                     <div class="col-lg-3 col-md-9 col-sm-6">
                         <div class="brand-logo text-lg-center">
-                            <a href="index.html">
+                            <a href="{{ url('/') }}">
                                 <img src="{{ asset('front/images/main-logo/tlogo.png') }}" alt="Stack Developers" class="app-brand-logo">
                             </a>
                         </div>
@@ -305,13 +292,7 @@
                                     <ul>
                                         <li class="menu-title">COLLECTION</li>
                                         <li>
-                                            <a href="cart.html">Men Clothing</a>
-                                        </li>
-                                        <li>
-                                            <a href="checkout.html">Women Clothing</a>
-                                        </li>
-                                        <li>
-                                            <a href="account.html">Kids Clothing</a>
+                                            <a href="cart.html"></a>
                                         </li>
                                     </ul>
                                     <ul>
