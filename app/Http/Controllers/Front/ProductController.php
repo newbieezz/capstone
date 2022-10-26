@@ -12,6 +12,8 @@ use App\Models\Brand;
 use App\Models\ProductsAttribute;
 use App\Models\Vendor;
 use App\Models\VendorsBusinessDetails;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -143,8 +145,35 @@ class ProductController extends Controller
         $categoryDetails = Category::categoryDetails($productDetails['category']['url']);
         // dd($productDetails);
 
+        //get related/similar products ids
+        $similarProducts = Product::with('brands')->where('category_id',$productDetails['category']['id'])
+                            ->where('id','!=',$id)->limit(4)->inRandomOrder()->get()->toArray();
+        
+        //set sessio for recently viewed products
+        if(empty(Session::get('session_id'))){ //if empty then create variable session_id
+            $session_id = rand(10000,10000000);
+        } else {
+            $session_id = Session::get('session_id');
+        }
+
+        Session::put('session_id',$session_id); 
+
+        //insert product in table if not already exists, count recent;y viewd products first
+        $countRVP = DB::table('recently_viewed_products')->where(['product_id'=>$id,'session_id'=>$session_id])->count();
+        if($countRVP==0){
+            date_default_timezone_set("Asia/Taipei");
+            DB::table('recently_viewed_products')->insert(['product_id'=>$id,'session_id'=>$session_id,
+                        'created_at' => date("Y-m-d H:i:s"),'updated_at' => date("Y-m-d H:i:s")]); //insert in the table
+        }
+        //get recently viewed products,fetch the id from the table
+        $recentProductsId = DB::table('recently_viewed_products')->select('product_id')->where('product_id','!=',$id)
+                            ->where('session_id',$session_id)->inRandomOrder()->get()->take(4)->pluck('product_id');
+
+        //fetch the porducts, get recently viewed products
+        $recenltyViewedProd = Product::with('brands')->whereIn('id',$recentProductsId)->get()->toArray();
+        
         $totalStock = ProductsAttribute::where('product_id',$id)->sum('stock');
-        return view('front.products.detail')->with(compact('productDetails','categoryDetails','totalStock'));
+        return view('front.products.detail')->with(compact('productDetails','categoryDetails','totalStock','similarProducts','recenltyViewedProd'));
     }
 
     public function getProductPrice(Request $request){
@@ -165,5 +194,11 @@ class ProductController extends Controller
         $vendorProducts = $vendorProducts->paginate(30);
         // dd($vendorProducts);
        return view('front.products.vendor_listing')->with(compact('getVendorShop','vendorProducts'));
+    }
+    
+    public function cartAdd(Request $request){
+        if($request->isMethod('post')){
+            $data = $request->all();
+        }
     }
 }
