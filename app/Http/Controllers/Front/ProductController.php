@@ -9,9 +9,10 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductsFilter;
 use App\Models\Brand;
+use App\Models\Cart;
 use App\Models\ProductsAttribute;
 use App\Models\Vendor;
-use App\Models\VendorsBusinessDetails;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 
@@ -199,6 +200,50 @@ class ProductController extends Controller
     public function cartAdd(Request $request){
         if($request->isMethod('post')){
             $data = $request->all();
+
+            //check product stock is available or not
+            $getProductStock = ProductsAttribute::getProductStock($data['product_id'],$data['size']);
+            //condition if stock less than number of product stock
+            if($getProductStock<$data['quantity']){
+                return redirect()->back()->wiwth('error_message','Required Quantity is not available!');
+            }
+
+            //generate session id if not exists
+            $session_id = Session::get('session_id');//check
+            if(empty($session_id)){
+                $session_id = Session::getId(); //if not exist then generate
+                Session::put('session_id',$session_id);
+            }
+
+            //check product if already exists in the user cart
+            if(Auth::check()){ //check is the function used to chek if user exist/logged in or not
+                //user is logged in, then count prods &compare user id
+                $user_id = Auth::user('id');//get user id
+                $countProducts = Cart::where(['product_id'=>$data['product_id'],'size'=>$data['size'],'user_id'=>$user_id])->count();
+
+            } else{
+                //user is not logged in
+                $user_id = 0;
+                $countProducts = Cart::where(['product_id'=>$data['product_id'],'size'=>$data['size'],'session_id'=>$session_id])->count();
+
+            }
+
+            //save/add products in carts table
+            $item = new Cart;
+            $item->session_id = $session_id;
+            $item->user_id = $user_id;
+            $item->product_id = $data['product_id'];
+            $item->size = $data['size'];
+            $item->quantity = $data['quantity'];
+            $item->save();
+
+            return redirect()->back()->with('success_message','Product has been added to Cart!');
         }
+    }
+
+    public function cart(){
+        $getCartItems = Cart::getCartItems();
+        // dd($getCartItems);
+        return view('front.products.cart')->with(compact('getCartItems'));
     }
 }
