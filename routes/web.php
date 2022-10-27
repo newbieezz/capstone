@@ -171,7 +171,11 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
     //Add to Cart
     Route::post('cart/add','ProductController@cartAdd');
     //Cart Page 
-    Route::get('/cart','ProductController@cart');
+    Route::get('cart','ProductController@cart');
+    //Update cart item Quantity
+    Route::post('cart/update','ProductController@cartUpdate');
+    //Delete cart item 
+    Route::post('cart/delete','ProductController@cartDelete');
 });
 
 

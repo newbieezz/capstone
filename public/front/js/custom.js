@@ -22,6 +22,67 @@ $(document).ready(function(){
             }
         });
     });
+
+    //update cart items qty
+    $(document).on('click','.updateCartItem',function(){
+        if($(this).hasClass('plus-a')){//will tell if the user click or not
+            //get the qty
+            var quantity = $(this).data('qty');
+            //if clicked qty increase by 1
+            new_qty = parseInt(quantity) + 1 ;
+        }
+        if($(this).hasClass('minus-a')){//will tell if the user click or not
+            //get the qty
+            var quantity = $(this).data('qty');
+            //check qty is atleast 1
+            if(quantity <= 1) {
+                alert("Item quantity must be 1 or greater!");
+                return false;
+            }
+            //if clicked qty subtract by 1
+            new_qty = parseInt(quantity) - 1 ;
+        }
+        var cartid = $(this).data('cartid'); //get the cart id
+        $.ajax({
+            headers:{
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data:{cartid:cartid,qty:new_qty},
+            url:'/cart/update',
+            type:'post',
+            success:function(resp){
+                if(resp.status==false){
+                    alert(resp.message);
+                }
+                $("#appendCartItems").html(resp.view);
+            },error:function(){
+                alert("Error");
+            }
+
+        })
+    });
+
+    //delete cart item
+    $(document).on('click','.deleteCartItem',function(){
+        var cartid = $(this).data('cartid');
+        var result = confirm("Are you sure to delete this Cart Item?");
+        if(result){ //if user clicks yes
+            $.ajax({
+                headers:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:{cartid:cartid},
+                url:'/cart/delete',
+                type:'post',
+                success:function(resp){
+                    $("#appendCartItems").html(resp.view);
+                },error:function(){
+                    alert("Error");
+                }
+            })
+        }
+        
+    });
 });
 
 //required function to operate check box on the filter 
