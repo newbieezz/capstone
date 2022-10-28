@@ -176,6 +176,9 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
     Route::post('cart/update','ProductController@cartUpdate');
     //Delete cart item 
     Route::post('cart/delete','ProductController@cartDelete');
+
+    //User Login-Register
+    Route::get('user/login-register','UserController@loginRegister');
 });
 
 
