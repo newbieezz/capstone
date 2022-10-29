@@ -13,7 +13,7 @@ use App\Models\VendorsBankDetails;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Intervention\Image\Facades\Image;
-use strlower;
+
 
 class AdminController extends Controller
 {
