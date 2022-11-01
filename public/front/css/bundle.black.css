@@ -494,7 +494,8 @@ body {
   transform: rotate(-180deg); }
 
 .v-menu.v-close .v-wrapper {
-  display: none; }
+  display: none; 
+  background: #003459;}
 
 .v-less > i:before {
   content: "\F368"; }
@@ -505,7 +506,6 @@ body {
     position: relative;
     height: 52px;
     line-height: 52px;
-    background: #003459;
     border-radius: 8px 8px 0 0;
     color: #ffffff;
     cursor: pointer;
