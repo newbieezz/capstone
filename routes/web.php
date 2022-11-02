@@ -164,7 +164,7 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
     Route::post('get-product-price','ProductController@getProductPrice');
     //Route for the Vendor Logn/Register
     Route::get('vendor/login-register','VendorController@loginRegister');  
-    //Vendore Register
+    //Vendor Register
     Route::post('vendor/register','VendorController@vendorRegister');
     //Send Confirm link/ Confirm Vendor Account
     Route::get('vendor/confirm/{code}','VendorController@confirmVendor');
@@ -179,6 +179,8 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
 
     //User Login-Register
     Route::get('user/login-register','UserController@loginRegister');
+    //User Register
+    Route::post('user/register', 'USerController@userRegister');
 });
 
 

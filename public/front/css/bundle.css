@@ -819,11 +819,11 @@ body {
     outline: 0; }
 
 .button-primary {
-  background: #d90429;
+  background: #003459;
   font-weight: 700;
   color: #ffffff; }
   .button-primary:hover {
-    background: #cf0427; }
+    background: #003459; }
 
 .button-outline-secondary {
   background-color: transparent;
@@ -1314,7 +1314,7 @@ body {
   color: #363636; }
 
 .tag.new {
-  background: #FF3860;
+  background: #003459;
   color: #fff; }
 
 .tag.hot {
@@ -1434,7 +1434,7 @@ body {
 
 /* Sub-component-4 v1 */
 .tab-nav-style-1-a > .nav-item:hover > .nav-link {
-  color: #d90429; }
+  color: #003459; }
   .tab-nav-style-1-a > .nav-item:hover > .nav-link:after {
     transform: scale(1); }
 
@@ -1444,7 +1444,7 @@ body {
   color: #727272; }
   .tab-nav-style-1-a > .nav-item > .nav-link:after {
     content: "";
-    background-color: #d90429;
+    background-color: #003459;
     height: 3px;
     position: absolute;
     width: 100%;
@@ -1454,8 +1454,8 @@ body {
     transform: scale(0); }
 
 .tab-nav-style-1-a > .nav-item > .nav-link.active {
-  border-color: #d90429;
-  color: #d90429; }
+  border-color: #003459;
+  color: #003459; }
 
 /* Sub-component-4 v2 */
 .tab-nav-style-1-b > .nav-item > .nav-link {
@@ -1464,11 +1464,11 @@ body {
   border: 2px solid #f7f7f9;
   color: #727272; }
   .tab-nav-style-1-b > .nav-item > .nav-link:hover {
-    border-color: #d90429;
+    border-color: #003459;
     color: #272B34; }
 
 .tab-nav-style-1-b > .nav-item > .nav-link.active {
-  border-color: #d90429;
+  border-color: #003459;
   color: #272B34; }
 
 /* Sub-component-4 v3 */
@@ -1477,7 +1477,7 @@ body {
   font-size: 13px;
   color: #727272; }
   .tab-nav-style-1-c > .nav-item > .nav-link:after {
-    background-color: #d90429;
+    background-color: #003459;
     bottom: 0;
     content: "";
     height: 2px;
@@ -1488,7 +1488,7 @@ body {
     width: 100%; }
 
 .tab-nav-style-1-c > .nav-item > .nav-link.active {
-  color: #d90429; }
+  color: #003459; }
   .tab-nav-style-1-c > .nav-item > .nav-link.active:after {
     opacity: 1; }
 
@@ -1501,7 +1501,7 @@ body {
     .tab-nav-style-1-d > .nav-item > .nav-link:hover {
       color: rgba(108, 117, 125, 0.79); }
   .tab-nav-style-1-d > .nav-item > .nav-link.active {
-    background-color: #d90429;
+    background-color: #003459;
     color: #ffffff;
     border-color: transparent; }
 

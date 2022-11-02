@@ -83,6 +83,23 @@ $(document).ready(function(){
         }
         
     });
+
+    //jquery function for register form validation
+    $("#registerForm").submit(function(){
+        var formdata = $(this).serialize();//get the complete data from the form
+        $.ajax({
+            url:"/user/register",
+            type:"POST",
+            data:formdata,
+            success:function(resp){
+                window.location.href = resp.url;
+            }, error:function(){
+                alert("Error");
+            }
+        });
+        
+    });
+
 });
 
 //required function to operate check box on the filter 

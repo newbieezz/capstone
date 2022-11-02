@@ -90,30 +90,31 @@
                         <h2 class="account-h2 u-s-m-b-20">Register</h2>
                         <h6 class="account-h6 u-s-m-b-30">Registering for this site allows you to access your order status
                             and history.</h6>
-                        <form id="userForm" action="{{ url('/user/register') }}" method="post"> @csrf
+                        <form id="registerForm" action="javascript;;" method="post"> @csrf
                             <div class="u-s-m-b-30">
                                 <label for="username">Name
                                     <span class="astk">*</span>
                                 </label>
-                                <input type="text" id="username" name="name" class="text-field" placeholder="Complete Name">
+                                <input type="text" id="user-name" name="name" class="text-field" placeholder="Complete Name">
+                                <p></p>
                             </div>
                             <div class="u-s-m-b-30">
                                 <label for="usermobile">Mobile
                                     <span class="astk">*</span>
                                 </label>
-                                <input type="text" id="usermobile" name="mobile" class="text-field" placeholder="10 digits mobile">
+                                <input type="text" id="user-mobile" name="mobile" class="text-field" placeholder="10 digits mobile">
                             </div>
                             <div class="u-s-m-b-30">
                                 <label for="useremail">Email
                                     <span class="astk">*</span>
                                 </label>
-                                <input type="text" id="useremail" name="email" class="text-field" placeholder="User Email">
+                                <input type="text" id="user-email" name="email" class="text-field" placeholder="User Email">
                             </div>
                             <div class="u-s-m-b-30">
                                 <label for="userpassword">Password
                                     <span class="astk">*</span>
                                 </label>
-                                <input type="password" id="userpassword" name="password" class="text-field" placeholder="User Password">
+                                <input type="password" id="user-password" name="password" class="text-field" placeholder="User Password">
                             </div>
                             <div class="u-s-m-b-30">
                                 <input type="checkbox" class="check-box" id="accept" name="accept">
