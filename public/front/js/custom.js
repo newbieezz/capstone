@@ -88,15 +88,27 @@ $(document).ready(function(){
     $("#registerForm").submit(function(){
         var formdata = $(this).serialize();//get the complete data from the form
         $.ajax({
+            
             url:"/user/register",
             type:"POST",
             data:formdata,
             success:function(resp){
-                window.location.href = resp.url;
+                if(resp.type=="error"){ //validation fails
+                        //display all the errors in array used eachloop
+                        $.each(resp.errors,function(i,error){ //loop the error in an array
+                            $("#register-"+i).attr('style','color:red');
+                            $("#register-"+i).html(error);
+                        setTimeout(function(){ //jquery function to set the time to disappear after 3 secs
+                            $("#register-"+i).css({'display':'none'});
+                        },3000);
+                    });
+                } else if(resp.type=="success"){ //if success in validation
+                    window.location.href = resp.url;
+                } 
             }, error:function(){
                 alert("Error");
             }
-        });
+        })
         
     });
 
