@@ -139,6 +139,7 @@ class ProductController extends Controller
 
     }
 
+    //detail.blade.php list of products details
     public function detail($id){
         $productDetails = Product::with(['section','category','attributes'=>function($query){
                             $query->where('stock','>',0)->where('status',1);
