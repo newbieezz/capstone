@@ -345,7 +345,7 @@ class AdminController extends Controller
             Session::put('page','view_'.strtolower($title));
         } else {
             $title = "All Admins/Subadmins/Vendors";
-            Session::put('page','view_all');
+            Session::put('page','view_all');    
         }
         $admins = $admins->get()->toArray();
         return view('admin.admins.admins')->with(compact('admins','title'));
@@ -353,6 +353,7 @@ class AdminController extends Controller
 
     // View Vendor Details by the Admin
     public function viewVendorDetails($id){
+        Session::put('page','view_vendors');
         $vendorDetails = Admin::with('vendorPersonal','vendorBusiness','vendorBank')->where('id',$id)->first();
         $vendorDetails = json_decode(json_encode($vendorDetails),true);
         return view('admin.admins.view_vendor_details')->with(compact('vendorDetails'));

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -42,6 +43,13 @@ class UserController extends Controller
                 $user->password = bcrypt($data['password']);//encrypt in hash
                 $user->status = 1;
                 $user->save();
+
+                //send register email 
+                $email = $data['email'];
+                $messageData = ['name'=>$data['name'],'mobile'=>$data['mobile'],'email'=>$data['email']];//infor getting from the user
+                Mail::send('emails.register',$messageData,function($message)use($email){ //send the email using mail
+                    $message->to($email)->subject('Welcome to P-Store Mart');
+                });
 
                 if(Auth::attempt(['email'=>$data['email'],'password'=>$data['password']])){
                     $redirectTo = url('cart'); //sending to cart page

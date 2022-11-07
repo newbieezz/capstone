@@ -9,11 +9,11 @@
 <body> <br><br>
     <tr><td>Dear {{ $name }} ,</td></tr> <br>
     <tr><td>&nbsp;</td></tr><br><br>
-    <tr><td>Your Vendor Account has been Approved! 
-        <br>You can now add some products and start setting up your store.
+    <tr><td>Welcome to P-Store Mart! 
+        <br>Your account has been successfully created with the following information below.
         <br>  </td></tr>
     <tr><td>&nbsp;</td></tr><br><br>
-    <tr><td>Your Vendor Account Details are as below : </td></tr> <br>
+    <tr><td>Your Account Details are as below : </td></tr> <br>
     <tr><td>&nbsp;</td></tr>
     <tr><td>Name: {{ $name }} </td></tr><br>
     <tr><td>&nbsp;</td></tr>
