@@ -180,7 +180,7 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
     //User Login-Register
     Route::get('user/login-register','UserController@loginRegister');
     //User Register
-    Route::post('user/register', 'USerController@userRegister');
+    Route::post('user/register', 'UserController@userRegister');
     //User  Logout
     Route::get('user/logout','UserController@userlogout');
 });

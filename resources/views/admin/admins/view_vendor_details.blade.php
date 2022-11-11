@@ -82,10 +82,6 @@
                         <input type="text" class="form-control"readonly="" @if(isset($vendorDetails['vendor_business']['shop_website'])) value="{{ $vendorDetails['vendor_business']['shop_website']}}" @endif>
                       </div>
                       <div class="form-group">
-                        <label for="vendor_address">Shop Email</label>
-                        <input type="text" class="form-control" readonly="" @if(isset( $vendorDetails['vendor_business']['shop_email'])) value="{{ $vendorDetails['vendor_business']['shop_email'] }}" @endif>
-                      </div>
-                      <div class="form-group">
                         <label for="address_proof">Vendor Address Proof</label>
                         <input type="text" class="form-control" readonly="" @if(isset( $vendorDetails['vendor_business']['address_proof'])) value="{{ $vendorDetails['vendor_business']['address_proof'] }}" @endif>
                       </div>
