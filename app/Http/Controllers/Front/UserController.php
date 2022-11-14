@@ -48,25 +48,36 @@ class UserController extends Controller
                 $user->status = 0;
                 $user->save();
 
-                //send register email 
+                //activte the user only when user confirms his email acc (with confirmation email)
                 $email = $data['email'];
-                $messageData = ['name'=>$data['name'],'mobile'=>$data['mobile'],'email'=>$data['email']];//infor getting from the user
-                Mail::send('emails.register',$messageData,function($message)use($email){ //send the email using mail
-                    $message->to($email)->subject('Welcome to P-Store Mart');
-                });
+                $messageData = ['name'=>$data['name'],'email'=>$data['email'],'code'=>base64_encode($data['email'])];
+                Mail::send('emails.confirmation',$messageData,function($message)use($email){ //send the email using mail
+                        $message->to($email)->subject('Confirm your P-Store Marts Account.');
+                    });
+                //redirect user with successs message
+                $redirectTo = url('user/login-register');
+                return response()->json(['type'=>'success','url'=>$redirectTo,'message'=>'Please confirm your email to activate your account!']);
 
-                if(Auth::attempt(['email'=>$data['email'],'password'=>$data['password']])){
-                    $redirectTo = url('cart'); //sending to cart page
+                //send register email then activate user acc (no confirmation email)
+                // $email = $data['email'];
+                // $messageData = ['name'=>$data['name'],'mobile'=>$data['mobile'],'email'=>$data['email']];//infor getting from the user
+                // Mail::send('emails.register',$messageData,function($message)use($email){ //send the email using mail
+                //     $message->to($email)->subject('Welcome to P-Store Mart');
+                // });
 
-                    //Update user cart with user id
-                    if(!empty(Session::get('session_id'))){
-                        $user_id = Auth::user()->id;
-                        $session_id = Session::get('session_id');
-                        Cart::where('session_id',$session_id)->update(['user_id'=>$user_id]);
-                    }
+                // if(Auth::attempt(['email'=>$data['email'],'password'=>$data['password']])){
+                //     $redirectTo = url('cart'); //sending to cart page
+
+                //     //Update user cart with user id
+                //     if(!empty(Session::get('session_id'))){
+                //         $user_id = Auth::user()->id;
+                //         $session_id = Session::get('session_id');
+                //         Cart::where('session_id',$session_id)->update(['user_id'=>$user_id]);
+                //     }
                     
-                    return response()->json(['type'=>'success','url'=>$redirectTo]);
-                }
+                //     return response()->json(['type'=>'success','url'=>$redirectTo]);
+                // }
+
             } else{ //error message if fails
                 return response()->json(['type'=>'error','errors'=>$validator->messages()]);
             }
@@ -90,7 +101,7 @@ class UserController extends Controller
 
                     if(Auth::user()->status==0){
                         Auth::logout();
-                        return response()->json(['type'=>'inactive','message'=>'Your Account is inactive. Please contact Admin.']);
+                        return response()->json(['type'=>'inactive','message'=>'Your Account is not activated! Please confirm your email.']);
                     }
 
                     //Update user cart with user id
