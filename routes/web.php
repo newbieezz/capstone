@@ -185,6 +185,8 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
     Route::post('user/login','UserController@userLogin');
     //User  Logout
     Route::get('user/logout','UserController@userlogout');
+    //Confirm User Account
+    Route::get('user/confirm/{code}','UserController@confirmAccount');
 });
 
 
