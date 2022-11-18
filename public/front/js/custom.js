@@ -1,4 +1,5 @@
 $(document).ready(function(){
+   
     $("#getPrice").change(function(){
         var size = $(this).val();
         var product_id = $(this).attr("product-id");
@@ -87,6 +88,7 @@ $(document).ready(function(){
     //jquery function for register form validation
     $("#registerForm").submit(function(){
         var formdata = $(this).serialize();//get the complete data from the form
+        $(".loader").show(); //show the loader 
         $.ajax({
             
             url:"/user/register",
@@ -103,7 +105,9 @@ $(document).ready(function(){
                         },3000);
                     });
                 } else if(resp.type=="success"){ //if success in validation
-                    window.location.href = resp.url;
+                    $(".loader").hide();
+                    $("#register-success").attr('styel','color:green');
+                    $("#register-success").html(resp.message);
                 } 
             }, error:function(){
                 alert("Error");
