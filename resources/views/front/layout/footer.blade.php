@@ -1,5 +1,11 @@
     <!-- Footer -->
+    <style>
+        .foots{
+            background-color: #3a6381;  
+        }
+    </style>
     <footer class="footer">
+        
         <div class="container">
             <!-- Outer-Footer -->
             <div class="outer-footer-wrapper u-s-p-y-80">
@@ -97,7 +103,7 @@
                 </div>
             </div>
             <!-- Mid-Footer /- -->
-            <!-- Bottom-Footer -->
+            <!-- Bottom-Footer -->  
             <div class="bottom-footer-wrapper">
                 <div class="social-media-wrapper">
                     <ul class="social-media-list">
@@ -141,7 +147,8 @@
                 <p class="copyright-text">Copyright &copy; 2022
                     <a target="_blank" rel="nofollow" href="">Raketship</a> | All Right Reserved</p>
             </div>
-        </div>
+
         <!-- Bottom-Footer /- -->
+    </div>
     </footer>
     <!-- Footer /- -->
