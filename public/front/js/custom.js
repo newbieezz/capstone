@@ -150,6 +150,36 @@ $(document).ready(function(){
         
     });
 
+    //jquery function for forgotpassword form validation
+    $("#forgotpassForm").submit(function(){
+        var formdata = $(this).serialize();//get the complete data from the form
+        // $(".loader").show(); //show the loader 
+        $.ajax({
+            
+            url:"/user/forgot-password",
+            type:"POST",
+            data:formdata,
+            success:function(resp){
+                if(resp.type=="error"){ //validation fails
+                        //display all the errors in array used eachloop
+                        $.each(resp.errors,function(i,error){ //loop the error in an array
+                            $("#forgot-"+i).attr('style','color:red');
+                            $("#forgot-"+i).html(error);
+                        setTimeout(function(){ //jquery function to set the time to disappear after 3 secs
+                            $("#forgot-"+i).css({'display':'none'});
+                        },3000);
+                    });
+                } else if(resp.type=="success"){ //if success in validation
+                    $(".loader").hide();
+                    $("#forgot-success").attr('styel','color:green');
+                    $("#forgot-success").html(resp.message);
+                } 
+            }, error:function(){
+                alert("Error");
+            }
+        })
+        
+    });
 });
 
 //required function to operate check box on the filter 

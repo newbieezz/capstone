@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Str;
 use function PHPSTORM_META\elementType;
 
 class UserController extends Controller
@@ -144,6 +144,46 @@ class UserController extends Controller
         }
 
 
+    }
+
+    public function forgotPassword(Request $request){
+        //get data in ajax
+        if($request->ajax()){
+            $data = $request->all();
+
+            //requires validation
+            $validator = Validator::make($request->all(),[  
+                'email' => 'required|email|max:150|exists:users'
+                ],
+                    [ //custom message
+                        'email.exists' => 'Email does not exists!'
+                    ]
+            );
+            if($validator->passes()){
+                //generate new password
+                $new_password = Str::random(16);
+                //update user acc with new password
+                User::where('email',$data['email'])->update(['password'=>bcrypt($new_password)]);
+
+                //get user detail to fetch the name etc.
+                $userDetails = User::where('email',$data['email'])->first()->toArray();
+                
+                //send email to the user 
+                $email = $data['email'];
+                $messageData = ['name'=>$userDetails['name'],'email'=>$email,'password'=>$new_password];
+                Mail::send('emails.user_forgot_password',$messageData,function($message)use($email){
+                    $message->to($email)->subject('New Password - P-Store Account');
+                });
+
+                //redirect user with success message
+                return response()->json(['type'=>'success','message'=>'New Password has been sent to your registered email.']);
+            
+            }else{
+                return response()->json(['type'=>'error','errors'=>$validator->messages()]);
+            }
+        } else {
+            return view('front.users.forgot_password');
+        }
     }
 
     public function userlogout(){
