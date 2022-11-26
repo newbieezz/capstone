@@ -180,6 +180,41 @@ $(document).ready(function(){
         })
         
     });
+
+    //jquery function for user Account form validation
+    $("#accountForm").submit(function(){
+        var formdata = $(this).serialize();//get the complete data from the form
+        $(".loader").show(); //show the loader 
+        $.ajax({
+            url:"/user/account",
+            type:"POST",
+            data:formdata,
+            success:function(resp){
+                if(resp.type=="error"){ //validation fails
+                    $(".loader").hide();
+                        //display all the errors in array used eachloop
+                        $.each(resp.errors,function(i,error){ //loop the error in an array
+                            $("#account-"+i).attr('style','color:red');
+                            $("#account-"+i).html(error);
+                        setTimeout(function(){ //jquery function to set the time to disappear after 3 secs
+                            $("#account-"+i).css({'display':'none'});
+                        },3000);
+                    });
+                } else if(resp.type=="success"){ //if success in validation
+                    $(".loader").hide();
+                    $("#account-success").attr('styel','color:green');
+                    $("#account-success").html(resp.message);
+                    setTimeout(function(){ //jquery function to set the time to disappear after 3 secs
+                        $("#account-success").css({'display':'none'});
+                    },3000);
+                } 
+            }, error:function(){
+                alert("Error");
+            }
+        })
+        
+    });
+
 });
 
 //required function to operate check box on the filter 

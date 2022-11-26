@@ -86,6 +86,38 @@ class UserController extends Controller
         }
     }
 
+    public function userAccount(Request $request){
+        if($request->ajax()){
+            $data = $request->all();
+
+             //requires validation
+             $validator = Validator::make($request->all(),[  
+                'name' => 'required|string|max:100',
+                'city' => 'required|string|max:100',
+                'address' => 'required|string|max:100',
+                'zipcode' => 'required|numeric',
+                'mobile' => 'required|numeric|digits:11',
+                ]
+            );
+
+            if($validator->passes()){
+
+                //Update User Details inside the users table
+                User::where('id',Auth::user()->id)->update(['name'=>$data['name'],'address'=>$data['address'],'city'=>$data['city'],
+                        'zipcode'=>$data['zipcode'],'mobile'=>$data['mobile']]);
+
+                //redirect user with success message
+                return response()->json(['type'=>'success','message'=>'Your contact details is successfully updated!']);
+                
+            } else{ //error message if fails
+                return response()->json(['type'=>'error','errors'=>$validator->messages()]);
+            }
+
+        } else {
+            return view('front.users.user_account');
+        }
+    }
+
     public function userLogin(Request $request){
         if($request->Ajax()){
             $data = $request->all();

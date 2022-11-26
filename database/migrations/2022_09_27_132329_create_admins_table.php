@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('image'); //for any admin type
+            $table->enum('is_bestseller',['No','Yes']);
             $table->tinyInteger('status');
             $table->timestamps();
         });

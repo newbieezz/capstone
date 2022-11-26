@@ -189,6 +189,8 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
     Route::get('user/confirm/{code}','UserController@confirmAccount');
     //User Forgot Password
     Route::match(['get','post'],'user/forgot-password', 'UserController@forgotPassword');
+    //User Account
+    Route::match(['GET','POST'],'user/account', 'UserController@userAccount');
 });
 
 
