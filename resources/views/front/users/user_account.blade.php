@@ -99,30 +99,32 @@
                     </div>
                 </div>
                 <!-- Login /- -->
-                <!-- Register -->
-                <div class="col-lg-6">
+                 <!-- update password -->
+                 <div class="col-lg-6">
                     <div class="reg-wrapper">
                         <h2 class="account-h2 u-s-m-b-20" style="font-size: 20px;">Update Password</h2>
-                        <form id="registerForm" action="javascript:;" method="post"> @csrf
+                        <p id="password-error"></p>
+                        <p id="password-success" style="color: green;"></p>
+                        <form id="passwordForm" action="javascript:;" method="post"> @csrf
                             <div class="u-s-m-b-30">
-                                <label for="username">Current Password
+                                <label for="current-password">Current Password
                                 </label>
-                                <input type="text" id="user-name" name="name" class="text-field" placeholder="Complete Name">
-                                <p id="register-name"></p>
+                                <input type="password" id="current-password" name="current_password" class="text-field" placeholder="Current Password">
+                                <p id="password-current_password"></p>
                             </div>
                             <div class="u-s-m-b-30">
-                                <label for="usermobile">New Password
+                                <label for="new-password">New Password
                                     <span class="astk">*</span>
                                 </label>
-                                <input type="text" id="user-mobile" name="mobile" class="text-field" placeholder="11 digits mobile">
-                                <p id="register-mobile"></p>
+                                <input type="password" id="new-password" name="new_password" class="text-field" placeholder="New Password">
+                                <p id="password-new_password"></p>
                             </div>
                             <div class="u-s-m-b-30">
-                                <label for="useremail">Confirm Password
+                                <label for="confirm-password">Confirm Password
                                     <span class="astk">*</span>
                                 </label>
-                                <input type="text" id="user-email" name="email" class="text-field" placeholder="User Email">
-                                <p id="register-email"></p>
+                                <input type="password" id="confirm-password" name="confirm_password" class="text-field" placeholder="Confirm Password">
+                                <p id="password-confirm_password"></p>
                             </div>
                             <div class="u-s-m-b-45">
                                 <button class="button button-primary w-100">Update</button>
@@ -130,7 +132,7 @@
                         </form>
                     </div>
                 </div>
-                <!-- Register /- -->
+                <!-- update password /- -->
             </div>
         </div>
     </div>

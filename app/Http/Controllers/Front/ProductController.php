@@ -221,7 +221,7 @@ class ProductController extends Controller
             //check product if already exists in the user cart
             if(Auth::check()){ //check is the function used to chek if user exist/logged in or not
                 //user is logged in, then count prods &compare user id
-                $user_id = Auth::user('id');//get user id
+                $user_id = Auth::user()->id;//get user id
                 $countProducts = Cart::where(['product_id'=>$data['product_id'],'size'=>$data['size'],'user_id'=>$user_id])->count();
 
             } else{
@@ -231,6 +231,9 @@ class ProductController extends Controller
 
             }
 
+            if($countProducts>0){
+                return redirect()->back()->with('error_message','Product already existed in Cart!');
+            }
             //save/add products in carts table
             $item = new Cart;
             $item->session_id = $session_id;

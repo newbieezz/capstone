@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -215,6 +216,45 @@ class UserController extends Controller
             }
         } else {
             return view('front.users.forgot_password');
+        }
+    }
+
+    public function userUpdatePassword(Request $request){
+        if($request->ajax()){
+            $data = $request->all();
+
+             //requires validation
+             $validator = Validator::make($request->all(),[  
+                'current_password' => 'required',
+                'new_password' => 'required|min:6',
+                'confirm_password' => 'required|min:6|same:new_password',
+                ]
+            );
+
+            if($validator->passes()){
+
+                $current_password = $data['current_password'];
+                $checkPassword = User::where('id', Auth::user()->id)->first();
+                if(Hash::check($current_password,$checkPassword->password)){ //check if current password is corrct
+                    //Update user current password
+                    $user = User::find(Auth::user()->id);
+                    $user->password = bcrypt($data['new_password']);
+                    $user->save();
+
+                    //redirect user with success message
+                    return response()->json(['type'=>'success','message'=>'Account password successfully updated!']);
+         
+                } else {
+                     //redirect user with eror message
+                    return response()->json(['type'=>'incorrect','message'=>'Your current password is incorrect!']);
+                }
+                    
+            } else{ //error message if fails
+                return response()->json(['type'=>'error','errors'=>$validator->messages()]);
+            }
+
+        } else {
+            return view('front.users.user_account');
         }
     }
 

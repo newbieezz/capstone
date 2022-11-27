@@ -215,6 +215,47 @@ $(document).ready(function(){
         
     });
 
+    //Update user password validation
+    $("#passwordForm").submit(function(){
+        var formdata = $(this).serialize();//get the complete data from the form
+        $(".loader").show(); //show the loader 
+        $.ajax({
+            url:"/user/update-password",
+            type:"POST",
+            data:formdata,
+            success:function(resp){
+                if(resp.type=="error"){ //validation fails
+                    $(".loader").hide();
+                        //display all the errors in array used eachloop
+                        $.each(resp.errors,function(i,error){ //loop the error in an array
+                            $("#password-"+i).attr('style','color:red');
+                            $("#password-"+i).html(error);
+                        setTimeout(function(){ //jquery function to set the time to disappear after 3 secs
+                            $("#password-"+i).css({'display':'none'});
+                        },3000);
+                    });
+                } else if(resp.type=="incorrect"){ //validation fails
+                    $(".loader").hide();
+                        //display all the errors in array used eachloop
+                            $("#password-error").attr('style','color:red');
+                            $("#password-error").html(resp.message);
+                        setTimeout(function(){ //jquery function to set the time to disappear after 3 secs
+                            $("#password-error").css({'display':'none'});
+                        },3000);
+                }else if(resp.type=="success"){ //if success in validation
+                    $(".loader").hide();
+                    $("#password-success").attr('styel','color:green');
+                    $("#password-success").html(resp.message);
+                    setTimeout(function(){ //jquery function to set the time to disappear after 3 secs
+                        $("#password-success").css({'display':'none'});
+                    },3000);
+                } 
+            }, error:function(){
+                alert("Error");
+            }
+        })
+        
+    }); 
 });
 
 //required function to operate check box on the filter 
