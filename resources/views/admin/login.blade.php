@@ -40,25 +40,25 @@
               <h6 class="font-weight-light">Sign in to continue.</h6>
                 <!-- For the Alert Message -->
                 @if(Session::has('error_message'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                  <strong>Error: </strong> {{ Session::get('error_message')}}
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-              </div>
+                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Error: </strong> {{ Session::get('error_message')}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
                 @endif
 
                 <!--Validation Error Message -->
                 @if ($errors->any())
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                          @foreach ($errors->all() as $error)
-                              <li>{{ $error }}</li>
-                          @endforeach
-                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
+                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
                   </div>
-              @endif
+                @endif
 
               <!--for the admin -->
               <form class="pt-3" action="{{ url('admin/login') }}" method="post"> @csrf
