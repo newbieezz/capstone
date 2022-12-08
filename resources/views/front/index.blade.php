@@ -334,8 +334,6 @@
     </div>
 </section>
 <!-- Top Collection /- -->
-
-    <!-- Latest Collection -->
 <section class="section-maker">
         <div class="container">
             <div class="sec-maker-header text-center">

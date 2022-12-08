@@ -12,8 +12,7 @@ use App\Models\VendorsBusinessDetails;
 use App\Models\VendorsBankDetails;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
-use Intervention\Image\Facades\Image;
-
+use Nette\Utils\Image;
 
 class AdminController extends Controller
 {
