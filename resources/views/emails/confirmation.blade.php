@@ -13,7 +13,7 @@
         <br>Click the link below to activate your Account : 
         <br>  </td></tr>
     <tr><td>&nbsp;</td></tr><br><br>
-    <tr><td><a href="{{ url('/user/confirm/'.$code) }}">Confirm Account </a></td></tr> <br>
+    <tr><td><a href="{{ url('user/confirm/'.$code) }}">Confirm Account </a></td></tr> <br>
     <tr><td>&nbsp;</td></tr><br><br><br><br>
     <tr><td>Thanks & Regards,</td></tr><br>
     <tr><td>P-Store Mart</td></tr>

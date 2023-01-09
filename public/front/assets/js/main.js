@@ -135,13 +135,6 @@
   });
 
   /**
-   * Initiate portfolio lightbox 
-   */
-  const glightbox = GLightbox({
-    selector: '.glightbox'
-  });
-
-  /**
    * Skills animation
    */
   let skilsContent = select('.skills-content');

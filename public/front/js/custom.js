@@ -85,10 +85,10 @@ $(document).ready(function(){
         
     });
 
-    //jquery function for register form validation
+    //jquery function for user register form validation
     $("#registerForm").submit(function(){
         var formdata = $(this).serialize();//get the complete data from the form
-        $(".loader").show(); //show the loader 
+        // $(".loader").show(); //show the loader 
         $.ajax({
             
             url:"/user/register",

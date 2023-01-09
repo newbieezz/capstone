@@ -155,17 +155,18 @@ class UserController extends Controller
         }
     }
 
-    public function confirmAccount(Request $request, $code){
-        $email = base64_decode(($code));
+    public function confirmAccount($code){
+        $email = base64_decode(($code)); //decode to get the email back
         $userCount = User::where('email',$email)->count(); //check in the table if email exists
 
-        if($userCount>0){
+        if($userCount>0){ //step to activate the user acc
             $userDetails = User::where('email',$email)->first();
-            if($userDetails->status==1){ //chechk the status     
+            if($userDetails->status==1){ //chechk the status if activated    
                 return redirect('user/login-register')->with('error_message','Your account is already activated. You can now login.');
             }else {
                 User::where('email',$email)->update(['status'=>1]);
 
+                //send welcome email after acc has been activated
                 $messageData = ['name'=>$userDetails->name,'mobile'=>$userDetails->mobile,'email'=>$email];//infor getting from the user
                 Mail::send('emails.register',$messageData,function($message)use($email){ //send the email using mail
                     $message->to($email)->subject('Welcome to P-Store Mart');

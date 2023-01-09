@@ -10,8 +10,6 @@
     <meta name="description" content="">
     <meta name="csrf-token" content="{{ csrf_token()}}" />
     <title>P-Store </title>
-    <!-- Standard Favicon -->
-    <link href="favicon.ico" rel="shortcut icon">
     <!-- Base Google Font for Web-app -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
     <!-- Google Fonts for Banners only -->
@@ -37,13 +35,6 @@
     <link rel="stylesheet" href="{{ url('front/css/bundle.css') }}">
     <link rel="stylesheet" href="{{ url('front/css/easyzoom.css') }}">
     <link rel="stylesheet" href="{{ url('front/css/custom.css') }}">
-     <!-- Vendor CSS Files -->
-    <link href="{{ url('front/assets/vendor/aos/aos.css') }}" rel="stylesheet">
-    <link href="{{ url('front/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ url('front/assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
-    <link href="{{ url('front/assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
-    <link href="{{ url('front/assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
-    <link href="{{ url('front/assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
 
     <!-- Template Main CSS File -->
     <link href="{{ url('front/assets/css/style.css') }}" rel="stylesheet">
@@ -165,16 +156,6 @@
     });
 </script>
 </body>
-
-<!-- Vendor JS Files -->
-<script src="{{ url('front/assets/vendor/purecounter/purecounter_vanilla.js') }}"></script>
-<script src="{{ url('front/assets/vendor/aos/aos.js') }}"></script>
-<script src="{{ url('front/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ url('front/assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
-<script src="{{ url('front/assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
-<script src="{{ url('front/assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
-<script src="{{ url('front/assets/vendor/waypoints/noframework.waypoints.js') }}"></script>
-<script src="{{ url('front/assets/vendor/php-email-form/validate.js') }}"></script>
 
 <!-- Template Main JS File -->
 <script src="{{ url('front/assets/js/main.js') }}"></script>
