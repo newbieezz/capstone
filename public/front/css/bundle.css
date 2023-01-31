@@ -106,17 +106,17 @@ body {
     [class*="page-style-"] .page-intro > .bread-crumb > li > a {
       color: #ffffff; }
     [class*="page-style-"] .page-intro > .bread-crumb > li.is-marked > a {
-      color: #d90429; }
+      color: rgba(52, 58, 64, 0.5); }
 
 /* Page introduction style a */
 .page-style-a {
-  background: url(../images/pattern/bans.jpg) repeat center center; }
+  background: url(../images/banners/bannerlayer-1.jpg) repeat center center; }
   .page-style-a:after {
     background: rgba(52, 58, 64, 0.5); }
 
 /* Page introduction style b */
 .page-style-b {
-  background: url(../images/pattern/bans.jpg) repeat center center; }
+  background: url(../images/banners/bannerlayer-1.jpg) repeat center center; }
   .page-style-b:after {
     background: #000000; }
 
