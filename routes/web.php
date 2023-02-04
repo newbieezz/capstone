@@ -200,4 +200,4 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
    
 });
 
-
+//Route for all about the system

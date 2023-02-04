@@ -13,10 +13,10 @@
           <div class="col-lg-3 col-md-6 footer-links">
             <h4>Useful Links</h4>
             <ul>
-              <li><a href="#">Home</a></li>
-              <li><a href="#">About us</a></li>
-              <li><a href="#">Terms & Condition</a></li>
-              <li><a href="#">FAQS</a></li>
+              <li><a href="{{ url('/') }}">Home</a></li>
+              <li><a href="{{ url('front/layout/about') }}">About us</a></li>
+              <li><a href="{{ url('front/layout/terms') }}">Terms & Condition</a></li>
+              <li><a href="{{ url('front/layout/faqs') }}">FAQS</a></li>
             </ul>
           </div>
 

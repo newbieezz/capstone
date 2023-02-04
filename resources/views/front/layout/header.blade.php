@@ -2,6 +2,22 @@
   use App\Models\Section;
   $sections = Section::sections();
 ?> 
+<style>
+@media (max-width: 767px) {
+  header {
+    text-align: center;
+  }
+
+  nav ul {
+    display: block;
+  }
+
+  nav li {
+    display: block;
+    margin-right: 0;
+  }
+}
+</style>
 <!-- Header -->
     <header> 
           <!-- ======= Header ======= -->
@@ -17,7 +33,7 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li><a class="active" href="{{ url('/') }}">Home</a></li>
-          <li><a href="#"><span>About</span></a></li>
+          <li><a href="{{ url('about') }}"><span>About</span></a></li>
           <li class="dropdown"><a href="#"><span>@if(Auth::check())
                         My Account
                     @else
