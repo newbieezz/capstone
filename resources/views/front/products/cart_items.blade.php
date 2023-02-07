@@ -83,14 +83,14 @@
     <!-- Products-List-Wrapper /- -->
     <!-- Coupon -->
     <div class="coupon-continue-checkout u-s-m-b-60">
-        <div class="coupon-area">
+        {{-- <div class="coupon-area">
             <h6>Enter your coupon code if you have one.</h6>
             <div class="coupon-field">
                 <label class="sr-only" for="coupon-code">Apply Coupon</label>
                 <input id="coupon-code" type="text" class="text-field" placeholder="Coupon Code">
                 <button type="submit" class="button">Apply Coupon</button>
             </div>
-        </div>
+        </div> --}}
         <div class="button-area">
             <a href="shop-v1-root-category.html" class="continue">Continue Shopping</a>
             <a href="checkout.html" class="checkout">Proceed to Checkout</a>
