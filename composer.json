@@ -9,6 +9,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7",
         "laravel/framework": "^9.19",
+        "laravel/helpers": "^1.6",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "spatie/laravel-backup": "^8.1"
@@ -28,10 +29,8 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        },
-        "files":[
-            "app/Helpers/HelperFunction.php"
-        ]
+        }
+       
     },
     "autoload-dev": {
         "psr-4": {

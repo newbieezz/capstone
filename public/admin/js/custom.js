@@ -11,6 +11,7 @@ $(document).ready(function(){
     $('#products').DataTable();
     $('#banners').DataTable();
     $('#filters').DataTable();
+    $('#users').DataTable();
     // Check if the Admin Password is correct or not
     $("#current_password").keyup(function(){
         var current_password = $("#current_password").val();
@@ -56,6 +57,32 @@ $(document).ready(function(){
                     $("#admin-"+admin_id).html("<i style='font-size:30px;' class='mdi mdi-check-circle-outline' status='Inactive'> </i> ");
                 } else if(resp['status']==1){ //update the value in the html
                     $("#admin-"+admin_id).html("<i style='font-size:30px;' class='mdi mdi-check-circle' status='Active'> </i> ");
+                }
+            },error:function(){
+                alert("Error");
+            }
+        });
+    });
+
+    //update USER status
+    $(document).on("click",".updateUserStatus",function(){
+        var status = $(this).children("i").attr("status");
+        var user_id = $(this).attr("user_id");
+
+        $.ajax({
+            headers:{
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+
+            type:'post',
+            url: '/admin/update-user-status',
+            data: {status:status,user_id:user_id},
+            success:function(resp){
+                //alert(resp);
+                if(resp['status']==0){ //update the value in the html
+                    $("#user-"+user_id).html("<i style='font-size:30px;' class='mdi mdi-check-circle-outline' status='Inactive'> </i> ");
+                } else if(resp['status']==1){ //update the value in the html
+                    $("#user-"+user_id).html("<i style='font-size:30px;' class='mdi mdi-check-circle' status='Active'> </i> ");
                 }
             },error:function(){
                 alert("Error");

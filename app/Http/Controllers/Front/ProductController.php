@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\ProductsFilter;
 use App\Models\Brand;
 use App\Models\Cart;
+use App\Models\DeliveryAddress;
 use App\Models\ProductsAttribute;
 use App\Models\Vendor;
 use Illuminate\Support\Facades\Auth;
@@ -49,16 +50,21 @@ class ProductController extends Controller
                     //checking for size (product attribute)
                     if(isset($data['size']) && !empty($data['size'])){
                         $productIds = ProductsAttribute::select('product_id')->whereIn('size',$data['size'])
-                                      ->pluck('product_id')->toArray();//fetching th product Ids
+                                      ->pluck('product_id')->toFrray();//fetching th product Ids
                         $categoryProducts->whereIn('products.id',$productIds);
                     }
 
                     //checking for price
+                    $productIds = array();
                     if(isset($data['price']) && !empty($data['price'])){
                         foreach($data['price'] as $key => $price){
                             $priceArray = explode('-',$price);//every price will convert to an element of an array
-                            $productIds[] = Product::select('id')->whereBetween('product_price',[$priceArray[0],$priceArray[1]])
+                            if(isset($priceArray[0]) && isset($priceArray[1])){ //condition that both value that's been clicked/executed must come
+                                $productIds[] = Product::select('id')->whereBetween('product_price',[$priceArray[0],$priceArray[1]])
                                             ->pluck('id')->toArray();//fetching th product Ids
+                            }
+                            $productIds = array_unique(array_flatten($productIds));//flatten works like array merge /removes duplicates array(unique)
+                            $categoryProducts->whereIn('products.id',$productIds);
 
                         }
                         $productIds = call_user_func_array('array_merge',$productIds);//merge all the products into one array
@@ -312,5 +318,13 @@ class ProductController extends Controller
                     ->with(compact('getCartItems'))
             ]);
         }
+    }
+
+    //USER Checkout
+    public function checkout(Request $request){
+        //show cart items
+        $deliveryAddresses = DeliveryAddress::deliveryAddresses(); //show the addresses
+        // dd($deliveryAddresses);
+        return view('front.products.checkout')->with(compact('deliveryAddresses')); //show checkout page
     }
 }

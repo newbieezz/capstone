@@ -143,10 +143,15 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::match(['get','post'],'add-edit-filter-value/{id?}','FilterController@addEditFilterValue');
         //For the categoryFilter
         Route::post('category-filters','FilterController@categoryFilters');
+
+
+        // USERS
+        Route::get('users','UserController@users');
+        Route::post('update-user-status','UserController@updateUserStatus');
     });
 });
 
-//Route Group for the Front Views 
+//Route Group for the Front Views  USERS
 Route::namespace('App\Http\Controllers\Front')->group(function(){
     //Route for the Index page
     Route::get('/','IndexController@index');
@@ -190,12 +195,15 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
     //User Forgot Password
     Route::match(['get','post'],'user/forgot-password', 'UserController@forgotPassword');
 
-    //protected routes
+    //protected routes/ needs to login first before user can open
     Route::group(['middleware'=>['auth']],function(){
          //User Account
         Route::match(['GET','POST'],'user/account', 'UserController@userAccount');
         //User Update Password
         Route::post('user/update-password','Usercontroller@userUpdatePassword');
+        //User Check Out Page
+        Route::match(['GET','POST'],'/checkout','ProductController@checkout');
+   
     });
    
 });
