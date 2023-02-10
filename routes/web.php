@@ -200,9 +200,11 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
          //User Account
         Route::match(['GET','POST'],'user/account', 'UserController@userAccount');
         //User Update Password
-        Route::post('user/update-password','Usercontroller@userUpdatePassword');
+        Route::post('user/update-password','UserController@userUpdatePassword');
         //User Check Out Page
         Route::match(['GET','POST'],'/checkout','ProductController@checkout');
+        //Get Delivery Address
+        Route::post('get-delivery-address','AddressController@getDeliveryAddress');
    
     });
    

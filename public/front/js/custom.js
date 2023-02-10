@@ -256,6 +256,33 @@ $(document).ready(function(){
         })
         
     }); 
+
+    //Edit Delivery Addresses on Checkout Page
+    $(document).on('click','editAddress',function(){
+        var addressid = $(this).data("addressid");
+        $.ajax({
+            headers:{
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            //send the address id in the data
+            data:{addressid:addressid},
+            url:'/get-delivery-address', //route(web.php)
+            type:"post",
+            success:function(resp){
+                $("#showdifferent").removeClass("collapse");
+                $(".newAddress").hide();
+                $(".deliveryText").text("Edit Delivery Address");
+                $('[name=delivery_id]').val(resp.address['id']);
+                $('[name=delivery_name]').val(resp.address['name']);
+                $('[name=delivery_address]').val(resp.address['address']);
+                $('[name=delivery_city]').val(resp.address['city']);
+                $('[name=delivery_email]').val(resp.address['email']);
+                $('[name=delivery_mobile]').val(resp.address['mobile']);
+            }, error:function(){
+                alert("Error");
+            }
+        });
+    });
 });
 
 //required function to operate check box on the filter 
