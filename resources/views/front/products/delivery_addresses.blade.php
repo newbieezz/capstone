@@ -7,6 +7,8 @@
                 <label class="control-label">
                     {{ $address['name'] }} , {{ $address['address'] }} , {{ $address['city'] }} ( {{ $address['mobile'] }} )
                 </label>
+                <a style="float:right; margin-left:10px" href="javascript:;" data-addressid="{{ $address['id'] }}"
+                    class="removeAddress">Remove</a>
                 <a style="float:right;" href="javascript:;" data-addressid="{{ $address['id'] }}"
                     class="editAddress">Edit</a>
             </div>
@@ -19,51 +21,54 @@
             <label class="label-text newAddress" for="ship-to-different-address">Ship to a different address?</label>
         </div>
         <div class="collapse" id="showdifferent">
-            <!-- Form-Fields -->
-            <div class="group-inline u-s-m-b-13">
-                <div class="group-1 u-s-p-r-16">
-                    <label for="first-name-extra">
-                        Name
+            <form id="addressAddEditForm" action="javascript:;" method="post"> @csrf
+                <input type="hidden" name="delivery_id">
+                <!-- Form-Fields -->
+                <div class="group-inline u-s-m-b-13">
+                    <div class="group-1 u-s-p-r-16">
+                        <label for="first-name-extra">
+                            Name
+                            <span class="astk">*</span>
+                        </label>
+                        <input type="text" name="delivery_name" id="delivery_name" class="text-field" />
+                    </div>
+                    <div class="group-2">
+                        <label for="last-name-extra">
+                            Mobile Number
+                            <span class="astk">*</span>
+                        </label>
+                        <input type="text" name="delivery_mobile" id="delivery_mobile" class="text-field" />
+                    </div>
+                </div>
+                <div class="street-address u-s-m-b-13">
+                    <label for="req-st-address-extra">
+                        Address
                         <span class="astk">*</span>
                     </label>
-                    <input type="text" name="delivery_name" id="delivery_name" class="text-field" />
+                    <input type="text" name="delivery_address" id="delivery_address" class="text-field" placeholder="House name and street name" />
                 </div>
-                <div class="group-2">
-                    <label for="last-name-extra">
-                        Mobile Number
+                <div class="u-s-m-b-13">
+                    <label for="town-city-extra">
+                        Town / City
                         <span class="astk">*</span>
                     </label>
-                    <input type="text" name="delivery_number" id="delivery_number" class="text-field" />
+                    <input type="text" name="delivery_city" id="delivery_city" class="text-field" />
                 </div>
-            </div>
-            <div class="street-address u-s-m-b-13">
-                <label for="req-st-address-extra">
-                    Address
-                    <span class="astk">*</span>
-                </label>
-                <input type="text" name="delivery_address" id="delivery_address" class="text-field" placeholder="House name and street name" />
-            </div>
-            <div class="u-s-m-b-13">
-                <label for="town-city-extra">
-                    Town / City
-                    <span class="astk">*</span>
-                </label>
-                <input type="text" name="delivery_city" id="delivery_city" class="text-field" />
-            </div>
-            <div class="group-inline u-s-m-b-13">
-                <div class="group-1 u-s-p-r-16">
-                    <label for="email-extra">
-                        Email address
-                        <span class="astk">*</span>
-                    </label>
-                    <input type="text" name="delivery_email" id="delivery_email" class="text-field" />
+                <div class="group-inline u-s-m-b-13">
+                    <div class="group-1 u-s-p-r-16">
+                        <label for="email-extra">
+                            Email address
+                            <span class="astk">*</span>
+                        </label>
+                        <input type="text" name="delivery_email" id="delivery_email" class="text-field" />
+                    </div>
                 </div>
-            </div>
-            {{-- Save Button --}}
-            <div class="u-s-m-b-13">
-                <button type="submit" id="btnDelivery" class="button button-outline-secondary" style="width:100%;"
-                    >Save</button>
-            </div>
+                {{-- Save Button --}}
+                <div class="u-s-m-b-13">
+                    <button type="submit" id="btnDelivery" class="button button-outline-secondary" style="width:100%;"
+                        >Save</button>
+                </div>
+            </form>
             <!-- Form-Fields /- -->
         </div>
         <div>

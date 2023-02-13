@@ -258,7 +258,7 @@ $(document).ready(function(){
     }); 
 
     //Edit Delivery Addresses on Checkout Page
-    $(document).on('click','editAddress',function(){
+    $(document).on('click','.editAddress',function(){
         var addressid = $(this).data("addressid");
         $.ajax({
             headers:{
@@ -283,6 +283,22 @@ $(document).ready(function(){
             }
         });
     });
+
+    //Save Delivery Address
+    $(document).on('submit',"#addressAddEditForm",function(){
+        var formdata = $("#addressAddEditForm").serialize();
+        $.ajax({
+            data:formdata,
+            url:'/save-address',
+            type:'post',
+            success:function(data){
+                $("#deliveryAddresses").html(data.view);
+            }, error:function(){
+                alert("Error");
+            }
+        });
+    });
+
 });
 
 //required function to operate check box on the filter 
