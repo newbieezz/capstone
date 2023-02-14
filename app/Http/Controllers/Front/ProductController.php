@@ -322,7 +322,30 @@ class ProductController extends Controller
 
     //USER Checkout
     public function checkout(Request $request){
-        
+        //check request condition for payment method 
+        if($request->isMethod('post')){
+            $data = $request->all();
+
+            //check the delivery address id if delivery address ic clicked 
+            if(empty($data['address_id'])){
+                $message = "Please select Delivery Address! ";
+                return redirect()->back()->with('error_message',$message);
+            }
+
+            //payment method validation
+            if(empty($data['payment_gateway'])){
+                $message = "Please select Payment Methods! ";
+                return redirect()->back()->with('error_message',$message);
+            }
+
+            //terms and condition validation
+            if(empty($data['accept'])){
+                $message = "Please agree to the Terms & Condition! ";
+                return redirect()->back()->with('error_message',$message);
+            }
+
+            
+        }
         $deliveryAddresses = DeliveryAddress::deliveryAddresses(); //show the addresses
         $getCartItems = Cart::getCartItems(); //show cart items
 
