@@ -1,4 +1,6 @@
-
+<?php use App\Models\Product; 
+      use App\Models\ProductsFilter; 
+?>
 @extends('front.layout.layout')
 @section('content')
 
@@ -100,48 +102,29 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>
-                                                    <h6 class="order-h6">Product Name</h6>
-                                                    <span class="order-span-quantity">x 1</span>
-                                                </td>
-                                                <td>
-                                                    <h6 class="order-h6">$100.00</h6>
-                                                </td>
-                                            </tr>
-                                            {{-- <tr>
-                                                <td>
-                                                    <h6 class="order-h6">Black Rock Dress with High Jewelery Necklace</h6>
-                                                    <span class="order-span-quantity">x 1</span>
-                                                </td>
-                                                <td>
-                                                    <h6 class="order-h6">$100.00</h6>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h6 class="order-h6">Xiaomi Note 2 Black Color</h6>
-                                                    <span class="order-span-quantity">x 1</span>
-                                                </td>
-                                                <td>
-                                                    <h6 class="order-h6">$100.00</h6>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h6 class="order-h6">Dell Inspiron 15</h6>
-                                                    <span class="order-span-quantity">x 1</span>
-                                                </td>
-                                                <td>
-                                                    <h6 class="order-h6">$100.00</h6>
-                                                </td>
-                                            </tr> --}}
+                                            @php $total_price = 0 @endphp
+                                            @foreach($getCartItems as $item)
+                                            <?php 
+                                                $getDiscountAttributePrice = Product::getDiscountAttributePrice($item['product_id'],$item['size']);
+                                            ?>
+                                                <tr>
+                                                    <td>
+                                                        <h6 class="order-h6">{{ $item['product']['product_name'] }}</h6>
+                                                        <span class="order-span-quantity">{{ $item['quantity'] }}</span>
+                                                    </td>
+                                                    <td>
+                                                        <h6 class="order-h6">₱ {{ $getDiscountAttributePrice['final_price'] * $item['quantity']}}</h6>
+                                                    </td>
+                                                </tr>
+                                            {{-- Calculate the subtotal for each produuct by its desired quantity --}}
+                                            @php $total_price = $total_price + ($getDiscountAttributePrice['final_price'] * $item['quantity']) @endphp
+                                            @endforeach
                                             <tr>
                                                 <td>
                                                     <h3 class="order-h3">Subtotal</h3>
                                                 </td>
                                                 <td>
-                                                    <h3 class="order-h3">$220.00</h3>
+                                                    <h3 class="order-h3">₱ {{ $total_price }}</h3>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -149,7 +132,7 @@
                                                     <h3 class="order-h3">Shipping</h3>
                                                 </td>
                                                 <td>
-                                                    <h3 class="order-h3">$0.00</h3>
+                                                    <h3 class="order-h3">₱ 0.00</h3>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -157,7 +140,7 @@
                                                     <h3 class="order-h3">Tax</h3>
                                                 </td>
                                                 <td>
-                                                    <h3 class="order-h3">$0.00</h3>
+                                                    <h3 class="order-h3">₱ 0.00</h3>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -165,7 +148,7 @@
                                                     <h3 class="order-h3">Total</h3>
                                                 </td>
                                                 <td>
-                                                    <h3 class="order-h3">$220.00</h3>
+                                                    <h3 class="order-h3">₱ {{ $total_price }}</h3>
                                                 </td>
                                             </tr>
                                         </tbody>

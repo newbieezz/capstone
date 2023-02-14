@@ -31,6 +31,7 @@
                             <span class="astk">*</span>
                         </label>
                         <input type="text" name="delivery_name" id="delivery_name" class="text-field" />
+                        <p id="delivery-delivery_name"></p>
                     </div>
                     <div class="group-2">
                         <label for="last-name-extra">
@@ -38,6 +39,7 @@
                             <span class="astk">*</span>
                         </label>
                         <input type="text" name="delivery_mobile" id="delivery_mobile" class="text-field" />
+                        <p id="delivery-delivery_mobile"></p>
                     </div>
                 </div>
                 <div class="street-address u-s-m-b-13">
@@ -46,6 +48,7 @@
                         <span class="astk">*</span>
                     </label>
                     <input type="text" name="delivery_address" id="delivery_address" class="text-field" placeholder="House name and street name" />
+                    <p id="delivery-delivery_address"></p>
                 </div>
                 <div class="u-s-m-b-13">
                     <label for="town-city-extra">
@@ -53,6 +56,7 @@
                         <span class="astk">*</span>
                     </label>
                     <input type="text" name="delivery_city" id="delivery_city" class="text-field" />
+                    <p id="delivery-delivery_city"></p>
                 </div>
                 <div class="group-inline u-s-m-b-13">
                     <div class="group-1 u-s-p-r-16">
@@ -61,6 +65,7 @@
                             <span class="astk">*</span>
                         </label>
                         <input type="text" name="delivery_email" id="delivery_email" class="text-field" />
+                        <p id="delivery-delivery_email"></p>
                     </div>
                 </div>
                 {{-- Save Button --}}

@@ -288,16 +288,53 @@ $(document).ready(function(){
     $(document).on('submit',"#addressAddEditForm",function(){
         var formdata = $("#addressAddEditForm").serialize();
         $.ajax({
+            headers:{
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             data:formdata,
             url:'/save-address',
             type:'post',
-            success:function(data){
-                $("#deliveryAddresses").html(data.view);
+            success:function(resp){
+                if(resp.type=="error"){
+                    $.each(resp.errors,function(i,error){
+                        $("#delivery-"+i).attr('style','color:red');
+                        $("#delivery-"+i).html(error);
+                        setTimeout(function(){
+                            $("delivery-"+i).css({
+                                'display':'none'
+                            });
+                        },3000);
+                    });
+                } else {
+                     $("#deliveryAddresses").html(resp.view);
+                }
             }, error:function(){
                 alert("Error");
             }
         });
     });
+
+    //Remove Delivery Address
+    $(document).on('click',".removeAddress",function(){
+        if(confirm("Are you sure to remove this address?")){
+            var addressid = $(this).data("addressid"); //fetch the address id
+            //after fetching the address id we will send it via ajax
+
+            $.ajax({
+                headers:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url:'/remove-delivery-address',
+                data:{addressid:addressid},
+                type:'post',
+                success:function(resp){
+                    $("#deliveryAddresses").html(resp.view);
+                }, error:function(){
+                    alert("Error");
+                }
+            });
+        }
+    }); 
 
 });
 
@@ -311,4 +348,4 @@ function get_filter(class_name){
     });
 
     return filter;
-}
+} 

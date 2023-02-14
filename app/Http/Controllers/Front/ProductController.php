@@ -322,9 +322,10 @@ class ProductController extends Controller
 
     //USER Checkout
     public function checkout(Request $request){
-        //show cart items
+        
         $deliveryAddresses = DeliveryAddress::deliveryAddresses(); //show the addresses
-        // dd($deliveryAddresses);
-        return view('front.products.checkout')->with(compact('deliveryAddresses')); //show checkout page
+        $getCartItems = Cart::getCartItems(); //show cart items
+
+        return view('front.products.checkout')->with(compact('deliveryAddresses','getCartItems')); //show checkout page
     }
 }

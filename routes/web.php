@@ -207,7 +207,8 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
         Route::post('get-delivery-address','AddressController@getDeliveryAddress');
         //SAVE Delivery Address
         Route::post('save-address','AddressController@saveDeliveryAddress');
-   
+        //Remove Delivery Address
+        Route::post('remove-delivery-address','AddressController@removeAddress');
     });
    
 });
