@@ -322,6 +322,16 @@ class ProductController extends Controller
 
     //USER Checkout
     public function checkout(Request $request){
+
+        $deliveryAddresses = DeliveryAddress::deliveryAddresses(); //show the addresses
+        $getCartItems = Cart::getCartItems(); //show cart items
+
+        //if cart is empty then redirect user to the cart page
+        if(count($getCartItems) == 0){
+            $message = "Cart is empty! Please add some Products to checkout";
+            return redirect('cart')->with('error_message',$message);
+        }
+
         //check request condition for payment method 
         if($request->isMethod('post')){
             $data = $request->all();
@@ -346,8 +356,6 @@ class ProductController extends Controller
 
             
         }
-        $deliveryAddresses = DeliveryAddress::deliveryAddresses(); //show the addresses
-        $getCartItems = Cart::getCartItems(); //show cart items
 
         return view('front.products.checkout')->with(compact('deliveryAddresses','getCartItems')); //show checkout page
     }
