@@ -212,7 +212,7 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
         //Success Order Placed
         Route::get('orderplaced','ProductController@orderplaced');
         //Useres Orders
-        Route::get('user/orders','OrderController@orders');
+        Route::get('user/orders/{id?}','OrderController@orders');
     });
    
 });

@@ -26,17 +26,17 @@
                 <table class="table table-striped table-borderless">
                     <tr>
                         <th>Order ID</th>
-                        <th>Order Products</th>
+                        <th>Ordered Products</th>
                         <th>Payment Method</th>
                         <th>Total Price</th>
                         <th>Created on</th>
                     </tr>
                     @foreach ($orders as $order)
                     <tr>
-                        <td>{{ $order['id '] }}</td>
+                        <td><a href="{{ url('user/orders/'.$order['id']) }}">{{ $order['id '] }}</a></td>
                         <td>
                             @foreach ($order['orders_products'] as $product)
-                                {{ $product['product_code'] }} <br>
+                                {{ $product['product_name'] }} <br>
                             @endforeach
                         </td>
                         <td>{{ $order['payment_method'] }}</td>
