@@ -209,6 +209,10 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
         Route::post('save-address','AddressController@saveDeliveryAddress');
         //Remove Delivery Address
         Route::post('remove-delivery-address','AddressController@removeAddress');
+        //Success Order Placed
+        Route::get('orderplaced','ProductController@orderplaced');
+        //Useres Orders
+        Route::get('user/orders','OrderController@orders');
     });
    
 });

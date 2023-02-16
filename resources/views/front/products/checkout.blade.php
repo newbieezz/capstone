@@ -177,7 +177,7 @@
                                         <label class="label-text" for="paypal">Paypal</label>
                                     </div>
                                     <div class="u-s-m-b-13">
-                                        <input type="radio" class="radio-box" name="payment_gateway" id="paylater" value="Paypal">
+                                        <input type="radio" class="radio-box" name="payment_gateway" id="paylater" value="Paylater">
                                         <label class="label-text" for="paypal">Buy Now, Pay Later</label>
                                     </div>
                                     <div class="u-s-m-b-13">
