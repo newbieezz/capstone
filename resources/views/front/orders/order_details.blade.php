@@ -1,4 +1,5 @@
-
+<?php use App\Models\Product; 
+?>
 @extends('front.layout.layout')
 @section('content')
     <!-- Page Introduction Wrapper -->
@@ -27,12 +28,13 @@
                     <tr  class="table-success"><td colspan="2"><strong>Order Details</strong></td></tr>
                     <tr><td>Order Date</td><td>{{ date('Y-m-d h:i:s', strtotime($orderDetails['created_at'])) }}</td></tr>
                     <tr><td>Order Status</td><td>{{ $orderDetails['order_status'] }}</td></tr>
-                    <tr><td>Order Total</td><td>{{ $orderDetails['grand_total'] }}<</td></tr>
-                    <tr><td>Delivery Fee</td><td>{{ $orderDetails['delivery_fee'] }}<</td></tr>
+                    <tr><td>Order Total</td><td>₱ {{ $orderDetails['grand_total'] }}<</td></tr>
+                    <tr><td>Delivery Fee</td><td>₱ {{ $orderDetails['delivery_fee'] }}<</td></tr>
                     <tr><td>Payment Method</td><td>{{ $orderDetails['payment_method'] }}<</td></tr>
                 </table>
                 <table class="table table-striped table-borderless">
                     <tr  class="table-success">
+                        <th>Product Image</th>
                         <th>Product Code</th>
                         <th>Product Name</th>
                         <th>Product Size</th>
@@ -40,6 +42,12 @@
                     </tr>
                     @foreach ($orderDetails['order_products'] as $product)
                         <tr>
+                            <td>
+                                @php $getProductImage = Product::getProductImage($product['product_id']) @endphp
+                                <a target="blank" href="{{ url('product/'.$product['product_id']) }}">
+                                    <img style="width:80px" src="{{ asset('/front/images/product_images/small/'.$getProductImage) }}" >
+                                </a>
+                            </td>
                             <td>{{ $product['product_code'] }}</td>
                             <td>{{ $product['product_name'] }}</td>
                             <td>{{ $product['product_size'] }}</td>

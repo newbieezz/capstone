@@ -111,4 +111,9 @@ class Product extends Model
 
         return $isProductNew;
     }
+
+    public static function getProductImages($product_id){
+        $getPRoductImage = Product::select('product_image')->where('id',$product_id)->first()->toArray();
+        return $getPRoductImage['product_image'];
+    }
 }

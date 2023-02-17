@@ -12,6 +12,7 @@ $(document).ready(function(){
     $('#banners').DataTable();
     $('#filters').DataTable();
     $('#users').DataTable();
+    $('#orders').DataTable();
     // Check if the Admin Password is correct or not
     $("#current_password").keyup(function(){
         var current_password = $("#current_password").val();

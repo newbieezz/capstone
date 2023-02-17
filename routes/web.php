@@ -148,6 +148,10 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         // USERS
         Route::get('users','UserController@users');
         Route::post('update-user-status','UserController@updateUserStatus');
+
+        //  ORDERS
+        Route::get('orders','OrderController@orders');
+        Route::get('orders/{id','OrderController@orderDetails');
     });
 });
 
