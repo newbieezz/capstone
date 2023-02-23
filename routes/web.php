@@ -151,7 +151,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
 
         //  ORDERS
         Route::get('orders','OrderController@orders');
-        Route::get('orders/{id','OrderController@orderDetails');
+        Route::get('orders/{id}','OrderController@orderDetails');
     });
 });
 
@@ -215,7 +215,7 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
         Route::post('remove-delivery-address','AddressController@removeAddress');
         //Success Order Placed
         Route::get('orderplaced','ProductController@orderplaced');
-        //Useres Orders
+        //Users Orders
         Route::get('user/orders/{id?}','OrderController@orders');
     });
    

@@ -46,7 +46,7 @@
                         <i class="fas fa-cog u-s-m-r-9"></i>My Account</a>
                 </li>
                 <li>
-                    <a href="{{ url('user/account') }}">
+                    <a href="{{ url('user/orders') }}">
                         <i class="fas fa-cog u-s-m-r-9"></i>My Orders</a>
                 </li>
                 <li>

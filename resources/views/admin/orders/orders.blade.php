@@ -26,7 +26,7 @@
                               <tbody> 
                               @foreach ($orders as $order)
                               {{-- if product info is not coming then it won't display --}}
-                              @if($order['order_products'])
+                              @if($order['orders_products'])
                                 <tr> 
                                      <td> {{ $order['id']}}  </td> 
                                      <td> {{ date('Y-m-d h:i:s', strtotime($order['created_at'])) }} </td> 
@@ -34,7 +34,7 @@
                                      <td> {{ $order['email']}}  </td> 
                                      <td>
                                         @foreach ($order['orders_products'] as $product)
-                                             {{ $product['product_name'] }} x{{$product('product_qty')}}<br>
+                                             {{ $product['product_name'] }} {{ $product['product_size'] }} <strong>(x{{ $product['product_qty'] }})</strong><br>
                                         @endforeach
                                      </td>
                                      <td>₱ {{ $order['grand_total'] }} </td>

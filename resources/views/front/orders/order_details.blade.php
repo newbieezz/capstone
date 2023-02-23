@@ -1,4 +1,5 @@
 <?php use App\Models\Product; 
+use App\Models\Order; 
 ?>
 @extends('front.layout.layout')
 @section('content')
@@ -20,7 +21,6 @@
         </div>
     </div>
     <!-- Page Introduction Wrapper /- -->
-    <!-- Cart-Page -->
     <div class="page-cart u-s-p-t-80">
         <div class="container">
             <div class="row">
@@ -40,10 +40,10 @@
                         <th>Product Size</th>
                         <th>Product Qty</th>
                     </tr>
-                    @foreach ($orderDetails['order_products'] as $product)
+                    @foreach ($orderDetails['orders_products'] as $product)
                         <tr>
                             <td>
-                                @php $getProductImage = Product::getProductImage($product['product_id']) @endphp
+                                @php $getProductImage = Product::getProductImages($product['product_id']) @endphp
                                 <a target="blank" href="{{ url('product/'.$product['product_id']) }}">
                                     <img style="width:80px" src="{{ asset('/front/images/product_images/small/'.$getProductImage) }}" >
                                 </a>

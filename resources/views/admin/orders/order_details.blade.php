@@ -1,4 +1,5 @@
-<?php use App\Models\Product; ?>
+<?php use App\Models\Product; 
+use App\Models\Order; ?>
 @extends('admin.layout.layout') 
 @section('content')
 
@@ -15,7 +16,7 @@
             </div>
         </d iv>
         <div class="row">
-            <div class="col-md-12 grid-margin stretch-card">
+            <div class="col-md-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title"> Order Details </h4>
@@ -25,7 +26,7 @@
                   </div>
                     <div class="form-group" style="height:15px;">
                       <label style="font-weight:600;">Order Date : </label>
-                      <label>{{ date('Y-m-d h:i:s', strtotime($order['created_at'])) }}</label>
+                      <label>{{ date('Y-m-d h:i:s', strtotime($orderDetails['created_at'])) }}</label>
                     </div>
                   <div class="form-group" style="height:15px;">
                     <label style="font-weight:600;">Order Status : </label>
@@ -100,7 +101,7 @@
                   </div>
                 </div>
               </div> 
-              <div class="col-md-6 grid-margin stretch-card">
+              <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title"> Ordered Products </h4>
@@ -112,12 +113,12 @@
                             <th>Product Size</th>
                             <th>Product Qty</th>
                         </tr>
-                        @foreach ($orderDetails['order_products'] as $product)
+                        @foreach ($orderDetails['orders_products'] as $product)
                             <tr>
                                 <td>
-                                    @php $getProductImage = Product::getProductImage($product['product_id']) @endphp
+                                    @php $getProductImage = Product::getProductImages($product['product_id']) @endphp
                                     <a target="blank" href="{{ url('product/'.$product['product_id']) }}">
-                                        <img src="{{ asset('/front/images/product_images/small/'.$getProductImage) }}" >
+                                        <img style="width:60px" src="{{ asset('/front/images/product_images/small/'.$getProductImage) }}" >
                                     </a>
                                 </td>
                                 <td>{{ $product['product_code'] }}</td>

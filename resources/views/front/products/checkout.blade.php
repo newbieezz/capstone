@@ -118,7 +118,7 @@
                                             ?>
                                                 <tr>
                                                     <td>
-                                                        <a href="{{ url('product/'.$item['product_id']) }}">
+                                                        <a href="{{ url('product/'.$item['product_id']) }}"> 
                                                         <img width="30" src="{{ asset('front/images/product_images/small/'.$item['product']['product_image']) }}" alt="Product">
                                                         <h6 class="order-h6">{{ $item['product']['product_name'] }}</h6>
                                                         <span class="order-span-quantity">  {{ $item['size'] }}  (x{{ $item['quantity'] }})</span>
@@ -181,7 +181,7 @@
                                         <label class="label-text" for="paypal">Buy Now, Pay Later</label>
                                     </div>
                                     <div class="u-s-m-b-13">
-                                        <input type="checkbox" class="check-box" id="accept" value="accepted" title="Please agree to T&C">
+                                        <input type="checkbox" class="check-box" id="accept"  name="accept" value="Yes" title="Please agree to T&C" >
                                         <label class="label-text no-color" for="accept">I’ve read and accept the
                                             <a href="terms-and-conditions.html" class="u-c-brand">terms & conditions</a>
                                         </label>

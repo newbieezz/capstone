@@ -355,10 +355,10 @@ class ProductController extends Controller
                 $message = "Please agree to the Terms & Condition! ";
                 return redirect()->back()->with('error_message',$message);
             }
-
+                // echo "<pre>"; print_r($data); die;
             //get the delivery address from the address_id
             $deliveryAddress = DeliveryAddress::where('id',$data['address_id'])->first()->toArray();
-
+            // dd($deliveryAddress);
             //set payment method as COD if Selected from user else set as prepaid and such
             if($data['payment_gateway'] == "COD"){
                 $payment_method = "COD";
@@ -371,7 +371,7 @@ class ProductController extends Controller
                 $order_status = "Pending";
             } else {
                 $payment_method = "Prepaid"; //advance payment from the customer
-                $order_status = "Prepaid";
+                $order_status = "Pending";
             }
 
             DB::beginTransaction();
@@ -412,7 +412,7 @@ class ProductController extends Controller
                 $cartItem = new OrdersProduct;
                 $cartItem->order_id = $order_id;
                 $cartItem->user_id = Auth::user()->id;
-                $getProductDetails = Product::select('product_code','product_name','product_color','admin_id','vendor_id')
+                $getProductDetails = Product::select('product_code','product_name','admin_id','vendor_id')
                                     ->where('id',$item['product_id'])->first()->toArray();
 
                 $cartItem->admin_id = $getProductDetails['admin_id'];
@@ -428,7 +428,7 @@ class ProductController extends Controller
             }
 
             //insert order id in session variable
-            Session::pu('order_id',$order_id);
+            Session::put('order_id',$order_id);
 
             DB::commit();
             return redirect('orderplaced');

@@ -1,4 +1,6 @@
-
+<?php 
+    use App\Models\Order;
+?>
 @extends('front.layout.layout')
 @section('content')
     <!-- Page Introduction Wrapper -->
@@ -33,10 +35,10 @@
                     </tr>
                     @foreach ($orders as $order)
                     <tr>
-                        <td><a href="{{ url('user/orders/'.$order['id']) }}">{{ $order['id '] }}</a></td>
+                        <td><a href="{{ url('user/orders/'.$order['id']) }}">{{ $order['id'] }}</a></td>
                         <td>
                             @foreach ($order['orders_products'] as $product)
-                                {{ $product['product_name'] }} <br>
+                                {{ $product['product_name'] }} {{ $product['product_size'] }} <strong>(x{{ $product['product_qty'] }})</strong><br>
                             @endforeach
                         </td>
                         <td>{{ $order['payment_method'] }}</td>
@@ -47,6 +49,6 @@
                 </table>
             </div>
         </div>
-    </div>
+    </div> <br><br><br><br><br><br><br><br><br>
     <!-- Cart-Page /- -->
 @endsection

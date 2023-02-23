@@ -27,10 +27,9 @@
             <div class="row">
                 <div class="col-lg-12" align="center">
                     <h3>YOUR ORDER HAS BEEN PLACED SUCCESSFULLY!</h3>
-                    <p>Your order number is {{ Session::get('order_id') }}  and Grand Total is Php {{ Session::get('grand_total') }}</p>
+                    <p>Your order number is {{ Session::get('order_id') }}  and Grand Total is Php {{ Session::get('grand_total') }}</p> <br><br><br><br><br><br>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Cart-Page /- -->
 @endsection
