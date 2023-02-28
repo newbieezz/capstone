@@ -18,6 +18,7 @@ use App\Models\Vendor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
 
 class ProductController extends Controller
@@ -431,6 +432,27 @@ class ProductController extends Controller
             Session::put('order_id',$order_id);
 
             DB::commit();
+
+            $orderDetails = Order::with('order_products')->where('id',$order_id)->first()->toArray();
+            if($data['payment_gateway']=="COD"){
+                //send order email
+                $email = Auth::user()->email; //get the email from user model
+                $messageData = [
+                    'email' => $email,
+                    'name' => Auth::user()->name,
+                    'order_id' => $order_id,
+                    'orderDetails' => $orderDetails
+                ];
+                Mail::send('emails.order',$messageData,function($message)use($email){
+                    $message->to($email)->subject('Order Placed - P-Store Mart');
+                });
+
+                //send order sms
+                
+            } else {
+                echo "Prepaid payment methods coming soon!";
+            }
+
             return redirect('orderplaced');
         }
 

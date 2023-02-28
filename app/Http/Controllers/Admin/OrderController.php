@@ -31,7 +31,7 @@ class OrderController extends Controller
 
         if($adminType=="vendor"){
             $orders = Order::with(['orders_products'=>function($query)use($vendor_id){
-                $query->where('vendor-id',$vendor_id);
+                $query->where('vendor_id',$vendor_id);
             }])->orderBy('id','Desc')->get()->toArray(); //subquery to see only those products that belongs to a particular vendor by its vendor_id
         } else {
             $orders = Order::with('orders_products')->orderBy('id','Desc')->get()->toArray(); //for admin query
@@ -55,7 +55,7 @@ class OrderController extends Controller
 
         if($adminType=="vendor"){
             $orderDetails = Order::with(['orders_products'=>function($query)use($vendor_id){
-                $query->where('vendor-id',$vendor_id);
+                $query->where('vendor_id',$vendor_id);
             }])->where('id',$id)->first()->toArray();
         } else {
             $orderDetails = Order::with('orders_products')->where('id',$id)->first()->toArray();
