@@ -10,6 +10,7 @@ use App\Models\OrderStatus;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 class OrderController extends Controller
@@ -74,6 +75,24 @@ class OrderController extends Controller
             $data = $request->all();
             //update order status
             Order::where('id',$data['order_id'])->update(['order_status'=>$data['order_status']]);
+          
+            //get delivery address
+            $deliveryDetails = Order::select('mobile','email','name')->where('id',$data['order_id'])->first()->toArray();
+            $orderDetails = Order::with('order_products')->where('id',$data['order_id'])->first()->toArray();
+
+            //send order status update email
+            $email = $deliveryDetails['email'];
+            $messageData = [
+                'email' => $email,
+                'name' => $deliveryDetails['name'],
+                'order_id' => $data['order_id'],
+                'orderDetails' => $orderDetails,
+                'order_status' => $data['order_status']
+            ];
+            Mail::send('emails.order_status',$messageData,function($message)use($email){
+                $message->to($email)->subject('Order Status Updated - P-Store Mart');
+            });
+
             $message = "Order Status has been updated successfuly!";
             return redirect()->back()->with('success_message',$message);
         }
@@ -84,6 +103,27 @@ class OrderController extends Controller
             $data = $request->all();
             //update status
             OrdersProduct::where('id',$data['order_item_id'])->update(['item_status'=>$data['order_item_status']]);
+            
+            //fetch order_id
+            $getOrderId = OrdersProduct::select('order_id')->where('id',$data['order_item_id'])->first()->toArray();
+
+            //get delivery address
+            $deliveryDetails = Order::select('mobile','email','name')->where('id',$data['order_id'])->first()->toArray();
+            $orderDetails = Order::with('order_products')->where('id',$getOrderId['order_id'])->first()->toArray();
+
+            //send order status update email
+            $email = $deliveryDetails['email'];
+            $messageData = [
+                'email' => $email,
+                'name' => $deliveryDetails['name'],
+                'order_id' => $$getOrderId['order_id'],
+                'orderDetails' => $orderDetails,
+                'order_status' => $data['order_item_status']
+            ];
+            Mail::send('emails.order_status',$messageData,function($message)use($email){
+                $message->to($email)->subject('Order Status Updated - P-Store Mart');
+            });
+            
             $message = "Item Status has been updated successfuly!";
             return redirect()->back()->with('success_message',$message);
         }

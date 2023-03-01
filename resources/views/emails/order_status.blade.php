@@ -13,7 +13,9 @@
         <tr><td>&nbsp;</td></tr>
         <tr><td>Hello {{ $name }}</td></tr>
         <tr><td>&nbsp;</td></tr>
-        <tr><td>Thank you for your purchase! Your order details are as below : </td></tr>
+        <tr><td>Your order #{{ $order_id }} status has been updated to {{ $order_status }} </td></tr>
+        <tr><td>&nbsp;</td></tr>
+        <tr><td>Your order details are as below : </td></tr>
         <tr><td>&nbsp;</td></tr>
         <tr><td>Order no.  {{ $order_id }}</td></tr>
         <tr><td>&nbsp;</td></tr>
