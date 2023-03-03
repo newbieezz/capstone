@@ -433,7 +433,7 @@ class ProductController extends Controller
 
             DB::commit();
 
-            $orderDetails = Order::with('order_products')->where('id',$order_id)->first()->toArray();
+            $orderDetails = Order::with('orders_products')->where('id',$order_id)->first()->toArray();
             if($data['payment_gateway']=="COD"){
                 //send order email
                 $email = Auth::user()->email; //get the email from user model

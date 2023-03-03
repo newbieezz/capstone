@@ -7,9 +7,9 @@
     <title>P-Store Mart</title>
 </head>
 <body> <br><br>
-    <table style="width:700px;">
+    <table style="width:600px;">
         <tr><td>&nbsp;</td></tr>
-        <tr><td><img src="{{ asset('admin/images/logo.png') }}"></td></tr>
+        {{-- <tr><td><img src="{{ asset('admin/images/logo.png') }}"></td></tr> --}}
         <tr><td>&nbsp;</td></tr>
         <tr><td>Hello {{ $name }}</td></tr>
         <tr><td>&nbsp;</td></tr>
@@ -26,7 +26,7 @@
                     <td>Product Quantity</td>
                     <td>Product Price</td>
                 </tr>
-                @foreach ($orderDetails['order_products'] as $order)
+                @foreach ($orderDetails['orders_products'] as $order)
                 <tr bgcolor="#cccccc">
                     <td>{{ $order['product_name'] }}</td>
                     <td>{{ $order['product_code'] }}</td>
