@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItemStatus;
+use App\Models\OrdersLog;
 use App\Models\OrdersProduct;
 use App\Models\OrderStatus;
 use App\Models\User;
@@ -66,8 +67,8 @@ class OrderController extends Controller
         $userDetails = User::where('id',$orderDetails['user_id'])->first()->toArray();
         $orderStatus = OrderStatus::where('status',1)->get()->toArray();
         $orderItemStatus = OrderItemStatus::where('status',1)->get()->toArray();
-
-        return view('admin.orders.order_details')->with(compact('orderDetails','userDetails','orderStatus','orderItemStatus'));
+        $orderLog = OrdersLog::where('order_id',$id)->orderBy('id','Desc')->get()->toArray();
+        return view('admin.orders.order_details')->with(compact('orderDetails','userDetails','orderStatus','orderItemStatus','orderLog'));
     }
 
     public function updateOrderStatus(Request $request){
@@ -76,6 +77,18 @@ class OrderController extends Controller
             //update order status
             Order::where('id',$data['order_id'])->update(['order_status'=>$data['order_status']]);
           
+            //update courier name and tacking number
+            if(!empty($data['courier_name']) && !empty($data['tracking_number'])){
+                Order::where('id',$data['order_id'])->update(['courier_name'=>$data['courier_name'],
+                        'tracking_number'=>$data['tracking_number']]);
+            }
+
+            //update order log
+            $log = new OrdersLog();
+            $log->order_id = $data['order_id'];
+            $log->order_status = $data['order_status'];
+            $log->save();
+
             //get delivery address
             $deliveryDetails = Order::select('mobile','email','name')->where('id',$data['order_id'])->first()->toArray();
             $orderDetails = Order::with('order_products')->where('id',$data['order_id'])->first()->toArray();

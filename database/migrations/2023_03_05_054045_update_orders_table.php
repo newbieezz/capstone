@@ -13,11 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('order_statuses', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->tinyInteger('status');
-            $table->timestamps();
+        Schema::table('orders',function($table){
+            $table->string('courier_name')->after('grand_total');
+            $table->string('tracking_number')->after('courier_name');
         });
     }
 
@@ -28,6 +26,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order_statuses');
+        Schema::table('orders',function($table){
+            $table->dropColumn('courier_name');
+            $table->dropColumn('tracking_number');
+        });
     }
 };
