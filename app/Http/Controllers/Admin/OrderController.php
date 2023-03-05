@@ -117,13 +117,19 @@ class OrderController extends Controller
             //update status
             OrdersProduct::where('id',$data['order_item_id'])->update(['item_status'=>$data['order_item_status']]);
             
+            //update courier name and tacking number
+            if(!empty($data['item_courier_name']) && !empty($data['item_tracking_number'])){
+                Order::where('id',$data['order_item_id'])->update(['courier_name'=>$data['item_courier_name'],
+                        'tracking_number'=>$data['item_tracking_number']]);
+            }
+
             //fetch order_id
             $getOrderId = OrdersProduct::select('order_id')->where('id',$data['order_item_id'])->first()->toArray();
 
             //get delivery address
             $deliveryDetails = Order::select('mobile','email','name')->where('id',$data['order_id'])->first()->toArray();
             $orderDetails = Order::with('orders_products')->where('id',$getOrderId['order_id'])->first()->toArray();
-
+            
             //send order status update email
             $email = $deliveryDetails['email'];
             $messageData = [
