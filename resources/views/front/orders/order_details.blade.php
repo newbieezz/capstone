@@ -30,6 +30,10 @@ use App\Models\Order;
                     <tr><td>Order Status</td><td>{{ $orderDetails['order_status'] }}</td></tr>
                     <tr><td>Order Total</td><td>₱ {{ $orderDetails['grand_total'] }}<</td></tr>
                     <tr><td>Delivery Fee</td><td>₱ {{ $orderDetails['delivery_fee'] }}<</td></tr>
+                    @if ($orderDetails['courier_name'] != "")
+                    <tr><td>Courier Name</td><td>₱ {{ $orderDetails['courier_name'] }}<</td></tr>
+                    <tr><td>Tracking Number</td><td>₱ {{ $orderDetails['tracking_number'] }}<</td></tr>
+                    @endif
                     <tr><td>Payment Method</td><td>{{ $orderDetails['payment_method'] }}<</td></tr>
                 </table>
                 <table class="table table-striped table-borderless">
