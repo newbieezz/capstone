@@ -153,7 +153,10 @@ class OrderController extends Controller
 
             //get delivery address
             $deliveryDetails = Order::select('mobile','email','name')->where('id',$data['order_id'])->first()->toArray();
-            $orderDetails = Order::with('orders_products')->where('id',$getOrderId['order_id'])->first()->toArray();
+            $order_item_id = $data['order_item_id'];
+            $orderDetails = Order::with(['orders_products'=>function($query)use($order_item_id){
+                $query->where('id',$order_item_id);
+            }])->where('id',$getOrderId['order_id'])->first()->toArray();
             
             if(!empty($data['item_courier_name']) && !empty($data['item_tracking_number'])){
                 //send order status update email
@@ -167,7 +170,7 @@ class OrderController extends Controller
                     'courier_name' => $data['item_courier_name'],
                     'tracking_number' => $data['item_tracking_number']
                 ];
-                Mail::send('emails.order_status',$messageData,function($message)use($email){
+                Mail::send('emails.order_item_status',$messageData,function($message)use($email){
                     $message->to($email)->subject('Order Status Updated - P-Store Mart');
                 });
             } else {
@@ -180,7 +183,7 @@ class OrderController extends Controller
                     'orderDetails' => $orderDetails,
                     'order_status' => $data['order_item_status']
                 ];
-                Mail::send('emails.order_status',$messageData,function($message)use($email){
+                Mail::send('emails.order_item_status',$messageData,function($message)use($email){
                     $message->to($email)->subject('Order Status Updated - P-Store Mart');
                 });
             }
