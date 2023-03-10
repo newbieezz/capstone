@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use function PHPSTORM_META\elementType;
 
 class UserController extends Controller
 {
@@ -26,10 +25,10 @@ class UserController extends Controller
             // echo "<pre>"; print_r($data); die;
 
             //requires validation
-            $validator = Validator::make($request->all(),[  
+            $validator = Validator::make($request->all(), [  
                 'name' => 'required|string|max:100',
                 'mobile' => 'required|numeric|digits:11',
-                'email' => 'required|email|max:150|unique:users',
+                'email' => 'required|email|unique:users',
                 'password' => 'required|min:6',
                 'accept' => 'required'
                 ],

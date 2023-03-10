@@ -1,5 +1,4 @@
 <?php use App\Models\Product; 
-use App\Models\Order;
 use App\Models\OrdersLog; ?>
 @extends('admin.layout.layout') 
 @section('content')
@@ -126,7 +125,7 @@ use App\Models\OrdersLog; ?>
                             <strong>{{ $log['order_status'] }}</strong> 
 
                             {{-- @if($log['order_status'] == "Delivering") --}}
-                              @if (isset($log['order_item_id'] && $log['order_item_id'] > 0))
+                              @if(isset($log['order_item_id'])&&$log['order_item_id']>0)
                                 @php
                                   $getItemDetails = OrdersLog::getItemDetails($log['order_item_id'])
                                 @endphp

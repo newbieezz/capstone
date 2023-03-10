@@ -28,13 +28,13 @@ use App\Models\Order;
                     <tr  class="table-success"><td colspan="2"><strong>Order Details</strong></td></tr>
                     <tr><td>Order Date</td><td>{{ date('Y-m-d h:i:s', strtotime($orderDetails['created_at'])) }}</td></tr>
                     <tr><td>Order Status</td><td>{{ $orderDetails['order_status'] }}</td></tr>
-                    <tr><td>Order Total</td><td>₱ {{ $orderDetails['grand_total'] }}<</td></tr>
-                    <tr><td>Delivery Fee</td><td>₱ {{ $orderDetails['delivery_fee'] }}<</td></tr>
+                    <tr><td>Order Total</td><td>₱ {{ $orderDetails['grand_total'] }}</td></tr>
+                    <tr><td>Delivery Fee</td><td>₱ {{ $orderDetails['delivery_fee'] }}</td></tr>
                     @if ($orderDetails['courier_name'] != "")
-                    <tr><td>Courier Name</td><td>₱ {{ $orderDetails['courier_name'] }}<</td></tr>
-                    <tr><td>Tracking Number</td><td>₱ {{ $orderDetails['tracking_number'] }}<</td></tr>
+                    <tr><td>Courier Name</td><td>₱ {{ $orderDetails['courier_name'] }}</td></tr>
+                    <tr><td>Tracking Number</td><td>₱ {{ $orderDetails['tracking_number'] }}</td></tr>
                     @endif
-                    <tr><td>Payment Method</td><td>{{ $orderDetails['payment_method'] }}<</td></tr>
+                    <tr><td>Payment Method</td><td>{{ $orderDetails['payment_method'] }}</td></tr>
                 </table>
                 <table class="table table-striped table-borderless">
                     <tr  class="table-success">
@@ -62,10 +62,10 @@ use App\Models\Order;
                 <table class="table table-striped table-borderless">
                     <tr class="table-success"><td colspan="2"><strong>Delivery Address</strong></td></tr>
                     <tr><td>Name</td><td>{{ $orderDetails['name'] }}</td></tr>
-                    <tr><td>Address</td><td>{{ $orderDetails['address'] }}<</td></tr>
-                    <tr><td>City</td><td>{{ $orderDetails['city'] }}<</td></tr>
-                    <tr><td>Mobile</td><td>{{ $orderDetails['mobile'] }}<</td></tr>
-                    <tr><td>Email</td><td>{{ $orderDetails['email'] }}<</td></tr>
+                    <tr><td>Address</td><td>{{ $orderDetails['address'] }}</td></tr>
+                    <tr><td>City</td><td>{{ $orderDetails['city'] }}</td></tr>
+                    <tr><td>Mobile</td><td>{{ $orderDetails['mobile'] }}</td></tr>
+                    <tr><td>Email</td><td>{{ $orderDetails['email'] }}</td></tr>
                 </table>
             </div>
         </div>

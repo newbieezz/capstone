@@ -9,7 +9,7 @@
 <body> <br><br>
     <table style="width:700px;">
         <tr><td>&nbsp;</td></tr>
-        <tr><td><img src="{{ asset('admin/images/logo.png') }}"></td></tr>
+        {{-- <tr><td><img src="{{ asset('admin/images/logo.png') }}"></td></tr> --}}
         <tr><td>&nbsp;</td></tr>
         <tr><td>Hello {{ $name }}</td></tr>
         <tr><td>&nbsp;</td></tr>
@@ -35,7 +35,7 @@
                     <td>Product Price</td>
                 </tr>
                 @foreach ($orderDetails['order_products'] as $order)
-                <tr bgcolor="#cccccc">
+                <tr bgcolor="#ffffff">
                     <td>{{ $order['product_name'] }}</td>
                     <td>{{ $order['product_code'] }}</td>
                     <td>{{ $order['product_size'] }}</td>

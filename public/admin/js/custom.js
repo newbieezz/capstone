@@ -420,4 +420,17 @@ $(document).ready(function(){
         }
     });
 
+    //show Item courier name and tracking number only if order status is Shipped
+    $("#item_courier_name").hide();
+    $("#item_tracking_number").hide();
+    $("#order_item_status").on("change",function(){
+        if(this.value=="Delivering"){
+            $("#item_courier_name").show();
+            $("#item_tracking_number").show();
+        } else {
+            $("#item_courier_name").hide();
+            $("#item_tracking_number").hide();
+        }
+    });
+
 });

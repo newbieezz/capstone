@@ -152,7 +152,7 @@ class OrderController extends Controller
             $log->save();
 
             //get delivery address
-            $deliveryDetails = Order::select('mobile','email','name')->where('id',$data['order_id'])->first()->toArray();
+            $deliveryDetails = Order::select('mobile','email','name')->where('id',$getOrderId['order_id'])->first()->toArray();
             $order_item_id = $data['order_item_id'];
             $orderDetails = Order::with(['orders_products'=>function($query)use($order_item_id){
                 $query->where('id',$order_item_id);
@@ -164,7 +164,7 @@ class OrderController extends Controller
                 $messageData = [
                     'email' => $email,
                     'name' => $deliveryDetails['name'],
-                    'order_id' => $$getOrderId['order_id'],
+                    'order_id' => $getOrderId['order_id'],
                     'orderDetails' => $orderDetails,
                     'order_status' => $data['order_item_status'],
                     'courier_name' => $data['item_courier_name'],
@@ -179,7 +179,7 @@ class OrderController extends Controller
                 $messageData = [
                     'email' => $email,
                     'name' => $deliveryDetails['name'],
-                    'order_id' => $$getOrderId['order_id'],
+                    'order_id' => $getOrderId['order_id'],
                     'orderDetails' => $orderDetails,
                     'order_status' => $data['order_item_status']
                 ];
@@ -192,5 +192,13 @@ class OrderController extends Controller
             $message = "Item Status has been updated successfuly!";
             return redirect()->back()->with('success_message',$message);
         }
+    }
+
+    public function viewOrderInvoice($order_id){
+        //fetch order details
+        $orderDetails = Order::with('orders_products')->where('id',$order_id)->first()->toArray();
+        $userDetails = User::where('id',$orderDetails['user_id'])->first()->toArray();
+
+        return view('admin.orders.order_invoice')->with(compact('orderDetails','userDetails'));
     }
 }

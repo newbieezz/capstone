@@ -90,7 +90,9 @@ $(document).ready(function(){
         var formdata = $(this).serialize();//get the complete data from the form
         // $(".loader").show(); //show the loader 
         $.ajax({
-            
+            headers:{
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             url:"/user/register",
             type:"POST",
             data:formdata,
@@ -105,8 +107,7 @@ $(document).ready(function(){
                         },3000);
                     });
                 } else if(resp.type=="success"){ //if success in validation
-                    $(".loader").hide();
-                    $("#register-success").attr('styel','color:green');
+                    $("#register-success").attr('style','color:green');
                     $("#register-success").html(resp.message);
                 } 
             }, error:function(){

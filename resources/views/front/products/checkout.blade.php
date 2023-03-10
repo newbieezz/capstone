@@ -32,7 +32,6 @@
               </button>
             </div>
           @endif
-        <form name="checkoutForm" id="checkoutForm" action="{{ url('/checkout') }}" method="post"> @csrf
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <!-- First-Accordion -->
@@ -100,7 +99,7 @@
                             </div>
                             <!-- Billing-&-Shipping-Details /- -->
                             <!-- Checkout -->
-                            <div class="col-lg-6">
+                            <div class="col-lg-6"> <form name="checkoutForm" id="checkoutForm" action="{{ url('/checkout') }}" method="post"> @csrf
                                 <h4 class="section-h4">Your Order</h4>
                                 <div class="order-table">
                                     <table class="u-s-m-b-13">
