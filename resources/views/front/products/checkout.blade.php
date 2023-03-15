@@ -100,6 +100,23 @@
                             <!-- Billing-&-Shipping-Details /- -->
                             <!-- Checkout -->
                             <div class="col-lg-6"> <form name="checkoutForm" id="checkoutForm" action="{{ url('/checkout') }}" method="post"> @csrf
+                                {{--check if the array comes --}}
+                                @if(count($deliveryAddresses)>0) 
+                                    <h4 class="section-h4">Delivery Details</h4>
+                                    @foreach($deliveryAddresses as $address)
+                                        <div class="control-group" style="float:left; margin-right:8px;"><input type="radio" name="address_id" id="address{{ $address['id'] }}" value="{{ $address['id'] }}" /></div>
+                                        <div>
+                                            <label class="control-label">
+                                                {{ $address['name'] }} , {{ $address['address'] }} , {{ $address['city'] }} ( {{ $address['mobile'] }} )
+                                            </label>
+                                            <a style="float:right; margin-left:10px" href="javascript:;" data-addressid="{{ $address['id'] }}"
+                                                class="removeAddress">Remove</a>
+                                            <a style="float:right;" href="javascript:;" data-addressid="{{ $address['id'] }}"
+                                                class="editAddress">Edit</a>
+                                        </div>
+                                        <br />
+                                    @endforeach <br />
+                                @endif
                                 <h4 class="section-h4">Your Order</h4>
                                 <div class="order-table">
                                     <table class="u-s-m-b-13">

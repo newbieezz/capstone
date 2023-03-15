@@ -308,6 +308,7 @@ $(document).ready(function(){
                     });
                 } else {
                      $("#deliveryAddresses").html(resp.view);
+                     window.location.href = "checkout";
                 }
             }, error:function(){
                 alert("Error");
@@ -330,6 +331,7 @@ $(document).ready(function(){
                 type:'post',
                 success:function(resp){
                     $("#deliveryAddresses").html(resp.view);
+                    window.location.href = "checkout";
                 }, error:function(){
                     alert("Error");
                 }
