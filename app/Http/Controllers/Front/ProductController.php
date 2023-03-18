@@ -449,8 +449,12 @@ class ProductController extends Controller
 
                 //send order sms
                 
-            } else {
-                echo "Prepaid payment methods coming soon!";
+            } else if($data['payment_gateway']=="Paypal"){
+                // Paypal - Redirect User to Paypal page after saving order
+                return redirect('/paypal');
+            } 
+            else {
+                echo "Other Prepaid payment methods coming soon!";
             }
 
             return redirect('orderplaced');

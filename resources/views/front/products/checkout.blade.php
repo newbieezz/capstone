@@ -194,7 +194,7 @@
                                     </div>
                                     <div class="u-s-m-b-13">
                                         <input type="radio" class="radio-box" name="payment_gateway" id="paylater" value="Paylater">
-                                        <label class="label-text" for="paypal">Buy Now, Pay Later</label>
+                                        <label class="label-text" for="paylater">Buy Now, Pay Later</label>
                                     </div>
                                     <div class="u-s-m-b-13">
                                         <input type="checkbox" class="check-box" id="accept"  name="accept" value="Yes" title="Please agree to T&C" >
