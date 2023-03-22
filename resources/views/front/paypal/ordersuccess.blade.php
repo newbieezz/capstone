@@ -26,8 +26,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12" align="center">
-                    <h3>YOUR ORDER HAS BEEN PLACED SUCCESSFULLY!</h3>
-                    <p>Your order number is {{ Session::get('order_id') }}  and Grand Total is Php {{ Session::get('grand_total') }}</p> <br><br><br><br><br><br>
+                    <h3>YOUR PAYMENT HAS BEEN CONFIRMED AND SUCCESSFUL!</h3>
+                    <p>Thank you for your purchase. Your order has been processed and will be delivered to you as soon as possible.</p>
+                    <p>Your order number is {{ Session::get('order_id') }}  and total amount paid is Php {{ Session::get('grand_total') }}</p> <br><br><br><br><br><br>
                 </div>
             </div>
         </div>

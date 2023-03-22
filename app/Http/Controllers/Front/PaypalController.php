@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
+use App\Models\Order;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Omnipay\Omnipay;
 
@@ -49,6 +52,10 @@ class PaypalController extends Controller
     }
 
     public function success(Request $request){
+        if(Session::has('order_id')){
+            return redirect('cart');
+        }
+
         if($request->input('paymentId') && $request->input('PayerID')){
             $transaction = $this->gateway->completePurchase(array(
                 'payer_id' => $request->input('PayerID'),
@@ -67,7 +74,28 @@ class PaypalController extends Controller
                 $payment->currency = env('PAYPAL_CURRENCY');
                 $payment->payment_status = $arr['state'];
                 $payment->save();
-                return "Payment is Successful. Your transaction ID is ". $arr['id'];
+                // return "Payment is Successful. Your transaction ID is ". $arr['id'];
+
+                // send order email upon successfully paid
+                $order_id = Session::get('order_id');
+                $orderDetails = Order::with('orders_products')->where('id',$order_id)->first()->toArray();
+                //update order status in db
+                Order::where('id',$order_id)->update(['order_status'=>'Paid']);
+                $email = Auth::user()->email; //get the email from user model
+                $messageData = [
+                    'email' => $email,
+                    'name' => Auth::user()->name,
+                    'order_id' => $order_id,
+                    'orderDetails' => $orderDetails
+                ];
+                Mail::send('emails.order',$messageData,function($message)use($email){
+                    $message->to($email)->subject('Order Placed - P-Store Mart');
+                });
+
+                //empty the cart
+                Cart::where('user_id',Auth::user()->id)->delete();
+                return view('front.paypal.ordersuccess');
+
             } else{
                 return $response->getMessage();
             }
@@ -78,6 +106,7 @@ class PaypalController extends Controller
     }
 
     public function error(){
-        return "User declined the payment.";
+        return view('front.paypal.orderfailed');
+        
     }
 }

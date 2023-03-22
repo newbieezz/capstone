@@ -14,7 +14,7 @@
                         <a href="{{ url('/') }}">Home</a>
                     </li>
                     <li class="is-marked">
-                        <a href="javascript:;">Order Placed</a>
+                        <a href="javascript:;">Payment Failed</a>
                     </li>
                 </ul>
             </div>
@@ -26,8 +26,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12" align="center">
-                    <h3>YOUR ORDER HAS BEEN PLACED SUCCESSFULLY!</h3>
-                    <p>Your order number is {{ Session::get('order_id') }}  and Grand Total is Php {{ Session::get('grand_total') }}</p> <br><br><br><br><br><br>
+                    <h3>YOUR PAYMENT HAS FAILED!</h3>
+                    <p>Please try again after some time and feel free to contact us if there is any inquiry.</p>
                 </div>
             </div>
         </div>
