@@ -426,6 +426,11 @@ class ProductController extends Controller
                 $cartItem->product_price = $getDiscountAttributePrice['final_price'];
                 $cartItem->product_qty = $item['quantity'];
                 $cartItem->save();
+
+                //reduce stock script starts
+                $getProductStock = ProductsAttribute::getProductStock($item['product_id'],$item['size']);
+                $newStock = $getProductStock - $item['quantity'];
+                ProductsAttribute::where(['product_id'=>$item['product_id'],'size'=>$item['size']])->update(['stock'=>$newStock]);
             }
 
             //insert order id in session variable

@@ -1,6 +1,7 @@
 <?php 
   use App\Models\Section;
   $sections = Section::sections();
+  $totalCartItems = totalCartItems();
 ?> 
 <style>
 @media (max-width: 767px) {
@@ -69,8 +70,9 @@
             </ul>
         </li>
           <li><a href="{{ url('cart') }}">
-            <i class="fas fa-cart-plus u-s-m-r-9"></i>
-            My Cart</a></li>
+            <i class="fas fa-cart-plus u-s-m-r-9"></i><span class="item-counter"> 
+                {{ $totalCartItems }}
+            </span>My Cart</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->

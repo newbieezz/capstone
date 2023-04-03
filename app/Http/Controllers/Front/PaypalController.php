@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Omnipay\Omnipay;
+use App\Models\ProductsAttribute;
 
 
 class PaypalController extends Controller
@@ -91,6 +92,13 @@ class PaypalController extends Controller
                 Mail::send('emails.order',$messageData,function($message)use($email){
                     $message->to($email)->subject('Order Placed - P-Store Mart');
                 });
+                
+                foreach($orderDetails['orders_products'] as $key => $order){
+                    //reduce stock script starts
+                    $getProductStock = ProductsAttribute::getProductStock($order['product_id'],$order['size']);
+                    $newStock = $getProductStock - $order['product_qty'];
+                    ProductsAttribute::where(['product_id'=>$order['product_id'],'size'=>$order['size']])->update(['stock'=>$newStock]);
+                }
 
                 //empty the cart
                 Cart::where('user_id',Auth::user()->id)->delete();
