@@ -339,6 +339,34 @@ class ProductController extends Controller
         if($request->isMethod('post')){
             $data = $request->all();
 
+            //website security
+            foreach($getCartItems as $item){
+                //prevent disabled products to order
+                $product_status = Product::getProductStatus($item['product_id']);
+
+                if($product_status == 0){ //if product is  disabled then delete the product
+                    Product::deleteCartProduct($item['product_id']);
+                    $message = "One of the product is disabled! Please try again.";
+                    return redirect('/cart')->with('error_message',$message);
+                }
+
+                //prevent out of stock products 
+                $getProductStock = ProductsAttribute::getProductStock($item['product_id'],$item['size']);
+                if($getProductStock == 0){
+                    Product::deleteCartProduct($item['product_id']);
+                    $message = "One of the product is sold out! Please try again.";
+                    return redirect('/cart')->with('error_message',$message);
+                }
+
+                //prevent disabled product attributes to get ordered 
+                $getAttributeStatus = ProductsAttribute::getAttributeStatus($item['product_id'],$item['size']);
+                if($getAttributeStatus == 0){
+                    Product::deleteCartProduct($item['product_id']);
+                    $message = "One of the products size is disabled! Please try again.";
+                    return redirect('/cart')->with('error_message',$message);
+                }
+            }
+
             //check the delivery address id if delivery address ic clicked 
             if(empty($data['address_id'])){
                 $message = "Please select Delivery Address! ";

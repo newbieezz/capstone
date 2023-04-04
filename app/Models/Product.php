@@ -116,4 +116,16 @@ class Product extends Model
         $getPRoductImage = Product::select('product_image')->where('id',$product_id)->first()->toArray();
         return $getPRoductImage['product_image'];
     }
+
+    public static function getProductStatus($product_id){
+        //check status
+        $getProductStatus = Product::select('status')->where('id',$product_id)->first();
+        return $getProductStatus;
+    }
+
+    public static function deleteCartProduct($product_id){
+        Cart::where('product_id',$product_id)->delete();
+    }
+
+ 
 }
