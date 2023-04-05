@@ -260,6 +260,7 @@ class UserController extends Controller
 
     public function userlogout(){
         Auth::logout();
+        Session::flush();
         return redirect('/');
     }
 }

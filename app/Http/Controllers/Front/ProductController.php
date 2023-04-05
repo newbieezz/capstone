@@ -213,6 +213,10 @@ class ProductController extends Controller
         if($request->isMethod('post')){
             $data = $request->all();
 
+            if($data['quantity'] == 0){
+                $data['quantity'] = 1; 
+            }
+
             //check product stock is available or not
             $getProductStock = ProductsAttribute::getProductStock($data['product_id'],$data['size']);
             //condition if stock less than number of product stock
@@ -353,16 +357,24 @@ class ProductController extends Controller
                 //prevent out of stock products 
                 $getProductStock = ProductsAttribute::getProductStock($item['product_id'],$item['size']);
                 if($getProductStock == 0){
-                    Product::deleteCartProduct($item['product_id']);
-                    $message = "One of the product is sold out! Please try again.";
+                    // Product::deleteCartProduct($item['product_id']);
+                    $message =$item['product']['product_name']." with ".$item['size']." Size is not available. Pleaser remove from cart and choose some other product.";
                     return redirect('/cart')->with('error_message',$message);
                 }
 
                 //prevent disabled product attributes to get ordered 
                 $getAttributeStatus = ProductsAttribute::getAttributeStatus($item['product_id'],$item['size']);
                 if($getAttributeStatus == 0){
-                    Product::deleteCartProduct($item['product_id']);
-                    $message = "One of the products size is disabled! Please try again.";
+                    // Product::deleteCartProduct($item['product_id']);
+                    $message =$item['product']['product_name']." with ".$item['size']." Size is not available. Pleaser remove from cart and choose some other product.";
+                    return redirect('/cart')->with('error_message',$message);
+                }
+
+                //prevent disable categories products to get ordered
+                $getCategoryStatus = Category::getCategoryStatus(($item['product']['category_id']));
+                if($getCategoryStatus == 0){
+                    // Product::deleteCartProduct($item['product_id']);
+                    $message =$item['product']['product_name']." with ".$item['size']." Size is not available. Pleaser remove from cart and choose some other product.";
                     return redirect('/cart')->with('error_message',$message);
                 }
             }
