@@ -69,7 +69,7 @@ class Category extends Model
     }
 
     public static function getCategoryStatus($category_id){
-        $getCategoryStatus = Category::select('status')->where('id',$category_id)->first()->toArray();
+        $getCategoryStatus = Category::select('status')->where('id',$category_id)->first();
         return $getCategoryStatus->status;
     }
 

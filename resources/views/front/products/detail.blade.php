@@ -62,7 +62,7 @@
                       @endif
                       @if(Session::has('success_message'))
                           <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>Success: </strong> {{ Session::get('success_message')}}
+                            <strong>Success: </strong> {{ Session::get('success_message')}} &nbsp;&nbsp; <i><a href="{{ url('/cart') }}"> View Cart</a></i>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                               <span aria-hidden="true">&times;</span>
                             </button>

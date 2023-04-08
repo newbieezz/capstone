@@ -348,7 +348,7 @@ class ProductController extends Controller
                 //prevent disabled products to order
                 $product_status = Product::getProductStatus($item['product_id']);
 
-                if($product_status == 0){ //if product is  disabled then delete the product
+                if($product_status==0){ //if product is  disabled then delete the product
                     Product::deleteCartProduct($item['product_id']);
                     $message = "One of the product is disabled! Please try again.";
                     return redirect('/cart')->with('error_message',$message);
@@ -356,7 +356,7 @@ class ProductController extends Controller
 
                 //prevent out of stock products 
                 $getProductStock = ProductsAttribute::getProductStock($item['product_id'],$item['size']);
-                if($getProductStock == 0){
+                if($getProductStock==0){
                     // Product::deleteCartProduct($item['product_id']);
                     $message =$item['product']['product_name']." with ".$item['size']." Size is not available. Pleaser remove from cart and choose some other product.";
                     return redirect('/cart')->with('error_message',$message);
@@ -364,7 +364,7 @@ class ProductController extends Controller
 
                 //prevent disabled product attributes to get ordered 
                 $getAttributeStatus = ProductsAttribute::getAttributeStatus($item['product_id'],$item['size']);
-                if($getAttributeStatus == 0){
+                if($getAttributeStatus==0){
                     // Product::deleteCartProduct($item['product_id']);
                     $message =$item['product']['product_name']." with ".$item['size']." Size is not available. Pleaser remove from cart and choose some other product.";
                     return redirect('/cart')->with('error_message',$message);
@@ -372,7 +372,7 @@ class ProductController extends Controller
 
                 //prevent disable categories products to get ordered
                 $getCategoryStatus = Category::getCategoryStatus(($item['product']['category_id']));
-                if($getCategoryStatus == 0){
+                if($getCategoryStatus==0){
                     // Product::deleteCartProduct($item['product_id']);
                     $message =$item['product']['product_name']." with ".$item['size']." Size is not available. Pleaser remove from cart and choose some other product.";
                     return redirect('/cart')->with('error_message',$message);

@@ -34,7 +34,7 @@
                     <td>Product Quantity</td>
                     <td>Product Price</td>
                 </tr>
-                @foreach ($orderDetails['order_products'] as $order)
+                @foreach ($orderDetails['orders_products'] as $order)
                 <tr bgcolor="#ffffff">
                     <td>{{ $order['product_name'] }}</td>
                     <td>{{ $order['product_code'] }}</td>

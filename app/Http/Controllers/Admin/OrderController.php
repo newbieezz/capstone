@@ -91,7 +91,7 @@ class OrderController extends Controller
 
             //get delivery address
             $deliveryDetails = Order::select('mobile','email','name')->where('id',$data['order_id'])->first()->toArray();
-            $orderDetails = Order::with('order_products')->where('id',$data['order_id'])->first()->toArray();
+            $orderDetails = Order::with('orders_products')->where('id',$data['order_id'])->first()->toArray();
 
             
             if(!empty($data['courier_name']) && !empty($data['tracking_number'])){

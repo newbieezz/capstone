@@ -120,7 +120,7 @@ class Product extends Model
     public static function getProductStatus($product_id){
         //check status
         $getProductStatus = Product::select('status')->where('id',$product_id)->first();
-        return $getProductStatus;
+        return $getProductStatus->status;
     }
 
     public static function deleteCartProduct($product_id){

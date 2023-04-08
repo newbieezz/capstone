@@ -106,7 +106,7 @@ use App\Models\OrdersLog; ?>
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title"> Update Order Status </h4>
-                    @if(Auth::guard('admin')->user()->type!="vendor")
+                    @if(Auth::guard('admin')->user()->type=="vendor" )
                       <form action="{{ url('admin/update-order-status') }}" method="post"> @csrf
                         <input type="hidden" name="order_id" value="{{ $orderDetails['id'] }}">
                         <select name="order_status" id="order_status" required="">
@@ -145,7 +145,7 @@ use App\Models\OrdersLog; ?>
                                 @endif --}}
                               @endif
                             {{-- @endif --}}
-                              <br>{{ date('Y-m-d h:i:s', strtotime($order['created_at'])) }} <br>
+                              <br>{{ date('Y-m-d h:i:s', strtotime($orderDetails['created_at'])) }} <br>
                             <hr>
                            @endforeach
                     @else
@@ -179,8 +179,8 @@ use App\Models\OrdersLog; ?>
                                 <td>{{ $product['product_name'] }}</td>
                                 <td>{{ $product['product_size'] }}</td>
                                 <td>{{ $product['product_qty'] }}</td>
-                                <td>
-                                  <form action="{{ url('admin/update-order-item-status') }}" method="post"> @csrf
+                                <td> @if(Auth::guard('admin')->user()->type=="vendor" )
+                                  <form action="{{ url('admin/update-order-item-status') }}" method="post" style="width:60%;"> @csrf
                                     <input type="hidden" name="order_item_id" value="{{ $product['id'] }}">
                                     <select name="order_item_status" id="order_item_status"  required="">
                                       <option value="">Select</option>
@@ -190,12 +190,21 @@ use App\Models\OrdersLog; ?>
                                             {{ $status['name'] }}</option>
                                       @endforeach
                                     </select>
-                                    <input style="width:110px;" type="text" name="item_courier_name" id="item_courier_name"  placeholder="Courier Name"
-                                        @if(!empty($product['courier_name'])) value="{{ $product['courier_name'] }}" @endif>
-                                    <input style="width:110px;" type="text" name="item_tracking_number" id="item_tracking_number" placeholder="Tracking Number"
-                                        @if(!empty($product['tracking_number'])) value="{{ $product['tracking_number'] }}" @endif>
+                                    @if(empty($product['courier_name'] && $product['tracking_number']))
+                                    
+                                    @else
+                                      <input style="width:100px;" type="text" name="item_courier_name" id="item_courier_name"  placeholder="Courier Name"
+                                          @if(!empty($product['courier_name'])) value="{{ $product['courier_name'] }}" @endif>
+                                      <input style="width:100px;" type="text" name="item_tracking_number" id="item_tracking_number" placeholder="Tracking Number"
+                                          @if(!empty($product['tracking_number'])) value="{{ $product['tracking_number'] }}" @endif>
+                                      @endif
                                     <button type="submit">Update</button>
                                   </form>
+                                  @else
+                                    
+                                    {{ $product['item_status'] }}
+                                   
+                                  @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -203,12 +212,11 @@ use App\Models\OrdersLog; ?>
                   </div>
                 </div>
               </div> 
-        </div> 
+      </div> 
     </div> 
     <!-- content-wrapper ends -->
     <!-- partial:partials/_footer.html -->
     @include('admin.layout.footer')
     <!-- partial -->
-</div>
 
 @endsection

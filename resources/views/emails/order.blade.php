@@ -27,7 +27,7 @@
                     <td>Product Price</td>
                 </tr>
                 @foreach ($orderDetails['orders_products'] as $order)
-                <tr bgcolor="#cccccc">
+                <tr bgcolor="#f7f4f4">
                     <td>{{ $order['product_name'] }}</td>
                     <td>{{ $order['product_code'] }}</td>
                     <td>{{ $order['product_size'] }}</td>
@@ -36,11 +36,11 @@
                 </tr>
                 @endforeach
                 <tr>
-                    <td colspan="5" align="right">Delivery Fee</td>
+                    <td colspan="4" align="right">Delivery Fee</td>
                     <td>₱ {{ $orderDetails['delivery_fee'] }}</td>
                 </tr>
                 <tr>
-                    <td colspan="5" align="right">Total Amount</td>
+                    <td colspan="4" align="right">Total Amount</td>
                     <td>₱ {{ $orderDetails['grand_total'] }}</td>
                 </tr>
             </table>
