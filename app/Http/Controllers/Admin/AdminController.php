@@ -289,6 +289,15 @@ class AdminController extends Controller
         return view('admin.settings.update_vendor_details')->with(compact('slug','vendorDetails'));
     }
 
+    public function updateVendorCommission(Request $request){
+        if($request->isMethod('post')){
+            $data = $request->all();
+            //update in vendor table
+            Vendor::where('id',$data['vendor_id'])->update(['commission'=>$data['commission']]);
+            return redirect()->back()->with('success_message','Vendor commission updated successfully!');
+        }
+    }
+
     public function login(Request $request){
 
         //sends a request to get all data for login auth

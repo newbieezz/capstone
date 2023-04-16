@@ -48,7 +48,9 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
 
         // Update Vendor Details (slug will work for updates on all vendor such as personal, bank etc.)
         Route::match(['get','post'],'update-vendor-details/{slug}','AdminController@updateVendorDetails');
-
+        //Update Vendor Commission
+        Route::post('update-vendor-commission','AdminController@updateVendorCommission');
+        
         // View Admin / Subadmins / Vendors
         Route::get('admins/{type?}','AdminController@admins');
 
@@ -228,6 +230,8 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
         Route::post('pay','PaypalController@pay')->name('payment');
         Route::get('success','PaypalController@success');
         Route::get('error','PaypalController@error');
+        //Recieve Order/Delivery
+        Route::post('receive-order','OrderController@receiveOrder');
     });
    
 });

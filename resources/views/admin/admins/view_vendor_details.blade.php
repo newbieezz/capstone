@@ -129,6 +129,30 @@
                   </div>
                 </div>
               </div> 
+              <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title"> Commission Information </h4>
+                      @if(Session::has('success_message'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                          <strong>Success: </strong> {{ Session::get('success_message')}}
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                      @endif
+                      <div class="form-group">
+                        <label>Commission per order item (%) </label> <!--why per item? cause in one order can belong to diff vendors -->
+                        <form method="post" action="{{ url('admin/update-vendor-commission') }}"> @csrf
+                          <!-- add vendor id to pass to enable for us to update-->
+                          <input type="hidden" name="vendor_id" value="{{$vendorDetails['vendor_personal']['id']}}"> 
+                          <input name="commission" class="form-control" readonly="" @if(isset($vendorDetails['vendor_personal']['commission']))value="{{ $vendorDetails['vendor_personal']['commission'] }}" @endif> <br>
+                          <button type="sumbit">Update </button>
+                        </form>
+                      </div>
+                  </div>
+                </div>
+              </div>
         </div> 
     </div> 
     <!-- content-wrapper ends -->

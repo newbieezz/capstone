@@ -37,9 +37,11 @@ class OrderController extends Controller
             }])->orderBy('id','Desc')->get()->toArray(); //subquery to see only those products that belongs to a particular vendor by its vendor_id
         } else {
             $orders = Order::with('orders_products')->orderBy('id','Desc')->get()->toArray(); //for admin query
+            // $orderDetails = Order::with('orders_products')->where('id',$id)->first()->toArray();
         }
 
         return view('admin.orders.orders')->with(compact('orders'));
+        
     }
 
     public function orderDetails($id){
@@ -200,5 +202,9 @@ class OrderController extends Controller
         $userDetails = User::where('id',$orderDetails['user_id'])->first()->toArray();
 
         return view('admin.orders.order_invoice')->with(compact('orderDetails','userDetails'));
+    }
+
+    public function trackOrder($id){
+        // if($request->isMethod)
     }
 }

@@ -67,8 +67,13 @@ use App\Models\Order;
                     <tr><td>Mobile</td><td>{{ $orderDetails['mobile'] }}</td></tr>
                     <tr><td>Email</td><td>{{ $orderDetails['email'] }}</td></tr>
                 </table>
+                <div class="col border-end d-flex justify-content-center align-items-end">
+                    <button class="btn btn-primary" type="button">
+                     Order Received 
+                    </button>
+                  </div>
             </div>
         </div>
     </div>
-    <!-- Cart-Page /- -->
+    
 @endsection
