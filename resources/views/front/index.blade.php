@@ -81,11 +81,11 @@
                                             <div class="what-product-is">
                                                 <ul class="bread-crumb">
                                                     <li>
-                                                        <a href="{{ url('product/'.$product['product_code']) }} ">{{ $product['product_code'] }}</a>
+                                                        <a href="{{ url('product/'.$product['id']) }}">{{ $product['product_code'] }}</a>
                                                     </li>
                                                 </ul>
                                                 <h6 class="item-title">
-                                                    <a href="{{ url('product/'.$product['product_name']) }}">{{ $product['product_name'] }}</a>
+                                                    <a href="{{ url('product/'.$product['id']) }}">{{ $product['product_name'] }}</a>
                                                 </h6>
                                                 <div class="item-stars">
                                                     <div class='star' title="0 out of 5 - based on 0 Reviews">

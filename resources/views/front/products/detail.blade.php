@@ -543,14 +543,14 @@
                                             <div class="what-product-is">
                                                 <ul class="bread-crumb">
                                                     <li class="has-separator">
-                                                        <a href="shop-v1-root-category.html">{{ $product['product_code'] }}</a>
+                                                        <a href="{{ url('product/'.$product['id']) }}">{{ $product['product_code'] }}</a>
                                                     </li>
                                                     <li>
-                                                        <a href="listing.html">{{$product ['brands'] ['name'] }}</a>
+                                                        <a href="{{ url('product/'.$product['id']) }}">{{$product ['brands'] ['name'] }}</a>
                                                     </li>
                                                 </ul>
                                                 <h6 class="item-title">
-                                                    <a href="single-product.html">{{ $product['product_name'] }}</a>
+                                                    <a href="{{ url('product/'.$product['id']) }}">{{ $product['product_name'] }}</a>
                                                 </h6>
                                                 <div class="item-description">
                                                     <p>{{ $product['description'] }} </p>
@@ -631,14 +631,14 @@
                                             <div class="what-product-is">
                                                 <ul class="bread-crumb">
                                                     <li class="has-separator">
-                                                        <a href="shop-v1-root-category.html">{{ $product['product_code'] }}</a>
+                                                        <a href="{{ url('product/'.$product['id']) }}">{{ $product['product_code'] }}</a>
                                                     </li>
                                                     <li>
-                                                        <a href="listing.html">{{$product ['brands'] ['name'] }}</a>
+                                                        <a href="{{ url('product/'.$product['id']) }}">{{$product ['brands'] ['name'] }}</a>
                                                     </li>
                                                 </ul>
                                                 <h6 class="item-title">
-                                                    <a href="single-product.html">{{ $product['product_name'] }}</a>
+                                                    <a href="{{ url('product/'.$product['id']) }}">{{ $product['product_name'] }}</a>
                                                 </h6>
                                                 <div class="item-description">
                                                     <p>{{ $product['description'] }} </p>
