@@ -15,8 +15,19 @@ class Vendor extends Model
     }
 
     public static function getVendorShop($vendorid){
-        $getVendorShop = VendorsBusinessDetails::select('shop_name')->where('vendor_id',$vendorid)->first();
+        $getVendorShop = VendorsBusinessDetails::select('shop_name')->first()->toArray();
 
         return $getVendorShop['shop_name'];
+    }
+    public static function getVendorImages($vendorid){
+        $getVendorImage = VendorsBusinessDetails::select('shop_image')->where('vendor_id',$vendorid)->first()->toArray();
+        return $getVendorImage['shop_image'];
+    }
+
+    public static function getVendorDetails(){
+        //use of get() for multiple addresses and toArray to convert it to Arrays
+        $getVendorDetails = VendorsBusinessDetails::get()->toArray();
+
+        return $getVendorDetails; //used in checkout page (checkout function inside ProductController)
     }
 }

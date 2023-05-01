@@ -175,6 +175,8 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
 
     //Show all Vendor Products
     Route::get('/products/{vendorid}','ProductController@vendorListing');
+    //Show List of Vendors/Shop
+    Route::get('/vendor-list','VendorController@vendorlist');
     //Product Detail Page
     Route::get('/product/{id?}','ProductController@detail');
     //Get product attribute price, change price by sizes

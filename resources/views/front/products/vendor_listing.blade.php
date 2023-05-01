@@ -1,4 +1,5 @@
-
+<?php use App\Models\Product;
+    use App\Models\Vendor;  ?>
 @extends('front.layout.layout')
 @section('content')
     <!-- Page Introduction Wrapper -->
@@ -9,10 +10,10 @@
                 <ul class="bread-crumb">
                     <li class="has-separator">
                         <i class="ion ion-md-home"></i>
-                        <a href="index.html">Home</a>
+                        <a href="{{ url('/') }}">Home</a>
                     </li>
                     <li class="is-marked">
-                        <a href="listing.html">{{ $getVendorShop }}</a>
+                        <a href="/products/{{ $productDetails['vendor']['id'] }}">{{ $getVendorShop }}</a>
                     </li>
                 </ul>
             </div>
@@ -23,64 +24,20 @@
     <div class="page-shop u-s-p-t-80">
         <div class="container">
             <!-- Shop-Intro -->
-            <div class="shop-intro">
+            {{-- <div class="shop-intro">
                 <ul class="bread-crumb">
                     <li class="has-separator">
                         <a href="{{ url('/') }}">Home</a>
                     </li>
                     <li>{{ $getVendorShop }}</li>
                 </ul>
-            </div>
+            </div> --}}
             <!-- Shop-Intro /- -->
             <div class="row">
                 <!-- Shop-Right-Wrapper -->
-                <div class="col-lg-9 col-md-9 col-sm-12">
+                <div class="col-lg-10 col-md col-sm-12">
                     <!-- Page-Bar -->
                     <div class="page-bar clearfix">
-                        {{-- <div class="shop-settings">
-                            <a id="list-anchor">
-                                <i class="fas fa-th-list"></i>
-                            </a>
-                            <a id="grid-anchor" class="active">
-                                <i class="fas fa-th"></i>
-                            </a>
-                        </div> --}}
-                        <!-- Toolbar Sorter 1  --> 
-                        {{-- <form name="sortProducts" id="sortProducts" >
-                            <input type="hidden" name="url" id="url" value="{{ $url }}">
-                            <div class="toolbar-sorter">
-                                <div class="select-box-wrapper">
-                                    <label class="sr-only" for="sort-by">Sort By</label>
-                                    <select name="sort" id="sort" class="select-box" >
-                                        {{-- <option selected="selected" value="">Sort By: Best Selling</option> --}}
-                                        {{-- <option selected="">Select</option>
-                                        <option value="product_latest" @if(isset($_GET['sort']) && $_GET['sort']=="product_latest") selected="" @endif>
-                                            Sort By: Latest</option>
-                                        <option value="price_lowest" @if(isset($_GET['sort']) && $_GET['sort']=="price_lowest") selected="" @endif>
-                                            Sort By: Lowest Price</option>
-                                        <option value="price_highest" @if(isset($_GET['sort']) && $_GET['sort']=="price_highest") selected="" @endif>
-                                            Sort By: Highest Price</option>
-                                        <option value="name_a_z" @if(isset($_GET['sort']) && $_GET['sort']=="name_a_z") selected="" @endif>
-                                            Sort By: Name A - Z</option>
-                                        <option value="name_z_a" @if(isset($_GET['sort']) && $_GET['sort']=="name_z_a") selected="" @endif>
-                                            Sort By: Name Z - A</option>
-                                        {{-- <option value="">Sort By: Best Rating</option> --}}
-                                    {{-- </select>
-                                </div>
-                            </div>
-                        </form> --}} 
-                        <!-- //end Toolbar Sorter 1  -->
-                        <!-- Toolbar Sorter 2  -->
-                        {{-- <div class="toolbar-sorter-2">
-                            <div class="select-box-wrapper">
-                                <label class="sr-only" for="show-records">Show Records Per Page</label>
-                                <select class="select-box" id="show-records">
-                                    <option selected="selected" value="">Showing: {{ count($categoryProducts) }}</option>
-                                    <option value="">Showing All</option>
-                                </select>
-                            </div>
-                        </div>  --}}
-                        <!-- //end Toolbar Sorter 2  -->
                     </div>
                     <!-- Page-Bar /- -->
                     <!-- Simple Paganitaion /- -->

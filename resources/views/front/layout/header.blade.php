@@ -71,7 +71,7 @@
         </li>
           <li><a href="{{ url('cart') }}">
             <i class="fas fa-cart-plus u-s-m-r-9"></i><span class="item-counter"> 
-                {{ $totalCartItems }}
+                {{-- {{ $totalCartItems }} --}}
             </span>My Cart</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
