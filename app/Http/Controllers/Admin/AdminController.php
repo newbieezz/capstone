@@ -12,7 +12,8 @@ use App\Models\VendorsBusinessDetails;
 use App\Models\VendorsBankDetails;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
-use Nette\Utils\Image;
+use Intervention\Image\Facades\Image;
+
 
 class AdminController extends Controller
 {
@@ -124,7 +125,6 @@ class AdminController extends Controller
                         'vendor_name.required' => 'Name is required!',
                         'vendor_city.required' => 'City is required!',
                         'vendor_city.regex' => 'Name is required!',
-                        'vendor_name.regex' => 'Valid City is required!',
                         'vendor_mobile.required' => 'Mobile is required!',
                         'vendor_mobile.numeric' => 'Valid Mobile is required!',
                         'vendor_pincode.required' => 'Mobile is required!',
