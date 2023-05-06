@@ -21,30 +21,7 @@
     <!-- Account-Page -->
     <div class="page-account u-s-p-t-80">
         <div class="container">
-            @if(Session::has('success_message'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Success: </strong> {{ Session::get('success_message')}}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            @endif
-            @if(Session::has('error_message'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Error: </strong> {{ Session::get('error_message')}}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif
-            @if($errors->any())
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Error: </strong> <?php echo implode('', $errors->all('<div>:message</div>')); ?>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif
+           
             <div class="row">
                 <!-- Login -->
                 <div class="col-lg-6">
@@ -87,6 +64,30 @@
                 <!-- Register -->
                 <div class="col-lg-6">
                     <div class="reg-wrapper">
+                        @if(Session::has('success_message'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>Success: </strong> {{ Session::get('success_message')}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        @endif
+                        @if(Session::has('error_message'))
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Error: </strong> {{ Session::get('error_message')}}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        @endif
+                        @if($errors->any())
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Error: </strong> <?php echo implode('', $errors->all('<div>:message</div>')); ?>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        @endif
                         <h2 class="account-h2 u-s-m-b-20">Register</h2>
                         <h6 class="account-h6 u-s-m-b-30">Registering for this site allows you to access your order status
                             and history.</h6>

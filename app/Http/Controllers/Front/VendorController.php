@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\front;
+namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\Product;
 use App\Models\Vendor;
+use App\Models\VendorsBusinessDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -131,5 +133,20 @@ class VendorController extends Controller
         } else{
             abort(404);
         }
+    }
+
+    public function vendorlist(){
+
+        
+       
+        $getVendorShop = Vendor::getVendorShop('shop_name');
+    //     //get vendor products
+        $vendorProducts = Product::with('brands')->where('status',1);
+        $getVendorDetails = VendorsBusinessDetails::get()->toArray();
+        $vendorProducts = $vendorProducts->paginate(30);
+        //  dd($vendorProducts);
+       return view('front.vendors.vendor_list')->with(compact('getVendorShop','vendorProducts','getVendorDetails'));
+
+    //     return view('front.vendors.vendor_list')->with(compact('getVendorShop','vendorProducts'));
     }
 }

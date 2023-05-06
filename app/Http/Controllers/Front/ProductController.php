@@ -56,7 +56,7 @@ class ProductController extends Controller
                     //checking for size (product attribute)
                     if(isset($data['size']) && !empty($data['size'])){
                         $productIds = ProductsAttribute::select('product_id')->whereIn('size',$data['size'])
-                                      ->pluck('product_id')->toFrray();//fetching th product Ids
+                                      ->pluck('product_id')->toArray();//fetching th product Ids
                         $categoryProducts->whereIn('products.id',$productIds);
                     }
 
@@ -206,10 +206,13 @@ class ProductController extends Controller
         $getVendorShop = Vendor::getVendorShop($vendorid);
         //get vendor products
         $vendorProducts = Product::with('brands')->where('vendor_id',$vendorid)->where('status',1);
+        $productDetails = Product::with(['section','category','attributes'=>function($query){
+            $query->where('stock','>',0)->where('status',1);
+         },'images','brands','vendor'])->find($vendorid)->toArray();
 
         $vendorProducts = $vendorProducts->paginate(30);
         // dd($vendorProducts);
-       return view('front.products.vendor_listing')->with(compact('getVendorShop','vendorProducts'));
+       return view('front.products.vendor_listing')->with(compact('getVendorShop','vendorProducts','productDetails'));
     }
 
     public function cartAdd(Request $request){
