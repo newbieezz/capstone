@@ -10,10 +10,13 @@ use App\Models\Product;
 use App\Models\ProductsFilter;
 use App\Models\Brand;
 use App\Models\Cart;
+use App\Models\CreditLimit;
 use App\Models\DeliveryAddress;
 use App\Models\Order;
 use App\Models\OrdersProduct;
 use App\Models\ProductsAttribute;
+use App\Models\Installment;
+use App\Models\Paylater;
 use App\Models\Vendor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -396,6 +399,7 @@ class ProductController extends Controller
                 $message = "Please agree to the Terms & Condition! ";
                 return redirect()->back()->with('error_message',$message);
             }
+
                 // echo "<pre>"; print_r($data); die;
             //get the delivery address from the address_id
             $deliveryAddress = DeliveryAddress::where('id',$data['address_id'])->first()->toArray();
@@ -407,7 +411,7 @@ class ProductController extends Controller
             } else if($data['payment_gateway'] == "Paypal"){
                 $payment_method = "Paypal";
                 $order_status = "New";
-            } else if($data['payment_gateway'] == "Paylater"){
+            } else if(str_contains($data['payment_gateway'], 'paylater')){
                 $payment_method = "Paylater";
                 $order_status = "Pending";
             } else {
@@ -473,6 +477,25 @@ class ProductController extends Controller
                 ProductsAttribute::where(['product_id'=>$item['product_id'],'size'=>$item['size']])->update(['stock'=>$newStock]);
             }
 
+            if ($payment_method == 'Paylater') {
+                $installment_id = explode('-',$data['payment_gateway'])[1];
+                $installment = Installment::find($installment_id);
+                for($x = 0; $x < $installment['number_of_months']; $x++) {
+                    $paylater = new PayLater();
+                    $paylater->installment_id = $installment_id;
+                    $paylater->user_id = Auth::user()->id;
+                    $paylater->order_id = $order_id;
+                    $paylater->amount = round(($grand_total + ($grand_total * ($installment['interest_rate']/100))) / $installment['number_of_months'] , 2);
+                    $paylater->interest_rate = $installment['interest_rate'];
+                    $paylater->save();
+                }
+
+                $credit_limit = CreditLimit::where('user_id', Auth::user()->id)->first();
+                $credit_limit->update([
+                    'current_credit_limit' => $credit_limit->current_credit_limit - ($grand_total + ($grand_total * ($installment['interest_rate']/100)))
+                ]);
+            }
+
             //insert order id in session variable
             Session::put('order_id',$order_id);
 
@@ -504,8 +527,9 @@ class ProductController extends Controller
 
             return redirect('orderplaced');
         }
+        $installments = Installment::all();
 
-        return view('front.products.checkout')->with(compact('deliveryAddresses','getCartItems')); //show checkout page
+        return view('front.products.checkout')->with(compact('deliveryAddresses','getCartItems', 'installments')); //show checkout page
     }
 
     //user order placed THANKS page

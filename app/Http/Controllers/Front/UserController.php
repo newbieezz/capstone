@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\User;
+use App\Models\CreditLimit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -47,6 +48,14 @@ class UserController extends Controller
                 $user->password = bcrypt($data['password']);//encrypt in hash
                 $user->status = 0;
                 $user->save();
+
+                if ($user) {
+                    CreditLimit::create([
+                        'user_id' => $user->id,
+                        'current_credit_limit' => 5000,
+                        'credit_limit' => 5000,
+                    ]);
+                }
 
                 //activte the user only when user confirms his email acc (with confirmation email)
                 $email = $data['email'];

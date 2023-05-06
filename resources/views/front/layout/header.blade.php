@@ -1,7 +1,7 @@
 <?php 
   use App\Models\Section;
   $sections = Section::sections();
-  $totalCartItems = totalCartItems();
+//   $totalCartItems = totalCartItems();
 ?> 
 <style>
 @media (max-width: 767px) {
@@ -51,6 +51,10 @@
                         <i class="fas fa-cog u-s-m-r-9"></i>My Orders</a>
                 </li>
                 <li>
+                    <a href="{{ url('user/pay-later') }}">
+                        <i class="fas fa-cog u-s-m-r-9"></i>Pay Later</a>
+                </li>
+                <li>
                     <a href="{{ url('user/logout') }}">
                         <i class="fas fa-sign-in-alt u-s-m-r-9"></i>
                         Logout</a>
@@ -71,7 +75,6 @@
         </li>
           <li><a href="{{ url('cart') }}">
             <i class="fas fa-cart-plus u-s-m-r-9"></i><span class="item-counter"> 
-                {{ $totalCartItems }}
             </span>My Cart</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>

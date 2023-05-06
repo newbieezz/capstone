@@ -9,10 +9,12 @@ use App\Models\OrdersLog;
 use App\Models\OrdersProduct;
 use App\Models\OrderStatus;
 use App\Models\User;
+use App\Models\Paylater;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use \Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -90,6 +92,15 @@ class OrderController extends Controller
             $log->order_id = $data['order_id'];
             $log->order_status = $data['order_status'];
             $log->save();
+
+            if ($data['order_status'] == 'Delivered') {
+                $pay_later = PayLater::where('order_id', $data['order_id'])->get();
+                foreach ($pay_later as $key => $value) {
+                    PayLater::find($value['id'])->update([
+                        'due_date' => Carbon::now()->addMonths($key + 1)->format('Y-m-d')
+                    ]);
+                }
+            }
 
             //get delivery address
             $deliveryDetails = Order::select('mobile','email','name')->where('id',$data['order_id'])->first()->toArray();

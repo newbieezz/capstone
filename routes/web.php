@@ -225,6 +225,8 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
         Route::get('orderplaced','ProductController@orderplaced');
         //Users Orders
         Route::get('user/orders/{id?}','OrderController@orders');
+        //Users Pay Later
+        Route::get('user/pay-later','PayLaterController@index');
         //Paypal
         Route::get('paypal','PaypalController@paypal');
         Route::post('pay','PaypalController@pay')->name('payment');
