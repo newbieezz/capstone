@@ -26,7 +26,9 @@ class IndexController extends Controller
         //query for showing the featured products
         $featured = Product::where(['is_featured'=>'Yes','status'=>1])->inRandomOrder()->get()->toArray();
         $vendor = Vendor::orderBy('id','Desc')->where('status',1)->limit(10)->get()->toArray();
-        return view('front.index')->with(compact('sliderbanners','fixbanners','newProducts','bestSeller','discountedProds','featured','vendor'));
+        $getVendorDetails = VendorsBusinessDetails::get()->toArray();
+
+        return view('front.index')->with(compact('sliderbanners','fixbanners','newProducts','bestSeller','discountedProds','featured','vendor','getVendorDetails'));
     }
 
 

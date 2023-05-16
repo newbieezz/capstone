@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
-
+use Intervention\Image\Facades\Image;
 
 class VendorController extends Controller
 {
@@ -135,9 +135,25 @@ class VendorController extends Controller
         }
     }
 
-    public function vendorlist(){
-
-        
+    public function vendorlist(Request $request){
+        // ADD SHOP IMAGE
+        // $vendor = new VendorsBusinessDetails;
+        //  //Upload shop image after resize, small250x250, medium500x500, large1000x1000
+        //     if($request->hasFile('shop_image')){
+        //         $image_tmp = $request->file('shop_image');
+        //             if($image_tmp->isValid()){
+        //                 // Building function to get the image extension of the file
+        //             $extension = $image_tmp->getClientOriginalExtension();
+        //                     // Generate new image name
+        //             $imageName = rand(111,99999).'.'.$extension;
+        //             $mediumImagePath = 'front/images/shop_images/'.$imageName;
+        //                     // Upload the Image
+        //             Image::make($image_tmp)->resize(500,500)->save($mediumImagePath);
+    
+        //              $vendor->shop_image = $imageName;
+    
+        //         }
+        //     } 
        
         $getVendorShop = Vendor::getVendorShop('shop_name');
     //     //get vendor products

@@ -1409,9 +1409,10 @@ body {
 /* Section-Maker component */
 /* Sub-component-1 */
 .sec-maker-header {
-  border-bottom: 1px solid #DCDCDD;
+  border-top: 1px solid #DCDCDD;
   margin-bottom: 25px;
-  padding: 10px 0; }
+  margin-top: 25px;
+  padding: 25px 25px; }
 
 /* Sub-component-2 */
 .sec-maker-h3 {
