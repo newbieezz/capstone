@@ -15,12 +15,12 @@ class Cart extends Model
         if(Auth::check()){
             //if user logged in / pick auth id of the user
             $getCartItems = Cart::with(['product'=>function($query){
-                $query->select('id','category_id','product_name','product_code','product_image');
+                $query->select('id','category_id','vendor_id','product_name','product_code','product_image');
             }])->orderby('id','Desc')->where('user_id',Auth::user()->id)->get()->toArray();
         } else {
             //if user not logged in / pick session id of the user
             $getCartItems = Cart::with(['product'=>function($query){
-                $query->select('id','category_id','product_name','product_code','product_image');
+                $query->select('id','category_id','vendor_id','product_name','product_code','product_image');
             }])->orderby('id','Desc')->where('session_id',Session::get('session_id'))->get()->toArray();
         }
 
@@ -29,5 +29,11 @@ class Cart extends Model
 
     public function product(){
         return $this->belongsTo('App\Models\Product','product_id');
+    }
+
+    //relation between vendor and cart items
+    public function vendor(){
+        //cart belongs to a vendor
+        return $this->belongsTo('App\Models\Vendor','vendor_id')->with('vendorshopdetails');
     }
 }

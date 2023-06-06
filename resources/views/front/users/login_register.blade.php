@@ -11,7 +11,7 @@
                         <a href="{{ url('/') }}">Home</a>
                     </li>
                     <li class="is-marked">
-                        <a href="account.html">Account</a>
+                        <a href="javascript:;">Account</a>
                     </li>
                 </ul>
             </div>

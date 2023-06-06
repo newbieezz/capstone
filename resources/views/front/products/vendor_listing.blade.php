@@ -13,7 +13,7 @@
                         <a href="{{ url('/') }}">Home</a>
                     </li>
                     <li class="is-marked">
-                        <a href="javascript;:">{{ $getVendorShop}}</a>
+                        <a href="javascript:;">{{ $getVendorShop}}</a>
                     </li>
                 </ul>
             </div>

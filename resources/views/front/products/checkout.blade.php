@@ -117,8 +117,12 @@
                                         <br />
                                     @endforeach <br />
                                 @endif
-                                <h4 class="section-h4">Your Order</h4>
-                                <div class="order-table">
+                            </div>
+                            <!-- Checkout /- -->
+                            <div class="col-lg-6"></div>
+                            <div class="col-lg-12 col-md-12" style="float:right; margin-left:8px;">
+                                <h4 class="section-h4">Your Order</h4> <br><br>
+                                <div class="order-table" id="udcartItems" >
                                     <table class="u-s-m-b-13">
                                         <thead>
                                             <tr>
@@ -129,22 +133,22 @@
                                         <tbody>
                                             @php $total_price = 0 @endphp
                                             @foreach($getCartItems as $item)
-                                            <?php 
-                                                $getDiscountAttributePrice = Product::getDiscountAttributePrice($item['product_id'],$item['size']);
-                                            ?>
-                                                <tr>
-                                                    <td>
-                                                        <a href="{{ url('product/'.$item['product_id']) }}"> 
-                                                        <img width="30" src="{{ asset('front/images/product_images/small/'.$item['product']['product_image']) }}" alt="Product">
-                                                        <h6 class="order-h6">{{ $item['product']['product_name'] }}</h6>
-                                                        <span class="order-span-quantity">  {{ $item['size'] }}  (x{{ $item['quantity'] }})</span>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="order-h6">₱ {{ $getDiscountAttributePrice['final_price'] * $item['quantity']}}</h6>
-                                                    </td>
-                                                </tr>
-                                            {{-- Calculate the subtotal for each produuct by its desired quantity --}}
-                                            @php $total_price = $total_price + ($getDiscountAttributePrice['final_price'] * $item['quantity']) @endphp
+                                                <?php 
+                                                    $getDiscountAttributePrice = Product::getDiscountAttributePrice($item['product_id'],$item['size']);
+                                                ?> 
+                                                    <tr>
+                                                        <td>
+                                                            <a href="{{ url('product/'.$item['product_id']) }}"> 
+                                                            <img width="30" src="{{ asset('front/images/product_images/small/'.$item['product']['product_image']) }}" alt="Product">
+                                                            <h6 class="order-h6">{{ $item['product']['product_name'] }}</h6>
+                                                            <span class="order-span-quantity">  {{ $item['size'] }}  (x{{ $item['quantity'] }})</span>
+                                                        </td>
+                                                        <td>
+                                                            <h6 class="order-h6">₱ {{ $getDiscountAttributePrice['final_price'] * $item['quantity']}}</h6>
+                                                        </td>
+                                                    </tr> 
+                                                {{-- Calculate the subtotal for each produuct by its desired quantity --}}
+                                                @php $total_price = $total_price + ($getDiscountAttributePrice['final_price'] * $item['quantity']) @endphp
                                             @endforeach
                                             <tr>
                                                 <td>
@@ -159,7 +163,7 @@
                                                     <h6 class="order-h6">Delivery Fee</h6>
                                                 </td>
                                                 <td>
-                                                    <h6 class="order-h6">₱ 0.00</h6>
+                                                    <h6 class="order-h6">To be followed . . .</h6>
                                                 </td>
                                             </tr>
                                             {{-- <tr>  T  A  X
@@ -184,10 +188,10 @@
                                         <input type="radio" class="radio-box" name="payment_gateway" id="cash-on-delivery" value="COD">
                                         <label class="label-text" for="cash-on-delivery">Cash on Delivery</label>
                                     </div>
-                                    {{-- <div class="u-s-m-b-13">
+                                    <div class="u-s-m-b-13">
                                         <input type="radio" class="radio-box" name="payment_gateway" id="credit-card-stripe" value="Stripe">
                                         <label class="label-text" for="credit-card-stripe">Credit Card (Stripe)</label>
-                                    </div> --}}
+                                    </div>
                                     <div class="u-s-m-b-13">
                                         <input type="radio" class="radio-box" name="payment_gateway" id="paypal" value="Paypal">
                                         <label class="label-text" for="paypal">Paypal</label>
@@ -195,14 +199,15 @@
                                     <div class="u-s-m-b-13">
                                         <label class="label-text" for="paylater">Buy Now, Pay Later</label>
                                         
-                                        <!-- @foreach($installments as $installment)
+                                        {{-- INSTALLMENTS --}}
+                                     {{-- @foreach($installments as $installment)
                                         <div style="margin-left:25px" class="u-s-m-b-13">
                                             <input type="radio" class="radio-box" name="{{$installment['installment_id']}}" id="{{$installment['installment_id']}}" value="{{$installment['installment_id']}}">
                                             <label class="label-text" for="{{$installment['installment_id']}}">{{ $installment['description'] }}</label>
                                             <br>
                                             <span>For {{ round(($total_price + ($total_price * ($installment['interest_rate']/100))) / $installment['number_of_months'] , 2) }} Php/Month</span>
                                         </div>
-                                        @endforeach -->
+                                        @endforeach --}}
                                     </div>
                                     <div class="u-s-m-b-13">
                                         @foreach($installments as $key => $installment)
@@ -221,7 +226,6 @@
                                     <button type="submit" class="button button-outline-secondary">Place Order</button>
                                 </div>
                             </div>
-                            <!-- Checkout /- -->
                         </div>
                 </div>
             </div>
