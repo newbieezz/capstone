@@ -10,6 +10,15 @@
     <meta name="description" content="">
     <meta name="csrf-token" content="{{ csrf_token()}}" />
     <title>P-Store </title>
+    
+    <link rel="stylesheet" href="{{ url('admin/vendors/feather/feather.css') }}">
+    <link rel="stylesheet" href="{{ url('admin/vendors/ti-icons/css/themify-icons.css') }}">
+    <link rel="stylesheet" href="{{ url('admin/vendors/css/vendor.bundle.base.css') }}">
+    <link rel="stylesheet" href="{{ url('admin/vendors/mdi/css/materialdesignicons.min.css') }}">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="{{ url('admin/vendors/ti-icons/css/themify-icons.css') }}">
+    <!-- End plugin css for this page -->
     <!-- Base Google Font for Web-app -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
     <!-- Google Fonts for Banners only -->

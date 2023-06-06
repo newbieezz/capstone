@@ -10,6 +10,7 @@ use App\Models\OrdersProduct;
 use App\Models\OrderStatus;
 use App\Models\User;
 use App\Models\Paylater;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -122,6 +123,7 @@ class OrderController extends Controller
                 Mail::send('emails.order_status',$messageData,function($message)use($email){
                     $message->to($email)->subject('Order Status Updated - P-Store Mart');
                 });
+
             } else {
                 //send order status update email
                 $email = $deliveryDetails['email'];
@@ -136,6 +138,15 @@ class OrderController extends Controller
                     $message->to($email)->subject('Order Status Updated - P-Store Mart');
                 });
             }
+
+            Notification::insert([
+                'module' => 'order',
+                'module_id' => $data['order_id'],
+                'user_id' => $orderDetails['user_id'],
+                'sender' => 'vendor',
+                'receiver' => 'customer',
+                'message' => "Your order status is {$data['order_status']}. Please check order ID: " . $data['order_id']
+            ]);
 
             $message = "Order Status has been updated successfuly!";
             return redirect()->back()->with('success_message',$message);
@@ -201,6 +212,14 @@ class OrderController extends Controller
                 });
             }
 
+            Notification::insert([
+                'module' => 'order',
+                'module_id' => $data['order_id'],
+                'user_id' => $orderDetails['user_id'],
+                'sender' => 'vendor',
+                'receiver' => 'customer',
+                'message' => "Your order item status is {$data['order_item_status']}. Please check order ID: " . $data['order_id']
+            ]);
             
             $message = "Item Status has been updated successfuly!";
             return redirect()->back()->with('success_message',$message);

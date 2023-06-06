@@ -18,6 +18,7 @@ use App\Models\ProductsAttribute;
 use App\Models\Installment;
 use App\Models\Paylater;
 use App\Models\Vendor;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
@@ -533,6 +534,16 @@ class ProductController extends Controller
                     //reduce stock script starts
                     $getProductStock = ProductsAttribute::getProductStock($item['product_id'],$item['size']);
                     $newStock = $getProductStock - $item['quantity'];
+                    if (!$newStock) {
+                        Notification::insert([
+                            'module' => 'product',
+                            'module_id' => $order['product_id'],
+                            'user_id' => $orderDetails['orders_products'][$key]['vendor_id'],
+                            'sender' => 'product',
+                            'receiver' => 'vendor',
+                            'message' => $order['product_name'] . ' is out of stock.'
+                        ]);
+                    }
                     ProductsAttribute::where(['product_id'=>$item['product_id'],'size'=>$item['size']])->update(['stock'=>$newStock]);
                 }
 
@@ -769,6 +780,16 @@ class ProductController extends Controller
                         //reduce stock script starts
                         $getProductStock = ProductsAttribute::getProductStock($item['product_id'],$item['size']);
                         $newStock = $getProductStock - $item['quantity'];
+                        if (!$newStock) {
+                            Notification::insert([
+                                'module' => 'product',
+                                'module_id' => $order['product_id'],
+                                'user_id' => $orderDetails['orders_products'][$key]['vendor_id'],
+                                'sender' => 'product',
+                                'receiver' => 'vendor',
+                                'message' => $order['product_name'] . ' is out of stock.'
+                            ]);
+                        }
                         ProductsAttribute::where(['product_id'=>$item['product_id'],'size'=>$item['size']])->update(['stock'=>$newStock]);
                     }
 
@@ -793,6 +814,15 @@ class ProductController extends Controller
 
                     //insert order id in session variable
                     Session::put('order_id',$order_id);
+
+                    Notification::insert([
+                        'module' => 'order',
+                        'module_id' => $order_id,
+                        'user_id' => $getProductDetails['vendor_id'],
+                        'sender' => 'customer',
+                        'receiver' => 'vendor',
+                        'message' => Auth::user()->name . ' has made an order. Please check order ID: ' . $order_id
+                    ]);
 
                     DB::commit();
 

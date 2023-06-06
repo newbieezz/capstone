@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -93,11 +94,32 @@ class PaypalController extends Controller
                     $message->to($email)->subject('Order Placed - P-Store Mart');
                 });
                 
+                Notification::insert([
+                    'module' => 'order',
+                    'module_id' => $order_id,
+                    'user_id' => $orderDetails['orders_products'][0]['vendor_id'],
+                    'sender' => 'customer',
+                    'receiver' => 'vendor',
+                    'message' => Auth::user()->name . ' has made an order. Please check order ID: ' . $order_id
+                ]);
+
                 foreach($orderDetails['orders_products'] as $key => $order){
                     //reduce stock script starts
                     $getProductStock = ProductsAttribute::getProductStock($order['product_id'],$order['size']);
                     $newStock = $getProductStock - $order['product_qty'];
                     ProductsAttribute::where(['product_id'=>$order['product_id'],'size'=>$order['size']])->update(['stock'=>$newStock]);
+
+                    if (!$newStock) {
+                        Notification::insert([
+                            'module' => 'product',
+                            'module_id' => $order['product_id'],
+                            'user_id' => $orderDetails['orders_products'][$key]['vendor_id'],
+                            'sender' => 'product',
+                            'receiver' => 'vendor',
+                            'message' => $order['product_name'] . ' is out of stock.'
+                        ]);
+                    }
+
                 }
 
                 //empty the cart

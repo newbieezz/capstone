@@ -1,5 +1,6 @@
 <?php 
   use App\Models\Section;
+  use App\Models\Notification;
   $sections = Section::sections();
 //   $totalCartItems = totalCartItems();
 ?> 
@@ -33,6 +34,38 @@
 
       <nav id="navbar" class="navbar">
         <ul>
+        
+            @if(Auth::check())
+                <li class="nav-item dropdown">
+                    <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
+                    <i class="icon-bell mx-0"></i>
+                    <span class="count"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
+                        <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
+
+                        @foreach(Notification::where('user_id', Auth::guard('web')->user()->id)->orderByDesc('id')->get() as $key => $value)
+                            @if ($value->module == 'order' && $value->receiver == 'vendor')
+                            <a style="padding-right: 30px" href="{{ url('admin/orders/'. $value->module_id)}}" class="dropdown-item preview-item">
+                            @elseif ($value->module == 'order' && $value->receiver == 'customer')
+                            <a style="padding-right: 30px" href="{{ url('user/orders/'. $value->module_id)}}" class="dropdown-item preview-item">
+                            @endif
+                                <!-- <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-success">
+                                        <i class="ti-info-alt mx-0"></i>
+                                    </div>
+                                </div> -->
+                                <div class="preview-item-content">
+                                    <h6 class="preview-subject font-weight-normal">{{ strtoupper($value->module) }}</h6>
+                                    <p class="font-weight-light small-text mb-0 text-muted">
+                                        {{ $value->message }}
+                                    </p>
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+                </li>
+            @endif
           <li><a class="active" href="{{ url('/') }}">Home</a></li>
           <li><a href="{{ url('about') }}"><span>About</span></a></li>
           <li class="dropdown"><a href="#"><span>@if(Auth::check())
@@ -42,6 +75,35 @@
                     @endif </span> <i class="bi bi-chevron-down"></i></a> 
             <ul class="g-dropdown" style="width:200px">
                 @if(Auth::check())
+                <li class="nav-item dropdown">
+                    <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
+                    <i class="icon-bell mx-0"></i>
+                    <span class="count"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
+                        <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
+
+                        @foreach(Notification::where('id', Auth::guard('web')->user()->id)->orderByDesc('id')->get() as $key => $value)
+                            @if ($value->module == 'order')
+                            <a href="{{ url('admin/orders/'. $value->module_id)}}" class="dropdown-item preview-item">
+                            @else
+                            <a href="{{ url('admin/orders/'. $value->module_id)}}" class="dropdown-item preview-item">
+                            @endif
+                                <!-- <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-success">
+                                        <i class="ti-info-alt mx-0"></i>
+                                    </div>
+                                </div> -->
+                                <div class="preview-item-content">
+                                    <h6 class="preview-subject font-weight-normal">{{ strtoupper($value->module) }}</h6>
+                                    <p class="font-weight-light small-text mb-0 text-muted">
+                                        {{ $value->message }}
+                                    </p>
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+                </li>
                 <li>
                     <a href="{{ url('user/account') }}">
                         <i class="fas fa-cog u-s-m-r-9"></i>My Account</a>
