@@ -353,262 +353,270 @@ class ProductController extends Controller
         }
     }
     //USER Checkout
-    public function checkout(Request $request){
-        $deliveryAddresses = DeliveryAddress::deliveryAddresses(); //show the addresses
-        $getCartItems = Cart::getCartItems(); //show cart items
+    // public function checkout(Request $request){
+    //     $deliveryAddresses = DeliveryAddress::deliveryAddresses(); //show the addresses
+    //     $getCartItems = Cart::getCartItems(); //show cart items
 
-        //if cart is empty then redirect user to the cart page
-        if(count($getCartItems) == 0){
-            $message = "Cart is empty! Please add some Products to checkout";
-            return redirect('cart')->with('error_message',$message);
-        }
+    //     //if cart is empty then redirect user to the cart page
+    //     if(count($getCartItems) == 0){
+    //         $message = "Cart is empty! Please add some Products to checkout";
+    //         return redirect('cart')->with('error_message',$message);
+    //     }
 
-        $groupedProducts = [];
-        foreach ($getCartItems as $item) {
-            $vendorShop = $item['product']['vendor_id'];
-            if (!isset($groupedProducts[$vendorShop])) {
-                $groupedProducts[$vendorShop] = [];
-            }
-            $groupedProducts[$vendorShop][] = $item;
-        }
-        // Get the selected vendor (replace with your actual logic)
-        $selectedVendor = isset($_POST['vendor_id']) ? $_POST['vendor_id'] : null;
+    //     $groupedProducts = [];
+    //     foreach ($getCartItems as $item) {
+    //         $vendorShop = $item['product']['vendor_id'];
+    //         if (!isset($groupedProducts[$vendorShop])) {
+    //             $groupedProducts[$vendorShop] = [];
+    //         }
+    //         $groupedProducts[$vendorShop][] = $item;
+    //     }
+    //     // Get the selected vendor (replace with your actual logic)
+    //     $selectedVendor = isset($_POST['vendor_id']) ? $_POST['vendor_id'] : null;
 
-        // Checkout process for a specific vendor
-        if ($selectedVendor && isset($groupedProducts[$selectedVendor])) {
-            $getCartItems = $groupedProducts[$selectedVendor];
-            $total_price = 0 ;
+    //     // Checkout process for a specific vendor
+    //     if ($selectedVendor && isset($groupedProducts[$selectedVendor])) {
+    //         $getCartItems = $groupedProducts[$selectedVendor];
+    //         $total_price = 0 ;
             
-            foreach ($getCartItems as $item) {
+    //         foreach ($getCartItems as $item) {
                 
-                // $totalPrice += $item['product_price'];
-                //  //calculate and fetch order total price
+    //             // $totalPrice += $item['product_price'];
+    //             //  //calculate and fetch order total price
                 
-                foreach($getCartItems as $item){
-                    $getDiscountAttributePrice = Product::getDiscountAttributePrice($item['product_id'],$item['size']);
-                    $total_price = $total_price + ($getDiscountAttributePrice['final_price'] * $item['quantity']);
-                }
+    //             foreach($getCartItems as $item){
+    //                 $getDiscountAttributePrice = Product::getDiscountAttributePrice($item['product_id'],$item['size']);
+    //                 $total_price = $total_price + ($getDiscountAttributePrice['final_price'] * $item['quantity']);
+    //             }
 
-                //calculate with delivery fee
-                $delivery_fee = 0;
+    //             //calculate with delivery fee
+    //             $delivery_fee = 0;
 
-                //calculate grand total
-                $grand_total = $total_price + $delivery_fee ;
+    //             //calculate grand total
+    //             $grand_total = $total_price + $delivery_fee ;
 
-                //Insert tht grand total in session variable
-                Session::put('grand_total',$grand_total);
+    //             //Insert tht grand total in session variable
+    //             Session::put('grand_total',$grand_total);
 
-            }
-            // Add your checkout logic here (e.g., payment processing, order placement, etc.)
-            // echo "Checkout successful! Total price for $selectedVendor: $totalPrice";
+    //         }
+    //         // Add your checkout logic here (e.g., payment processing, order placement, etc.)
+    //         // echo "Checkout successful! Total price for $selectedVendor: $totalPrice";
 
-            //check request condition for payment method 
-            if($request->isMethod('post')){
-                $data = $request->all();
+    //         //check request condition for payment method 
+    //         if($request->isMethod('post')){
+    //             $data = $request->all();
 
-                //website security
-                foreach($getCartItems as $item){
-                    //prevent disabled products to order
-                    $product_status = Product::getProductStatus($item['product_id']);
+    //             //website security
+    //             foreach($getCartItems as $item){
+    //                 //prevent disabled products to order
+    //                 $product_status = Product::getProductStatus($item['product_id']);
 
-                    if($product_status==0){ //if product is  disabled then delete the product
-                        Product::deleteCartProduct($item['product_id']);
-                        $message = "One of the product is disabled! Please try again.";
-                        return redirect('/cart')->with('error_message',$message);
-                    }
+    //                 if($product_status==0){ //if product is  disabled then delete the product
+    //                     Product::deleteCartProduct($item['product_id']);
+    //                     $message = "One of the product is disabled! Please try again.";
+    //                     return redirect('/cart')->with('error_message',$message);
+    //                 }
 
-                    //prevent out of stock products 
-                    $getProductStock = ProductsAttribute::getProductStock($item['product_id'],$item['size']);
-                    if($getProductStock==0){
-                        // Product::deleteCartProduct($item['product_id']);
-                        $message =$item['product']['product_name']." with ".$item['size']." Size is not available. Pleaser remove from cart and choose some other product.";
-                        return redirect('/cart')->with('error_message',$message);
-                    }
+    //                 //prevent out of stock products 
+    //                 $getProductStock = ProductsAttribute::getProductStock($item['product_id'],$item['size']);
+    //                 if($getProductStock==0){
+    //                     // Product::deleteCartProduct($item['product_id']);
+    //                     $message =$item['product']['product_name']." with ".$item['size']." Size is not available. Pleaser remove from cart and choose some other product.";
+    //                     return redirect('/cart')->with('error_message',$message);
+    //                 }
 
-                    //prevent disabled product attributes to get ordered 
-                    $getAttributeStatus = ProductsAttribute::getAttributeStatus($item['product_id'],$item['size']);
-                    if($getAttributeStatus==0){
-                        // Product::deleteCartProduct($item['product_id']);
-                        $message =$item['product']['product_name']." with ".$item['size']." Size is not available. Pleaser remove from cart and choose some other product.";
-                        return redirect('/cart')->with('error_message',$message);
-                    }
+    //                 //prevent disabled product attributes to get ordered 
+    //                 $getAttributeStatus = ProductsAttribute::getAttributeStatus($item['product_id'],$item['size']);
+    //                 if($getAttributeStatus==0){
+    //                     // Product::deleteCartProduct($item['product_id']);
+    //                     $message =$item['product']['product_name']." with ".$item['size']." Size is not available. Pleaser remove from cart and choose some other product.";
+    //                     return redirect('/cart')->with('error_message',$message);
+    //                 }
 
-                    //prevent disable categories products to get ordered
-                    $getCategoryStatus = Category::getCategoryStatus(($item['product']['category_id']));
-                    if($getCategoryStatus==0){
-                        // Product::deleteCartProduct($item['product_id']);
-                        $message =$item['product']['product_name']." with ".$item['size']." Size is not available. Pleaser remove from cart and choose some other product.";
-                        return redirect('/cart')->with('error_message',$message);
-                    }
-                }
+    //                 //prevent disable categories products to get ordered
+    //                 $getCategoryStatus = Category::getCategoryStatus(($item['product']['category_id']));
+    //                 if($getCategoryStatus==0){
+    //                     // Product::deleteCartProduct($item['product_id']);
+    //                     $message =$item['product']['product_name']." with ".$item['size']." Size is not available. Pleaser remove from cart and choose some other product.";
+    //                     return redirect('/cart')->with('error_message',$message);
+    //                 }
+    //             }
 
-                //check the delivery address id if delivery address ic clicked 
-                if(empty($data['address_id'])){
-                    $message = "Please select Delivery Address! ";
-                    return redirect()->back()->with('error_message',$message);
-                }
+    //             //check the delivery address id if delivery address ic clicked 
+    //             if(empty($data['address_id'])){
+    //                 $message = "Please select Delivery Address! ";
+    //                 return redirect()->back()->with('error_message',$message);
+    //             }
 
-                //payment method validation
-                if(empty($data['payment_gateway'])){
-                    $message = "Please select Payment Methods! ";
-                    return redirect()->back()->with('error_message',$message);
-                }
+    //             //payment method validation
+    //             if(empty($data['payment_gateway'])){
+    //                 $message = "Please select Payment Methods! ";
+    //                 return redirect()->back()->with('error_message',$message);
+    //             }
 
-                //terms and condition validation
-                if(empty($data['accept'])){
-                    $message = "Please agree to the Terms & Condition! ";
-                    return redirect()->back()->with('error_message',$message);
-                }
+    //             //terms and condition validation
+    //             if(empty($data['accept'])){
+    //                 $message = "Please agree to the Terms & Condition! ";
+    //                 return redirect()->back()->with('error_message',$message);
+    //             }
 
-                    // echo "<pre>"; print_r($data); die;
-                //get the delivery address from the address_id
-                $deliveryAddress = DeliveryAddress::where('id',$data['address_id'])->first()->toArray();
-                // dd($deliveryAddress);
-                //set payment method as COD if Selected from user else set as prepaid and such
-                if($data['payment_gateway'] == "COD"){
-                    $payment_method = "COD";
-                    $order_status = "New";
-                } else if($data['payment_gateway'] == "Paypal"){
-                    $payment_method = "Paypal";
-                    $order_status = "New";
-                } else if(str_contains($data['payment_gateway'], 'paylater')){
-                    $payment_method = "Paylater";
-                    $order_status = "Pending";
-                } else {
-                    $payment_method = "Prepaid"; //advance payment from the customer
-                    $order_status = "Pending";
-                }
+    //                 // echo "<pre>"; print_r($data); die;
+    //             //get the delivery address from the address_id
+    //             $deliveryAddress = DeliveryAddress::where('id',$data['address_id'])->first()->toArray();
+    //             // dd($deliveryAddress);
+    //             //set payment method as COD if Selected from user else set as prepaid and such
+    //             if($data['payment_gateway'] == "COD"){
+    //                 $payment_method = "COD";
+    //                 $order_status = "New";
+    //             } else if($data['payment_gateway'] == "Paypal"){
+    //                 $payment_method = "Paypal";
+    //                 $order_status = "New";
+    //             } else if(str_contains($data['payment_gateway'], 'paylater')){
+    //                 $payment_method = "Paylater";
+    //                 $order_status = "Pending";
+    //             } else {
+    //                 $payment_method = "Prepaid"; //advance payment from the customer
+    //                 $order_status = "Pending";
+    //             }
 
-                DB::beginTransaction();
+    //             DB::beginTransaction();
 
-                //calculate and fetch order total price
-                $total_price = 0 ;
-                foreach($getCartItems as $item){
-                    $getDiscountAttributePrice = Product::getDiscountAttributePrice($item['product_id'],$item['size']);
-                    $total_price = $total_price + ($getDiscountAttributePrice['final_price'] * $item['quantity']);
-                }
+    //             //calculate and fetch order total price
+    //             $total_price = 0 ;
+    //             foreach($getCartItems as $item){
+    //                 $getDiscountAttributePrice = Product::getDiscountAttributePrice($item['product_id'],$item['size']);
+    //                 $total_price = $total_price + ($getDiscountAttributePrice['final_price'] * $item['quantity']);
+    //             }
 
-                //calculate with delivery fee
-                $delivery_fee = 0;
+    //             //calculate with delivery fee
+    //             $delivery_fee = 0;
 
-                //calculate grand total
-                $grand_total = $total_price + $delivery_fee ;
+    //             //calculate grand total
+    //             $grand_total = $total_price + $delivery_fee ;
 
-                //Insert tht grand total in session variable
-                Session::put('grand_total',$grand_total);
+    //             //Insert tht grand total in session variable
+    //             Session::put('grand_total',$grand_total);
 
-                //Insert order details
-                $order = new Order;
-                $order->user_id = Auth::user()->id;
-                $order->name = $deliveryAddress['name'];
-                $order->address = $deliveryAddress['address'];
-                $order->city = $deliveryAddress['city'];
-                $order->mobile = $deliveryAddress['mobile'];
-                $order->email = Auth::user()->email;
-                $order->delivery_fee = $delivery_fee;
-                $order->order_status = $order_status;
-                $order->payment_gateway = $data['payment_gateway'];
-                $order->payment_method = $payment_method;
-                $order->grand_total = $grand_total;
-                $order->save(); //save
+    //             //Insert order details
+    //             $order = new Order;
+    //             $order->user_id = Auth::user()->id;
+    //             $order->name = $deliveryAddress['name'];
+    //             $order->address = $deliveryAddress['address'];
+    //             $order->city = $deliveryAddress['city'];
+    //             $order->mobile = $deliveryAddress['mobile'];
+    //             $order->email = Auth::user()->email;
+    //             $order->delivery_fee = $delivery_fee;
+    //             $order->order_status = $order_status;
+    //             $order->payment_gateway = $data['payment_gateway'];
+    //             $order->payment_method = $payment_method;
+    //             $order->grand_total = $grand_total;
+    //             $order->save(); //save
 
-                $order_id = DB::getPdo()->lastInsertId(); //fetch the latest saved order 
-                foreach($getCartItems as $item){
-                    $cartItem = new OrdersProduct;
-                    $cartItem->order_id = $order_id;
-                    $cartItem->user_id = Auth::user()->id;
-                    $getProductDetails = Product::select('product_code','product_name','admin_id','vendor_id')
-                                        ->where('id',$item['product_id'])->first()->toArray();
+    //             $order_id = DB::getPdo()->lastInsertId(); //fetch the latest saved order 
+    //             foreach($getCartItems as $item){
+    //                 $cartItem = new OrdersProduct;
+    //                 $cartItem->order_id = $order_id;
+    //                 $cartItem->user_id = Auth::user()->id;
+    //                 $getProductDetails = Product::select('product_code','product_name','admin_id','vendor_id')
+    //                                     ->where('id',$item['product_id'])->first()->toArray();
 
-                    $cartItem->admin_id = $getProductDetails['admin_id'];
-                    $cartItem->vendor_id = $getProductDetails['vendor_id'];
-                    $cartItem->product_id = $item['product_id'];
-                    $cartItem->product_code = $getProductDetails['product_code'];
-                    $cartItem->product_name = $getProductDetails['product_name'];
-                    $cartItem->product_size = $item['size'];
-                    $getDiscountAttributePrice = Product::getDiscountAttributePrice($item['product_id'],$item['size']);
-                    $cartItem->product_price = $getDiscountAttributePrice['final_price'];
-                    $cartItem->product_qty = $item['quantity'];
-                    $cartItem->save();
+    //                 $cartItem->admin_id = $getProductDetails['admin_id'];
+    //                 $cartItem->vendor_id = $getProductDetails['vendor_id'];
+    //                 $cartItem->product_id = $item['product_id'];
+    //                 $cartItem->product_code = $getProductDetails['product_code'];
+    //                 $cartItem->product_name = $getProductDetails['product_name'];
+    //                 $cartItem->product_size = $item['size'];
+    //                 $getDiscountAttributePrice = Product::getDiscountAttributePrice($item['product_id'],$item['size']);
+    //                 $cartItem->product_price = $getDiscountAttributePrice['final_price'];
+    //                 $cartItem->product_qty = $item['quantity'];
+    //                 $cartItem->save();
 
-                    //reduce stock script starts
-                    $getProductStock = ProductsAttribute::getProductStock($item['product_id'],$item['size']);
-                    $newStock = $getProductStock - $item['quantity'];
-                    if (!$newStock) {
-                        Notification::insert([
-                            'module' => 'product',
-                            'module_id' => $order['product_id'],
-                            'user_id' => $orderDetails['orders_products'][$key]['vendor_id'],
-                            'sender' => 'product',
-                            'receiver' => 'vendor',
-                            'message' => $order['product_name'] . ' is out of stock.'
-                        ]);
-                    }
-                    ProductsAttribute::where(['product_id'=>$item['product_id'],'size'=>$item['size']])->update(['stock'=>$newStock]);
-                }
+    //                 $orderDetails = Order::with('orders_products')->where('id',$order_id)->first()->toArray();
+    //                 //reduce stock script starts
+    //                 $getProductStock = ProductsAttribute::getProductStock($item['product_id'],$item['size']);
+    //                 $newStock = $getProductStock - $item['quantity'];
+    //                 if (!$newStock) {
+    //                     Notification::insert([
+    //                         'module' => 'product',
+    //                         'module_id' => $order['product_id'],
+    //                         'user_id' => $orderDetails['orders_products']['vendor_id'],
+    //                         'sender' => 'product',
+    //                         'receiver' => 'vendor',
+    //                         'message' => $order['product_name'] . ' is out of stock.'
+    //                     ]);
+    //                 }
+    //                 ProductsAttribute::where(['product_id'=>$item['product_id'],'size'=>$item['size']])->update(['stock'=>$newStock]);
+    //             }
 
-                if ($payment_method == 'Paylater') {
-                    $installment_id = explode('-',$data['payment_gateway'])[1];
-                    $installment = Installment::find($installment_id);
-                    for($x = 0; $x < $installment['number_of_months']; $x++) {
-                        $paylater = new PayLater();
-                        $paylater->installment_id = $installment_id;
-                        $paylater->user_id = Auth::user()->id;
-                        $paylater->order_id = $order_id;
-                        $paylater->amount = round(($grand_total + ($grand_total * ($installment['interest_rate']/100))) / $installment['number_of_months'] , 2);
-                        $paylater->interest_rate = $installment['interest_rate'];
-                        $paylater->save();
-                    }
+    //             if ($payment_method == 'Paylater') {
+    //                 $installment_id = explode('-',$data['payment_gateway'])[1];
+    //                 $installment = Installment::find($installment_id);
+    //                 for($x = 0; $x < $installment['number_of_months']; $x++) {
+    //                     $paylater = new PayLater();
+    //                     $paylater->installment_id = $installment_id;
+    //                     $paylater->user_id = Auth::user()->id;
+    //                     $paylater->order_id = $order_id;
+    //                     $paylater->amount = round(($grand_total + ($grand_total * ($installment['interest_rate']/100))) / $installment['number_of_months'] , 2);
+    //                     $paylater->interest_rate = $installment['interest_rate'];
+    //                     $paylater->save();
+    //                 }
 
-                    $credit_limit = CreditLimit::where('user_id', Auth::user()->id)->first();
-                    $credit_limit->update([
-                        'current_credit_limit' => $credit_limit->current_credit_limit - ($grand_total + ($grand_total * ($installment['interest_rate']/100)))
-                    ]);
-                }
+    //                 $credit_limit = CreditLimit::where('user_id', Auth::user()->id)->first();
+    //                 $credit_limit->update([
+    //                     'current_credit_limit' => $credit_limit->current_credit_limit - ($grand_total + ($grand_total * ($installment['interest_rate']/100)))
+    //                 ]);
+    //             }
 
-                //insert order id in session variable
-                Session::put('order_id',$order_id);
+    //             //insert order id in session variable
+    //             Session::put('order_id',$order_id);
 
-                DB::commit();
+    //             DB::commit();
 
-                $orderDetails = Order::with('orders_products')->where('id',$order_id)->first()->toArray();
-                if($data['payment_gateway']=="COD"){
-                    //send order email
-                    $email = Auth::user()->email; //get the email from user model
-                    $messageData = [
-                        'email' => $email,
-                        'name' => Auth::user()->name,
-                        'order_id' => $order_id,
-                        'orderDetails' => $orderDetails
-                    ];
-                    Mail::send('emails.order',$messageData,function($message)use($email){
-                        $message->to($email)->subject('Order Placed - P-Store Mart');
-                    });
+                
+    //             if($data['payment_gateway']=="COD"){
+    //                 //send order email
+    //                 $email = Auth::user()->email; //get the email from user model
+    //                 $messageData = [
+    //                     'email' => $email,
+    //                     'name' => Auth::user()->name,
+    //                     'order_id' => $order_id,
+    //                     'orderDetails' => $orderDetails
+    //                 ];
+    //                 Mail::send('emails.order',$messageData,function($message)use($email){
+    //                     $message->to($email)->subject('Order Placed - P-Store Mart');
+    //                 });
 
-                    //send order sms
+    //                 //send order sms
                     
-                } else if($data['payment_gateway']=="Paypal"){
-                    // Paypal - Redirect User to Paypal page after saving order
-                    return redirect('/paypal');
-                } 
-                else {
-                    echo "Other Prepaid payment methods coming soon!";
-                }
+    //             } else if($data['payment_gateway']=="Paypal"){
+    //                 // Paypal - Redirect User to Paypal page after saving order
+    //                 return redirect('/paypal');
+    //             } 
+    //             else {
+    //                 echo "Other Prepaid payment methods coming soon!";
+    //             }
 
-                return redirect('orderplaced');
-            }
+    //             return redirect('orderplaced');
+    //         }
             
 
-        }
-        $installments = Installment::all();
-        return view('front.products.checkout')->with(compact('deliveryAddresses','getCartItems', 'installments','groupedProducts')); //show checkout page
+    //     }
+    //     $installments = Installment::all();
+    //     return view('front.products.checkout')->with(compact('deliveryAddresses','getCartItems', 'installments','groupedProducts')); //show checkout page
         
-    }
+    // }
 
+    
     //check out by store
-    public function storecheckout(Request $request, $id=null){
+    public function checkout(Request $request, $id=null){
             $deliveryAddresses = DeliveryAddress::deliveryAddresses(); //show the addresses
             $getCartItems = Cart::getCartItems();
+
+            //if cart is empty then redirect user to the cart page
+            if(count($getCartItems) == 0){
+                $message = "Cart is empty! Please add some Products to checkout";
+                return redirect('cart')->with('error_message',$message);
+            }
 
             //group the cart items by vendor
             foreach ($getCartItems as $item) {
@@ -618,83 +626,27 @@ class ProductController extends Controller
                 }
                 $groupedProducts[$vendorShop][] = $item;
             }
-    
+
             //get the selected vendor
-            $selectedVendorId = $id ; //replace with your code to get the selected vendor ID
-            
+            $selectedVendorId = $item['product']['vendor_id'] ; 
+
             //get the items for the selected vendor
-            if($selectedVendorId && isset($groupedProducts[$selectedVendorId])){
-                $getCartItems = $groupedProducts[$selectedVendorId];
+            if(isset($groupedProducts[$selectedVendorId])){
+                $selectedVendorItems = $groupedProducts[$selectedVendorId];
                 $total_price = 0 ;
-                foreach($getCartItems as $item){
-                    // dd($getCartItems);
-                    // $totalPrice += $item['product_price'];
-                     //calculate and fetch order total price
-                
-                    foreach($getCartItems as $item){
-                        $getDiscountAttributePrice = Product::getDiscountAttributePrice($item['product_id'],$item['size']);
-                        $total_price = $total_price + ($getDiscountAttributePrice['final_price'] * $item['quantity']);
-                    }
+            }
 
-                    //calculate with delivery fee
-                    $delivery_fee = 0;
+            if($request->isMethod('post')){
+                $data = $request->all();
+                // echo "<pre>"; print_r($data);
 
-                    //calculate grand total
-                    $grand_total = $total_price + $delivery_fee ;
-
-                    //Insert tht grand total in session variable
-                    Session::put('grand_total',$grand_total);
-
-                }
-                    // Add your checkout logic here (e.g., payment processing, order placement, etc.)
-                    // echo "Checkout successful! Total price for $selectedVendor: $totalPrice";
-                    //check request condition for payment method 
-                if($request->isMethod('post')){
-                    $data = $request->all();
-
-                    //website security
-                    foreach($getCartItems as $item){
-                        //prevent disabled products to order
-                        $product_status = Product::getProductStatus($item['product_id']);
-
-                        if($product_status==0){ //if product is  disabled then delete the product
-                            Product::deleteCartProduct($item['product_id']);
-                            $message = "One of the product is disabled! Please try again.";
-                            return redirect('/cart')->with('error_message',$message);
-                        }
-
-                        //prevent out of stock products 
-                        $getProductStock = ProductsAttribute::getProductStock($item['product_id'],$item['size']);
-                        if($getProductStock==0){
-                            // Product::deleteCartProduct($item['product_id']);
-                            $message =$item['product']['product_name']." with ".$item['size']." Size is not available. Pleaser remove from cart and choose some other product.";
-                            return redirect('/cart')->with('error_message',$message);
-                        }
-
-                        //prevent disabled product attributes to get ordered 
-                        $getAttributeStatus = ProductsAttribute::getAttributeStatus($item['product_id'],$item['size']);
-                        if($getAttributeStatus==0){
-                            // Product::deleteCartProduct($item['product_id']);
-                            $message =$item['product']['product_name']." with ".$item['size']." Size is not available. Pleaser remove from cart and choose some other product.";
-                            return redirect('/cart')->with('error_message',$message);
-                        }
-
-                        //prevent disable categories products to get ordered
-                        $getCategoryStatus = Category::getCategoryStatus(($item['product']['category_id']));
-                        if($getCategoryStatus==0){
-                            // Product::deleteCartProduct($item['product_id']);
-                            $message =$item['product']['product_name']." with ".$item['size']." Size is not available. Pleaser remove from cart and choose some other product.";
-                            return redirect('/cart')->with('error_message',$message);
-                        }
-                    }
-
-                    //check the delivery address id if delivery address ic clicked 
+                //check the delivery address id if delivery address ic clicked 
                     if(empty($data['address_id'])){
                         $message = "Please select Delivery Address! ";
                         return redirect()->back()->with('error_message',$message);
                     }
 
-                    //payment method validation
+                //payment method validation
                     if(empty($data['payment_gateway'])){
                         $message = "Please select Payment Methods! ";
                         return redirect()->back()->with('error_message',$message);
@@ -706,7 +658,7 @@ class ProductController extends Controller
                         return redirect()->back()->with('error_message',$message);
                     }
 
-                        // echo "<pre>"; print_r($data); die;
+                    // echo "<pre>"; print_r($data); die;
                     //get the delivery address from the address_id
                     $deliveryAddress = DeliveryAddress::where('id',$data['address_id'])->first()->toArray();
                     // dd($deliveryAddress);
@@ -726,15 +678,11 @@ class ProductController extends Controller
                     }
 
                     DB::beginTransaction();
-
-                    //calculate and fetch order total price
-                    $total_price = 0 ;
-                    foreach($getCartItems as $item){
+                    foreach($selectedVendorItems as $item){
                         $getDiscountAttributePrice = Product::getDiscountAttributePrice($item['product_id'],$item['size']);
-                        $total_price = $total_price + ($getDiscountAttributePrice['final_price'] * $item['quantity']);
+                            $total_price = $total_price + ($getDiscountAttributePrice['final_price'] * $item['quantity']);
                     }
-
-                    //calculate with delivery fee
+                     //calculate with delivery fee
                     $delivery_fee = 0;
 
                     //calculate grand total
@@ -742,30 +690,30 @@ class ProductController extends Controller
 
                     //Insert tht grand total in session variable
                     Session::put('grand_total',$grand_total);
+                     //Insert order details
+                     $order = new Order;
+                     $order->user_id = Auth::user()->id;
+                     $order->vendor_id = $selectedVendorId;
+                     $order->name = $deliveryAddress['name'];
+                     $order->address = $deliveryAddress['address'];
+                     $order->city = $deliveryAddress['city'];
+                     $order->mobile = $deliveryAddress['mobile'];
+                     $order->email = Auth::user()->email;
+                     $order->delivery_fee = $delivery_fee;
+                     $order->order_status = $order_status;
+                     $order->payment_gateway = $data['payment_gateway'];
+                     $order->payment_method = $payment_method;
+                     $order->grand_total = $grand_total;
+                     $order->save(); //save
+                     $order_id = DB::getPdo()->lastInsertId(); //fetch the latest saved order 
 
-                    //Insert order details
-                    $order = new Order;
-                    $order->user_id = Auth::user()->id;
-                    $order->name = $deliveryAddress['name'];
-                    $order->address = $deliveryAddress['address'];
-                    $order->city = $deliveryAddress['city'];
-                    $order->mobile = $deliveryAddress['mobile'];
-                    $order->email = Auth::user()->email;
-                    $order->delivery_fee = $delivery_fee;
-                    $order->order_status = $order_status;
-                    $order->payment_gateway = $data['payment_gateway'];
-                    $order->payment_method = $payment_method;
-                    $order->grand_total = $grand_total;
-                    $order->save(); //save
-
-                    $order_id = DB::getPdo()->lastInsertId(); //fetch the latest saved order 
-                    foreach($getCartItems as $item){
+                    foreach($selectedVendorItems as $item){
                         $cartItem = new OrdersProduct;
                         $cartItem->order_id = $order_id;
                         $cartItem->user_id = Auth::user()->id;
                         $getProductDetails = Product::select('product_code','product_name','admin_id','vendor_id')
-                                            ->where('id',$item['product_id'])->first()->toArray();
-
+                                            ->where('id',$item['product_id'])->first()->toArray();   
+                        // dd($getProductDetails);
                         $cartItem->admin_id = $getProductDetails['admin_id'];
                         $cartItem->vendor_id = $getProductDetails['vendor_id'];
                         $cartItem->product_id = $item['product_id'];
@@ -776,23 +724,26 @@ class ProductController extends Controller
                         $cartItem->product_price = $getDiscountAttributePrice['final_price'];
                         $cartItem->product_qty = $item['quantity'];
                         $cartItem->save();
-
+                        
                         //reduce stock script starts
+                        $orderDetails = Order::with('orders_products')->where('id',$order_id)->first()->toArray();
                         $getProductStock = ProductsAttribute::getProductStock($item['product_id'],$item['size']);
                         $newStock = $getProductStock - $item['quantity'];
                         if (!$newStock) {
                             Notification::insert([
                                 'module' => 'product',
                                 'module_id' => $order['product_id'],
-                                'user_id' => $orderDetails['orders_products'][$key]['vendor_id'],
+                                'user_id' => $orderDetails['orders_products']['vendor_id'],
                                 'sender' => 'product',
                                 'receiver' => 'vendor',
                                 'message' => $order['product_name'] . ' is out of stock.'
                             ]);
                         }
                         ProductsAttribute::where(['product_id'=>$item['product_id'],'size'=>$item['size']])->update(['stock'=>$newStock]);
+                        // dd($newStock);
                     }
 
+                    //PayLater payment script
                     if ($payment_method == 'Paylater') {
                         $installment_id = explode('-',$data['payment_gateway'])[1];
                         $installment = Installment::find($installment_id);
@@ -825,7 +776,7 @@ class ProductController extends Controller
                     ]);
 
                     DB::commit();
-
+            
                     $orderDetails = Order::with('orders_products')->where('id',$order_id)->first()->toArray();
                     if($data['payment_gateway']=="COD"){
                         //send order email
@@ -839,7 +790,7 @@ class ProductController extends Controller
                         Mail::send('emails.order',$messageData,function($message)use($email){
                             $message->to($email)->subject('Order Placed - P-Store Mart');
                         });
-
+    
                         //send order sms
                         
                     } else if($data['payment_gateway']=="Paypal"){
@@ -849,31 +800,12 @@ class ProductController extends Controller
                     else {
                         echo "Other Prepaid payment methods coming soon!";
                     }
-
-                    return redirect('orderplaced');
-                }
+                
+                return redirect('orderplaced');
             }
-            $installments = Installment::all();
-            return view('front.products.checkout')->with(compact('deliveryAddresses','getCartItems', 'installments','groupedProducts')); //show checkout page   
-            
-    }
 
-    public function vcheckout(Request $request, $id=null){
-        if($request->ajax()){
-            $data = $request->all();
-            $vendorid = Cart::find($data['vendor_id']);
-            $getCartItems = Cart::getCartItems();
-
-            //group the cart items by vendor
-            $groupedItems = collect($getCartItems)->groupBy('vendor_id');
-
-            //get the selected vendor
-            $selectedVendorId = $vendorid ; //replace with your code to get the selected vendor ID
-
-            //get the items for the selected vendor
-            $selectedVendorItems = $groupedItems->get($selectedVendorId);
-            dd($groupedItems);
-        }
+        $installments = Installment::all();
+        return view('front.products.checkout')->with(compact('deliveryAddresses','selectedVendorId','selectedVendorItems','getCartItems', 'installments')); //show checkout page   
     }
 
     //user order placed THANKS page

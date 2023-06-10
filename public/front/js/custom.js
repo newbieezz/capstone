@@ -63,25 +63,6 @@ $(document).ready(function(){
         })
     });
 
-    // $(document).on('click','.storecheckout',function(){
-    //     var vendorid = $(this).data('vendorid'); //gets the vendor id
-    //     if(result) {
-    //         $.ajax({
-    //             headers:{
-    //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //             },
-    //             data:{vendorid:vendorid},
-    //             url:'/storecheckout',
-    //             type:'post',
-    //             success:function(resp){
-    //                 window.location.href = resp.url;
-    //             },error:function(){
-    //                 alert("Error");
-    //             }
-    //         })
-    //     }
-    // });
-
     //delete cart item
     $(document).on('click','.deleteCartItem',function(){
         var cartid = $(this).data('cartid');
@@ -327,7 +308,7 @@ $(document).ready(function(){
                     });
                 } else {
                      $("#deliveryAddresses").html(resp.view);
-                     window.location.href = "checkout";
+                     window.location.href = "checkout/";
                 }
             }, error:function(){
                 alert("Error");

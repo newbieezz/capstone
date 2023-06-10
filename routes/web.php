@@ -216,7 +216,7 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
         //User Update Password
         Route::post('user/update-password','UserController@userUpdatePassword');
         //User Check Out Page
-        Route::match(['GET','POST'],'checkout/{id?}','ProductController@storecheckout');
+        Route::match(['GET','POST'],'checkout/{id?}','ProductController@checkout');
         //Get Delivery Address
         Route::post('get-delivery-address','AddressController@getDeliveryAddress');
         //SAVE Delivery Address
