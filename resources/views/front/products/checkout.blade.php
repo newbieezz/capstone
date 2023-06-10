@@ -96,7 +96,7 @@
                                                 @endforeach
                                                 <tr>
                                                     <td>
-                                                        <h3 class="order-h3">Subtotal</h3>
+                                                        <h3 class="order-h3">Transaction Fee</h3>
                                                     </td>
                                                     <td>
                                                         <h3 class="order-h3">₱ {{ $total_price }}</h3>

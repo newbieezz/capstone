@@ -19,6 +19,7 @@ use App\Models\Installment;
 use App\Models\Paylater;
 use App\Models\Vendor;
 use App\Models\Notification;
+use App\Models\TransactionFee;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
@@ -646,7 +647,7 @@ class ProductController extends Controller
                         return redirect()->back()->with('error_message',$message);
                     }
 
-                //payment method validation
+                    //payment method validation
                     if(empty($data['payment_gateway'])){
                         $message = "Please select Payment Methods! ";
                         return redirect()->back()->with('error_message',$message);
@@ -682,11 +683,12 @@ class ProductController extends Controller
                         $getDiscountAttributePrice = Product::getDiscountAttributePrice($item['product_id'],$item['size']);
                             $total_price = $total_price + ($getDiscountAttributePrice['final_price'] * $item['quantity']);
                     }
-                     //calculate with delivery fee
-                    $delivery_fee = 0;
 
+                    $transaction_fee = TransactionFee::where('vendor_id',$selectedVendorId);
+
+                    $transaction_fee = $total_price * 0.05;
                     //calculate grand total
-                    $grand_total = $total_price + $delivery_fee ;
+                    $grand_total = $total_price + $transaction_fee ;
 
                     //Insert tht grand total in session variable
                     Session::put('grand_total',$grand_total);
@@ -699,7 +701,6 @@ class ProductController extends Controller
                      $order->city = $deliveryAddress['city'];
                      $order->mobile = $deliveryAddress['mobile'];
                      $order->email = Auth::user()->email;
-                     $order->delivery_fee = $delivery_fee;
                      $order->order_status = $order_status;
                      $order->payment_gateway = $data['payment_gateway'];
                      $order->payment_method = $payment_method;

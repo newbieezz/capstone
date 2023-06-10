@@ -71,9 +71,8 @@ class OrderController extends Controller
         //fetch the user details
         $userDetails = User::where('id',$orderDetails['user_id'])->first()->toArray();
         $orderStatus = OrderStatus::where('status',1)->get()->toArray();
-        $orderItemStatus = OrderItemStatus::where('status',1)->get()->toArray();
         $orderLog = OrdersLog::with('orders_products')->where('order_id',$id)->orderBy('id','Desc')->get()->toArray();
-        return view('admin.orders.order_details')->with(compact('orderDetails','userDetails','orderStatus','orderItemStatus','orderLog'));
+        return view('admin.orders.order_details')->with(compact('orderDetails','userDetails','orderStatus','orderLog'));
     }
 
     public function updateOrderStatus(Request $request){
@@ -149,79 +148,6 @@ class OrderController extends Controller
             ]);
 
             $message = "Order Status has been updated successfuly!";
-            return redirect()->back()->with('success_message',$message);
-        }
-    }
-    
-    public function updateOrderItemStatus(Request $request){
-        if($request->isMethod('post')){
-            $data = $request->all();
-            //update status
-            OrdersProduct::where('id',$data['order_item_id'])->update(['item_status'=>$data['order_item_status']]);
-            
-            //update courier name and tacking number
-            if(!empty($data['item_courier_name']) && !empty($data['item_tracking_number'])){
-                OrdersProduct::where('id',$data['order_item_id'])->update(['courier_name'=>$data['item_courier_name'],
-                        'tracking_number'=>$data['item_tracking_number']]);
-            }
-
-            //fetch order_id
-            $getOrderId = OrdersProduct::select('order_id')->where('id',$data['order_item_id'])->first()->toArray();
-
-            //update order log
-            $log = new OrdersLog();
-            $log->order_id = $getOrderId['order_id'];
-            $log->order_item_id = $data['order_item_id'];
-            $log->order_status = $data['order_item_status'];
-            $log->save();
-
-            //get delivery address
-            $deliveryDetails = Order::select('mobile','email','name')->where('id',$getOrderId['order_id'])->first()->toArray();
-            $order_item_id = $data['order_item_id'];
-            $orderDetails = Order::with(['orders_products'=>function($query)use($order_item_id){
-                $query->where('id',$order_item_id);
-            }])->where('id',$getOrderId['order_id'])->first()->toArray();
-            
-            if(!empty($data['item_courier_name']) && !empty($data['item_tracking_number'])){
-                //send order status update email
-                $email = $deliveryDetails['email'];
-                $messageData = [
-                    'email' => $email,
-                    'name' => $deliveryDetails['name'],
-                    'order_id' => $getOrderId['order_id'],
-                    'orderDetails' => $orderDetails,
-                    'order_status' => $data['order_item_status'],
-                    'courier_name' => $data['item_courier_name'],
-                    'tracking_number' => $data['item_tracking_number']
-                ];
-                Mail::send('emails.order_item_status',$messageData,function($message)use($email){
-                    $message->to($email)->subject('Order Status Updated - P-Store Mart');
-                });
-            } else {
-                //send order status update email
-                $email = $deliveryDetails['email'];
-                $messageData = [
-                    'email' => $email,
-                    'name' => $deliveryDetails['name'],
-                    'order_id' => $getOrderId['order_id'],
-                    'orderDetails' => $orderDetails,
-                    'order_status' => $data['order_item_status']
-                ];
-                Mail::send('emails.order_item_status',$messageData,function($message)use($email){
-                    $message->to($email)->subject('Order Status Updated - P-Store Mart');
-                });
-            }
-
-            Notification::insert([
-                'module' => 'order',
-                'module_id' => $data['order_id'],
-                'user_id' => $orderDetails['user_id'],
-                'sender' => 'vendor',
-                'receiver' => 'customer',
-                'message' => "Your order item status is {$data['order_item_status']}. Please check order ID: " . $data['order_id']
-            ]);
-            
-            $message = "Item Status has been updated successfuly!";
             return redirect()->back()->with('success_message',$message);
         }
     }

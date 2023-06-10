@@ -105,7 +105,10 @@
                             class="nav-link" href="{{ url('admin/admins/vendor') }}">Vendors</a></li>
                         <li class="nav-item"> <a @if(Session::get('page')=="view_all") style="background:#4B49AC !important; color:aliceblue !important;" 
                                                  @else style="background: #fff !important; color:#4B49AC !important;" @endif
-                            class="nav-link" href="{{ url('admin/admins') }}">Display All</a></li>
+                            class="nav-link" href="{{ url('admin/admins') }}">Display All  Admins</a></li>
+                        <li class="nav-item"> <a @if(Session::get('page')=="view_users") style="background:#4B49AC !important; color:aliceblue !important;" 
+                                                 @else style="background: #fff !important; color:#4B49AC !important;" @endif 
+                            class="nav-link" href="{{ url('admin/users') }}">Customer/User</a></li>
                     </ul>
                 </div>
             </li>

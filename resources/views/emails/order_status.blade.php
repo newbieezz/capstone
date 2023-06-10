@@ -44,8 +44,8 @@
                 </tr>
                 @endforeach
                 <tr>
-                    <td colspan="5" align="right">Delivery Fee</td>
-                    <td>₱ {{ $orderDetails['delivery_fee'] }}</td>
+                    <td colspan="5" align="right">Transaction Fee</td>
+                    {{-- <td>₱ {{ $orderDetails['delivery_fee'] }}</td> --}}
                 </tr>
                 <tr>
                     <td colspan="5" align="right">Total Amount</td>

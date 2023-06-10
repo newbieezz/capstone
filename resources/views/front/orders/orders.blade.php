@@ -32,7 +32,6 @@
                         <th>Payment Method</th>
                         <th>Total Price</th>
                         <th>Order Status</th>
-                        <th>Order Update </th>
                     </tr>
                     @foreach ($orders as $order)
                     <tr>
