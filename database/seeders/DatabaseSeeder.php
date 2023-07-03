@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        //$this->call(AdminsTableSeeder::class);
+        $this->call(AdminsTableSeeder::class);
        // $this->call(VendorsTableSeeder::class);
         //$this->call(VendoreBusinessDetailsTableSeeder::class);
        // $this->call(VendorsBankDetailsTableSeeder::class);
@@ -33,6 +33,6 @@ class DatabaseSeeder extends Seeder
        //$this->call(FiltersTableSeeder::class);
         //$this->call(FiltersValuesTableSeeder::class);
         //$this->call(DeliveryAddressSeeder::class);
-        $this->call(OrderStatusTableSeeder::class);
+        // $this->call(OrderStatusTableSeeder::class);
     }
 }

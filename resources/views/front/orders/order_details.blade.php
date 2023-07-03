@@ -31,7 +31,7 @@ use App\Models\Order;
                     <tr><td>Order Total</td><td>₱ {{ $orderDetails['grand_total'] }}</td></tr>
                     @if ($orderDetails['courier_name'] != "")
                     <tr><td>Courier Name</td><td>₱ {{ $orderDetails['courier_name'] }}</td></tr>
-                    <tr><td>Tracking Number</td><td>₱ {{ $orderDetails['tracking_number'] }}</td></tr>
+                    <tr><td>Tracking Number</td><td> {{ $orderDetails['tracking_number'] }}</td></tr>
                     @endif
                     <tr><td>Payment Method</td><td>{{ $orderDetails['payment_method'] }}</td></tr>
                 </table>
@@ -62,7 +62,6 @@ use App\Models\Order;
                     <tr class="table-success"><td colspan="2"><strong>Delivery Address</strong></td></tr>
                     <tr><td>Name</td><td>{{ $orderDetails['name'] }}</td></tr>
                     <tr><td>Address</td><td>{{ $orderDetails['address'] }}</td></tr>
-                    <tr><td>City</td><td>{{ $orderDetails['city'] }}</td></tr>
                     <tr><td>Mobile</td><td>{{ $orderDetails['mobile'] }}</td></tr>
                     <tr><td>Email</td><td>{{ $orderDetails['email'] }}</td></tr>
                 </table>

@@ -63,16 +63,6 @@
                         <input type="text" class="form-control" id="vendor_address" 
                             placeholder="Enter Address" name="vendor_address" required="" value="{{ $vendorDetails['address']}}">
                       </div>
-                      <div class="form-group">
-                        <label for="vendor_city">City</label>
-                        <input type="text" class="form-control" id="vendor_city" 
-                            placeholder="Enter City" name="vendor_city" required="" value="{{ $vendorDetails['city']}}">
-                      </div>
-                      <div class="form-group">
-                        <label for="vendor_pincode">Pin Code</label>
-                        <input type="text" class="form-control" id="vendor_pincode" maxlength="11" minlength="4"
-                            placeholder="Enter Pin Code" name="vendor_pincode" required="" value="{{ $vendorDetails['pincode']}}">
-                      </div>
                     <div class="form-group">
                       <label for="vendor_mobile">Mobile</label>
                       <input type="text" class="form-control" id="vendor_mobile" maxlength="11" minlength="11"
@@ -143,23 +133,13 @@
                         <input type="text" class="form-control" id="shop_address" 
                             placeholder="Enter Shop Address" name="shop_address" @if(isset($vendorDetails['shop_address'])) value="{{ $vendorDetails['shop_address']}}" @endif>
                       </div>
-                      <div class="form-group">
-                        <label for="shop_city">Shop City</label>
-                        <input type="text" class="form-control" id="shop_city" 
-                            placeholder="Enter Shop City" name="shop_city" @if(isset($vendorDetails['shop_city'])) value="{{ $vendorDetails['shop_city']}}" @endif>
-                      </div>
-                      <div class="form-group">
-                        <label for="shop_pincode">Shop Pin Code</label>
-                        <input type="text" class="form-control" id="shop_pincode" maxlength="11" minlength="4"
-                            placeholder="Enter Shop Pin Code" name="shop_pincode" @if(isset($vendorDetails['shop_pincode'])) value="{{ $vendorDetails['shop_pincode']}}" @endif>
-                      </div>
                     <div class="form-group">
                       <label for="shop_mobile">Mobile</label>
                       <input type="text" class="form-control" id="shop_mobile" maxlength="11" minlength="11" required=""
                       placeholder="Enter 11 Digit Mobile Number" name="shop_mobile" @if(isset($vendorDetails['shop_mobile'])) value="{{ $vendorDetails['shop_mobile']}}" @endif>
                     </div>
                     <div class="form-group">
-                        <label for="shop_website">Shop Website</label>
+                        <label for="shop_website">Shop Website (optional)</label>
                         <input type="text" class="form-control" id="shop_website" 
                             placeholder="Enter Shop Website" name="shop_website" @if(isset($vendorDetails['shop_website'])) value="{{ $vendorDetails['shop_website']}}" @endif>
                       </div>

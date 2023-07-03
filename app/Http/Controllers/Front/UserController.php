@@ -102,9 +102,7 @@ class UserController extends Controller
              //requires validation
              $validator = Validator::make($request->all(),[  
                 'name' => 'required|string|max:100',
-                'city' => 'required|string|max:100',
                 'address' => 'required|string|max:100',
-                'zipcode' => 'required|numeric',
                 'mobile' => 'required|numeric|digits:11',
                 ]
             );
@@ -112,8 +110,7 @@ class UserController extends Controller
             if($validator->passes()){
 
                 //Update User Details inside the users table
-                User::where('id',Auth::user()->id)->update(['name'=>$data['name'],'address'=>$data['address'],'city'=>$data['city'],
-                        'zipcode'=>$data['zipcode'],'mobile'=>$data['mobile']]);
+                User::where('id',Auth::user()->id)->update(['name'=>$data['name'],'address'=>$data['address'],'mobile'=>$data['mobile']]);
 
                 //redirect user with success message
                 return response()->json(['type'=>'success','message'=>'Your contact details is successfully updated!']);

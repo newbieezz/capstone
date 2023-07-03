@@ -161,7 +161,6 @@ use App\Models\OrdersLog; ?>
                             <th>Product Name</th>
                             <th>Product Size</th>
                             <th>Product Qty</th>
-                            <th>Item Status</th>
                         </tr>
                         @foreach ($orderDetails['orders_products'] as $product)
                             <tr>

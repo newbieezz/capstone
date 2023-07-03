@@ -17,7 +17,7 @@ class AdminsTableSeeder extends Seeder
     { 
         //inserting data to admins table
         $adminRecords = [
-            ['id' => 2,'name'=>'Veloso','type'=>'subadmin','vendor_id'=>0,'mobile'=>'09230442135',
+            ['id' => 1,'name'=>'Veloso','type'=>'subadmin','vendor_id'=>0,'mobile'=>'09230442135',
                 'email'=>'admin@admin.com','password'=>'$2a$12$IEVhzwmNT5N6VRqxWuS5wuS2wCeSoRu37mpfIpV9/VGR5teCVvBCW','image'=>'','status'=>1],
         ];
         Admin::insert($adminRecords);

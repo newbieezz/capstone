@@ -30,14 +30,6 @@
                         <label for="vendor_address">Address</label>
                         <input type="text" class="form-control" readonly="" @if(isset($vendorDetails['vendor_personal']['address'])) value="{{ $vendorDetails['vendor_personal']['address'] }}" @endif>
                       </div>
-                      <div class="form-group">
-                        <label for="vendor_city">City</label>
-                        <input type="text" class="form-control" readonly="" @if(isset($vendorDetails['vendor_personal']['city'])) value="{{ $vendorDetails['vendor_personal']['city'] }}" @endif>
-                      </div>
-                      <div class="form-group">
-                        <label for="vendor_pincode">Pin Code</label>
-                        <input type="text" class="form-control" readonly="" @if(isset($vendorDetails['vendor_personal']['pincode'])) value="{{ $vendorDetails['vendor_personal']['pincode'] }}" @endif>
-                      </div>
                     <div class="form-group">
                       <label for="vendor_mobile">Mobile</label>
                       <input type="text" class="form-control" readonly="" @if(isset($vendorDetails['vendor_personal']['mobile'])) value="{{ $vendorDetails['vendor_personal']['mobile'] }}" @endif>
@@ -62,16 +54,8 @@
                         <input class="form-control" readonly="" @if(isset($vendorDetails['vendor_business']['shop_name'])) value="{{ $vendorDetails['vendor_business']['shop_name']}}" @endif> 
                       </div>
                       <div class="form-group">
-                          <label for="vendor_name">Shop Address</label>
+                          <label for="shop_address">Shop Address</label>
                           <input type="text" class="form-control"readonly="" @if(isset($vendorDetails['vendor_business']['shop_address'])) value="{{ $vendorDetails['vendor_business']['shop_address']}}" @endif>
-                        </div>
-                        <div class="form-group">
-                          <label for="vendor_address">Shop City</label>
-                          <input type="text" class="form-control" readonly="" @if(isset($vendorDetails['vendor_business']['shop_city'])) value="{{ $vendorDetails['vendor_business']['shop_city']}}" @endif>
-                        </div>
-                        <div class="form-group">
-                          <label for="vendor_pincode">Shop Pin Code</label>
-                          <input type="text" class="form-control" readonly="" @if(isset($vendorDetails['vendor_business']['shop_pincode'])) value="{{ $vendorDetails['vendor_business']['shop_pincode']}}" @endif>
                         </div>
                       <div class="form-group">
                         <label for="vendor_mobile">Shop Mobile</label>
@@ -87,7 +71,7 @@
                       </div>
                       <div class="form-group">
                         <label for="business_license_number">Business License Number </label>
-                        <input type="text" class="form-control" readonly="" @if(isset($vendorDetails['vendor_business']['shop_pincode'])) value="{{  $vendorDetails['vendor_business']['shop_pincode'] }}" @endif>
+                        <input type="text" class="form-control" readonly="" @if(isset($vendorDetails['vendor_business']['business_license_number'])) value="{{  $vendorDetails['vendor_business']['business_license_number'] }}" @endif>
                       </div>
                       @if(!empty($vendorDetails['vendor_business']['address_proof_image']))
                         <div class="form-group">
@@ -129,36 +113,10 @@
                   </div>
                 </div>
               </div> 
-              <div class="col-md-6 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title"> Commission Information </h4>
-                      @if(Session::has('success_message'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                          <strong>Success: </strong> {{ Session::get('success_message')}}
-                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                      @endif
-                      <div class="form-group">
-                        <label>Commission per order item (%) </label> <!--why per item? cause in one order can belong to diff vendors -->
-                        <form method="post" action="{{ url('admin/update-vendor-commission') }}"> @csrf
-                          <!-- add vendor id to pass to enable for us to update-->
-                          <input type="hidden" name="vendor_id" value="{{$vendorDetails['vendor_personal']['id']}}"> 
-                          <input name="commission" class="form-control" readonly="" @if(isset($vendorDetails['vendor_personal']['commission']))value="{{ $vendorDetails['vendor_personal']['commission'] }}" @endif> <br>
-                          <button type="sumbit">Update </button>
-                        </form>
-                      </div>
-                  </div>
-                </div>
-              </div>
+              
         </div> 
     </div> 
-    <!-- content-wrapper ends -->
-    <!-- partial:partials/_footer.html -->
     @include('admin.layout.footer')
-    <!-- partial -->
 </div>
 
 @endsection

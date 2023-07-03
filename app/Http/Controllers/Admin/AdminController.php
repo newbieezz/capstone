@@ -117,18 +117,12 @@ class AdminController extends Controller
                  // Array of Validation Rules
                 $rules = [
                     'vendor_name' => 'required|regex:/^[\pL\s\-]+$/u',
-                    'vendor_city' => 'required|regex:/^[\pL\s\-]+$/u',
                     'vendor_mobile' => 'required|numeric',
-                    'vendor_pincode' => 'required|numeric',
                 ];
                     $customMessages = [
                         'vendor_name.required' => 'Name is required!',
-                        'vendor_city.required' => 'City is required!',
-                        'vendor_city.regex' => 'Name is required!',
                         'vendor_mobile.required' => 'Mobile is required!',
                         'vendor_mobile.numeric' => 'Valid Mobile is required!',
-                        'vendor_pincode.required' => 'Mobile is required!',
-                        'vendor_pincode.numeric' => 'Valid Mobile is required!',
                     ];
                     $this->validate($request,$rules,$customMessages);
 
@@ -157,7 +151,7 @@ class AdminController extends Controller
                                 ,'mobile'=>$data['vendor_mobile'], 'image' => $imageName]);
                         // Update in Vendors Table
                         Vendor::where('id', Auth::guard('admin')->user()->vendor_id)->update(['name'=>$data['vendor_name']
-                        ,'address'=>$data['vendor_address'],'city'=>$data['vendor_city'],'pincode'=>$data['vendor_pincode'],
+                        ,'address'=>$data['vendor_address'],
                         'mobile'=>$data['vendor_mobile'] ]);
                         return redirect()->back()->with('success_message','Vendor details updated successfully!');
                     } else {
@@ -166,7 +160,7 @@ class AdminController extends Controller
                                 ,'mobile'=>$data['vendor_mobile'], 'image' => $imageName]);
                         // Insert in Vendors Table
                         Vendor::insert(['id'=> Auth::guard('admin')->user()->vendor_id,'name'=>$data['vendor_name']
-                        ,'address'=>$data['vendor_address'],'city'=>$data['vendor_city'],'pincode'=>$data['vendor_pincode'],
+                        ,'address'=>$data['vendor_address'],
                         'mobile'=>$data['vendor_mobile'] ]);
                         return redirect()->back()->with('success_message','Vendor details updated successfully!');
                     }
@@ -187,20 +181,14 @@ class AdminController extends Controller
                  // Array of Validation Rules
                 $rules = [
                     'shop_name' => 'required|regex:/^[\pL\s\-]+$/u',
-                    'shop_city' => 'required|regex:/^[\pL\s\-]+$/u',
                     'shop_mobile' => 'required|numeric',
-                    'shop_pincode' => 'required|numeric',
                     'address_proof' => 'required',
                 ];
                     $customMessages = [
                         'shop_name.required' => 'Shop Name is required!',
-                        'shop_city.required' => 'City is required!',
-                        'shop_city.regex' => 'Shop Name is required!',
-                        'shop_name.regex' => 'Valid City is required!',
+                        'shop_name.regex' => 'Valid Name is required!',
                         'shop_mobile.required' => 'Mobile is required!',
                         'shop_mobile.numeric' => 'Valid Mobile is required!',
-                        'shop_pincode.required' => 'Mobile is required!',
-                        'shop_pincode.numeric' => 'Valid Mobile is required!',
                     ];
                     $this->validate($request,$rules,$customMessages);
 
@@ -226,15 +214,13 @@ class AdminController extends Controller
                     if($vendorCount > 0 ){
                         // Update in vendors_business_details Table
                         VendorsBusinessDetails::where('vendor_id', Auth::guard('admin')->user()->vendor_id)->update(['shop_name'=>$data['shop_name']
-                        ,'shop_address'=>$data['shop_address'],'shop_city'=>$data['shop_city'],
-                        'shop_pincode'=>$data['shop_pincode'], 'shop_mobile'=>$data['shop_mobile'],'shop_website'=>$data['shop_website'],
+                        ,'shop_address'=>$data['shop_address'], 'shop_mobile'=>$data['shop_mobile'],'shop_website'=>$data['shop_website'],
                         'address_proof'=>$data['address_proof'], 'business_license_number'=>$data['business_license_number'],'address_proof_image'=>$imageName]);
                         return redirect()->back()->with('success_message','Vendor details updated successfully!');
                     } else {
                         // Insert in vendors_business_details Table
                         VendorsBusinessDetails::insert(['vendor_id'=>Auth::guard('admin')->user()->vendor_id,'shop_name'=>$data['shop_name']
-                        ,'shop_address'=>$data['shop_address'],'shop_city'=>$data['shop_city'],
-                        'shop_pincode'=>$data['shop_pincode'], 'shop_mobile'=>$data['shop_mobile'],'shop_website'=>$data['shop_website'],
+                        ,'shop_address'=>$data['shop_address'], 'shop_mobile'=>$data['shop_mobile'],'shop_website'=>$data['shop_website'],
                         'address_proof'=>$data['address_proof'], 'business_license_number'=>$data['business_license_number'],'address_proof_image'=>$imageName]);
                         return redirect()->back()->with('success_message','Vendor details updated successfully!');
                     }
@@ -289,15 +275,6 @@ class AdminController extends Controller
         return view('admin.settings.update_vendor_details')->with(compact('slug','vendorDetails'));
     }
 
-    public function updateVendorCommission(Request $request){
-        if($request->isMethod('post')){
-            $data = $request->all();
-            //update in vendor table
-            Vendor::where('id',$data['vendor_id'])->update(['commission'=>$data['commission']]);
-            return redirect()->back()->with('success_message','Vendor commission updated successfully!');
-        }
-    }
-
     public function login(Request $request){
 
         //sends a request to get all data for login auth
@@ -347,6 +324,7 @@ class AdminController extends Controller
     // function for the type of admins/ diff views 
     public function admins($type=null){
         $admins = Admin::query();
+        
         if(!empty($type)){
             $admins = $admins->where('type',$type);
             $title = ucfirst($type)."s"; //displays the type 
@@ -356,6 +334,7 @@ class AdminController extends Controller
             Session::put('page','view_all');    
         }
         $admins = $admins->get()->toArray();
+        
         return view('admin.admins.admins')->with(compact('admins','title'));
     }
 
@@ -364,6 +343,7 @@ class AdminController extends Controller
         Session::put('page','view_vendors');
         $vendorDetails = Admin::with('vendorPersonal','vendorBusiness','vendorBank')->where('id',$id)->first();
         $vendorDetails = json_decode(json_encode($vendorDetails),true);
+        dd($vendorDetails);
         return view('admin.admins.view_vendor_details')->with(compact('vendorDetails'));
     }
 

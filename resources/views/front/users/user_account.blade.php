@@ -74,18 +74,6 @@
                                 <p id="account-address"></p>
                             </div>
                             <div class="u-s-m-b-30">
-                                <label for="user-ctiy">City
-                                    <span class="astk">*</span>
-                                </label>
-                                <input  class="text-field" type="text" id="user-city" name="city" value="{{ Auth::user()->city }}">
-                                <p id="account-city"></p>
-                            </div><div class="u-s-m-b-30">
-                                <label for="user-zipcode">Zipcode
-                                    <span class="astk">*</span>
-                                </label>
-                                <input  class="text-field" type="text" id="user-zipcode" name="zipcode" value="{{ Auth::user()->zipcode }}">
-                                <p id="account-zipcode"></p>
-                            </div><div class="u-s-m-b-30">
                                 <label for="user-mobile">Mobile
                                     <span class="astk">*</span>
                                 </label>

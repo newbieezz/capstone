@@ -23,16 +23,6 @@
     <!-- Shop-Page -->
     <div class="page-shop u-s-p-t-80">
         <div class="container">
-            <!-- Shop-Intro -->
-            {{-- <div class="shop-intro">
-                <ul class="bread-crumb">
-                    <li class="has-separator">
-                        <a href="{{ url('/') }}">Home</a>
-                    </li>
-                    <li>{{ $getVendorShop }}</li>
-                </ul>
-            </div> --}}
-            <!-- Shop-Intro /- -->
             <div class="row">
                 <!-- Shop-Right-Wrapper -->
                 <div class="col-lg-10 col-md col-sm-12">
@@ -42,7 +32,7 @@
                     <!-- Page-Bar /- -->
                     <!-- Simple Paganitaion /- -->
                     <div class="">
-                        @include('front.products.vendor_products_listing')
+                             @include('front.products.vendor_products_listing')
                     </div>
                     @if(isset($_GET['sort']))
                         <div> {{ $vendorProducts->appends(['sort'=>$_GET['sort']])->links() }}</div> <div>&nbsp;</div> 
@@ -50,40 +40,6 @@
                         <div> {{ $vendorProducts->links() }}</div> <div>&nbsp;</div> 
                     @endif
                 </div>
-                <!-- Shop-Right-Wrapper /- -->
-                <!-- Shop-Pagination -->
-                 <?php /* {{-- <div class="pagination-area">
-                    <div class="pagination-number">
-                        <ul>
-                            <li style="display: none">
-                                <a href="shop-v1-root-category.html" title="Previous">
-                                    <i class="fa fa-angle-left"></i>
-                                </a>
-                            </li>
-                            <li class="active">
-                                <a href="shop-v1-root-category.html">1</a>
-                            </li>
-                            <li>
-                                <a href="shop-v1-root-category.html">2</a>
-                            </li>
-                            <li>
-                                <a href="shop-v1-root-category.html">3</a>
-                            </li>
-                            <li>
-                                <a href="shop-v1-root-category.html">...</a>
-                            </li>
-                            <li>
-                                <a href="shop-v1-root-category.html">10</a>
-                            </li>
-                            <li>
-                                <a href="shop-v1-root-category.html" title="Next">
-                                    <i class="fa fa-angle-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>  --}}  */?>
-                <!-- Shop-Pagination /- -->
             </div>
         </div>
     </div>

@@ -24,7 +24,6 @@
     <!-- Checkout-Page -->
     <div class="page-checkout u-s-p-t-80">
         <div class="container">
-            <form name="checkoutForm" id="checkoutForm" action="{{ url('checkout/') }}" method="post"> @csrf
                 @if(Session::has('error_message'))
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>Error: </strong> {{ Session::get('error_message')}}
@@ -37,21 +36,22 @@
                     <div class="col-lg-12 col-md-12">
                         <!-- Second Accordion /- -->
                             <div class="row">
-                                <!-- Billing-&-Shipping-Details -->
+                                <!-- Delivery Address-Details -->
                                 <div class="col-lg-6" id="deliveryAddresses"> <!-- use the id to refresh the addresses -->
                                     @include('front.products.delivery_addresses')
                                 </div>
-                                <!-- Billing-&-Shipping-Details /- -->
-                                <!-- Checkout -->
-                                <div class="col-lg-6"> 
-                                    {{--check if the array comes --}}
+                             <!-- Checkout - -->
+                        <div class="col-lg-6">
+                            <form name="checkoutForm" id="checkoutForm" action="{{ url('checkout/') }}" method="post"> @csrf
+                                <!-- Delivery Address-Details /- -->
+                                {{--check if the array comes --}}
                                     @if(count($deliveryAddresses)>0) 
-                                        <h4 class="section-h4">Delivery Details</h4>
+                                      <h4 class="section-h4">Delivery Details</h4>
                                         @foreach($deliveryAddresses as $address)
                                             <div class="control-group" style="float:left; margin-right:8px;"><input type="radio" name="address_id" id="address{{ $address['id'] }}" value="{{ $address['id'] }}" /></div>
                                             <div>
                                                 <label class="control-label">
-                                                    {{ $address['name'] }} , {{ $address['address'] }} , {{ $address['city'] }} ( {{ $address['mobile'] }} )
+                                                    {{ $address['name'] }} , {{ $address['address'] }} , ( {{ $address['mobile'] }} )
                                                 </label>
                                                 <a style="float:right; margin-left:10px" href="javascript:;" data-addressid="{{ $address['id'] }}"
                                                     class="removeAddress">Remove</a>
@@ -60,11 +60,7 @@
                                             </div>
                                             <br />
                                         @endforeach <br />
-                                    @endif
-                                </div>
-                                <!-- Checkout /- -->
-                                <div class="col-lg-6"></div>
-                                <div class="col-lg-12 col-md-12" style="float:right; margin-left:8px;">
+                                     @endif
                                     <h4 class="section-h4">Your Order</h4> <br><br>
                                     <div class="order-table" id="udcartItems" >
                                         <table class="u-s-m-b-13">
@@ -168,12 +164,12 @@
                                             </label>
                                         </div>
                                         <button type="submit" class="button button-outline-secondary">Place Order</button>
-                                    </div>
                                 </div>
-                            </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
     <!-- Checkout-Page /- -->

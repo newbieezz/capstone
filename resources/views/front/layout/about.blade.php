@@ -10,7 +10,7 @@ body {
 }
 
 .con{
-     background-color: rgb(2, 66, 2);
+     background-color: rgb(89, 188, 89);
      border-radius: 5px;
      color: white;
      
@@ -18,11 +18,11 @@ body {
  }
 h1 {
   font-style:initial;
-  color: aliceblue;
+  color: black;
   
 }
 p {
-  color: aliceblue;
+  color: black;
 }
 
 </style>
@@ -31,11 +31,6 @@ p {
   <title>About Us</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">

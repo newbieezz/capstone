@@ -14,8 +14,8 @@ class Vendor extends Model
         return $this->belongsTo('App\Models\VendorsBusinessDetails','id','vendor_id');
     }
 
-    public static function getVendorShop(){
-        $getVendorShop = VendorsBusinessDetails::select('shop_name')->first()->toArray();
+    public static function getVendorShop($vendorid){
+        $getVendorShop = VendorsBusinessDetails::select('shop_name')->where('vendor_id',$vendorid)->first()->toArray();
 
         return $getVendorShop['shop_name'];
     }
@@ -30,4 +30,6 @@ class Vendor extends Model
 
         return $getVendorDetails; //used in checkout page (checkout function inside ProductController)
     }
+
+    
 }

@@ -15,7 +15,6 @@
                                     <th> User ID </th> 
                                     <th> Name </th> 
                                     <th> Address </th> 
-                                    <th> City </th> 
                                     <th> Mobile </th> 
                                     <th> Email </th> 
                                     <th> Status </th> 
@@ -26,8 +25,7 @@
                                 <tr> 
                                      <td> {{ $user['id']}}  </td> 
                                      <td> {{ $user['name']}}  </td> 
-                                     <td> {{ $user['address']}}  </td> 
-                                     <td> {{ $user['city']}}  </td> 
+                                     <td> {{ $user['address']}}  </td>
                                      <td> {{ $user['mobile']}}  </td> 
                                      <td> {{ $user['email']}}  </td>
                                      <td> @if($user['status']==1)  

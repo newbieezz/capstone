@@ -28,7 +28,6 @@ class AddressController extends Controller
             $validator = Validator::make($request->all(),[
                 'delivery_name' => 'required|string|max:50',
                 'delivery_address' => 'required|string|max:100',
-                'delivery_city' => 'required|string|max:50',
                 'delivery_mobile' => 'required|numeric|digits:11',
                 'delivery_email' => 'required',
             ]);
@@ -38,7 +37,6 @@ class AddressController extends Controller
                 $address['user_id'] = Auth::user()->id;
                 $address['name'] = $data['delivery_name'];
                 $address['address'] = $data['delivery_address'];
-                $address['city'] = $data['delivery_city'];
                 $address['mobile'] = $data['delivery_mobile'];
                 $address['email'] = $data['delivery_email'];
                 

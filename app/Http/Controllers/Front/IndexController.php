@@ -31,6 +31,13 @@ class IndexController extends Controller
         return view('front.index')->with(compact('sliderbanners','fixbanners','newProducts','bestSeller','discountedProds','featured','vendor','getVendorDetails'));
     }
 
+    public function about(){
+        return view('front.layout.about');
+    }
+
+    public function terms(){
+        return view('front.layout.terms');
+    }
 
 }
     

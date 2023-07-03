@@ -39,14 +39,6 @@
                     <input type="text" name="delivery_address" id="delivery_address" class="text-field" placeholder="House name and street name" />
                     <p id="delivery-delivery_address"></p>
                 </div>
-                <div class="u-s-m-b-13">
-                    <label for="town-city-extra">
-                        Town / City
-                        <span class="astk">*</span>
-                    </label>
-                    <input type="text" name="delivery_city" id="delivery_city" class="text-field" />
-                    <p id="delivery-delivery_city"></p>
-                </div>
                 <div class="group-inline u-s-m-b-13">
                     <div class="group-1 u-s-p-r-16">
                         <label for="email-extra">

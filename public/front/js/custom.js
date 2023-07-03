@@ -276,7 +276,6 @@ $(document).ready(function(){
                 $('[name=delivery_id]').val(resp.address['id']);
                 $('[name=delivery_name]').val(resp.address['name']);
                 $('[name=delivery_address]').val(resp.address['address']);
-                $('[name=delivery_city]').val(resp.address['city']);
                 $('[name=delivery_email]').val(resp.address['email']);
                 $('[name=delivery_mobile]').val(resp.address['mobile']);
             }, error:function(){

@@ -3,6 +3,8 @@
 use App\Http\Controllers\Front\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Category;
+use App\Http\Controllers\EwalletController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -49,7 +51,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         // Update Vendor Details (slug will work for updates on all vendor such as personal, bank etc.)
         Route::match(['get','post'],'update-vendor-details/{slug}','AdminController@updateVendorDetails');
         //Update Vendor Commission
-        Route::post('update-vendor-commission','AdminController@updateVendorCommission');
+        // Route::post('update-vendor-commission','AdminController@updateVendorCommission');
         
         // View Admin / Subadmins / Vendors
         Route::get('admins/{type?}','AdminController@admins');
@@ -160,6 +162,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         //Order Invoices
         Route::get('orders/invoice/{id}','OrderController@viewOrderInvoice');
 
+
     });
 });
 
@@ -177,16 +180,19 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
     Route::get('/products/{vendorid}','ProductController@vendorListing');
     //Show List of Vendors/Shop
     Route::get('/vendor-list','VendorController@vendorlist');
+
     //Product Detail Page
     Route::get('/product/{id?}','ProductController@detail');
     //Get product attribute price, change price by sizes
     Route::post('get-product-price','ProductController@getProductPrice');
+
     //Route for the Vendor Logn/Register
     Route::get('vendor/login-register','VendorController@loginRegister');  
     //Vendor Register
     Route::post('vendor/register','VendorController@vendorRegister');
     //Send Confirm link/ Confirm Vendor Account
     Route::get('vendor/confirm/{code}','VendorController@confirmVendor');
+
     //Add to Cart
     Route::post('cart/add','ProductController@cartAdd');
     //Cart Page 
@@ -195,6 +201,10 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
     Route::post('cart/update','ProductController@cartUpdate');
     //Delete cart item 
     Route::post('cart/delete','ProductController@cartDelete');
+
+    //Site About and Terms
+    Route::get('/about','IndexController@about');
+    Route::get('/terms','IndexController@terms');
 
     //User Login-Register
     Route::get('user/login-register',['as'=>'login','uses'=>'UserController@loginRegister']);
@@ -215,14 +225,19 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
         Route::match(['GET','POST'],'user/account', 'UserController@userAccount');
         //User Update Password
         Route::post('user/update-password','UserController@userUpdatePassword');
+
         //User Check Out Page
         Route::match(['GET','POST'],'checkout/{id?}','ProductController@checkout');
+        //to admins ewallet transaction fee deduction
+        // Route::post('checkout/', [EwalletController::class, 'checkout'])->name('checkout');
+
         //Get Delivery Address
         Route::post('get-delivery-address','AddressController@getDeliveryAddress');
         //SAVE Delivery Address
         Route::post('save-address','AddressController@saveDeliveryAddress');
         //Remove Delivery Address
         Route::post('remove-delivery-address','AddressController@removeAddress');
+
         //Success Order Placed
         Route::get('orderplaced','ProductController@orderplaced');
         //Users Orders
@@ -236,6 +251,9 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
         Route::get('error','PaypalController@error');
         //Recieve Order/Delivery
         Route::post('receive-order','OrderController@receiveOrder');
+
+        
+
     });
    
 });

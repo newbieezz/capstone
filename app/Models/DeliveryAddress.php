@@ -10,7 +10,7 @@ class DeliveryAddress extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'user_id', 'name', 'address', 'city', 'email', 'mobile', 'status'
+        'user_id', 'name', 'address', 'email', 'mobile', 'status'
     ];
 
     public static function deliveryAddresses(){

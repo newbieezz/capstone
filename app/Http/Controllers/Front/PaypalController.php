@@ -36,7 +36,7 @@ class PaypalController extends Controller
 
     public function pay(Request $request){
         try{
-            $paypal_amount = round(Session::get('grand_total')/55,2);
+            $paypal_amount = round(Session::get('grand_total')/52,2);
             $response = $this->gateway->purchase(array(
                 'amount' => $paypal_amount,
                 'currency' => env('PAYPAL_CURRENCY'),
@@ -54,9 +54,9 @@ class PaypalController extends Controller
     }
 
     public function success(Request $request){
-        if(Session::has('order_id')){
-            return redirect('cart');
-        }
+        // if(Session::has('order_id')){
+        //     return redirect('cart');
+        // }
 
         if($request->input('paymentId') && $request->input('PayerID')){
             $transaction = $this->gateway->completePurchase(array(
@@ -105,9 +105,10 @@ class PaypalController extends Controller
 
                 foreach($orderDetails['orders_products'] as $key => $order){
                     //reduce stock script starts
-                    $getProductStock = ProductsAttribute::getProductStock($order['product_id'],$order['size']);
+                    // dd($orderDetails);
+                    $getProductStock = ProductsAttribute::getProductStock($order['product_id'],$order['product_size']);
                     $newStock = $getProductStock - $order['product_qty'];
-                    ProductsAttribute::where(['product_id'=>$order['product_id'],'size'=>$order['size']])->update(['stock'=>$newStock]);
+                    ProductsAttribute::where(['product_id'=>$order['product_id'],'size'=>$order['product_size']])->update(['stock'=>$newStock]);
 
                     if (!$newStock) {
                         Notification::insert([

@@ -17,7 +17,7 @@
  </div>
 </div>
     <!-- If the fix banner is coming only, then execute/- -->
- @if(isset($fixBanners [0] ['image']))
+ {{-- @if(isset($fixBanners [0] ['image']))
     <!-- Banner-Layer -->
     <div class="banner-layer">
         <div class="container">
@@ -28,7 +28,7 @@
             </div>
         </div>
     </div>
- @endif
+ @endif --}}
 
 <!-- List of Stores/Shops -->
 

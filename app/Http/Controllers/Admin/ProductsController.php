@@ -174,9 +174,6 @@ class ProductsController extends Controller
             $product->product_price = $data['product_price'];
             $product->product_discount = $data['product_discount'];
             $product->description = $data['description'];
-            $product->meta_title = $data['meta_title'];
-            $product->meta_description = $data['meta_description'];
-            $product->meta_keywords = $data['meta_keywords'];
             if(!empty($data['is_featured'])){
                 $product->is_featured = $data['is_featured'];
             } else {

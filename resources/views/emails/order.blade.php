@@ -36,10 +36,6 @@
                 </tr>
                 @endforeach
                 <tr>
-                    <td colspan="4" align="right">Delivery Fee</td>
-                    <td>₱ {{ $orderDetails['delivery_fee'] }}</td>
-                </tr>
-                <tr>
                     <td colspan="4" align="right">Total Amount</td>
                     <td>₱ {{ $orderDetails['grand_total'] }}</td>
                 </tr>
@@ -56,9 +52,6 @@
                 </tr>
                 <tr>
                     <td>{{ $orderDetails['address'] }}</td>
-                </tr>
-                <tr>
-                    <td>{{ $orderDetails['city'] }}</td>
                 </tr>
                 <tr>
                     <td>{{ $orderDetails['mobile'] }}</td>
