@@ -5,8 +5,15 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\Paylater;
 use App\Models\CreditLimit;
+use App\Models\PayLaterApplication;
+use App\Models\User;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class PaylaterController extends Controller
 {
@@ -16,6 +23,33 @@ class PaylaterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
+    {
+                
+         //call get function to use
+         $status = PayLaterApplication::get()->first()->toArray();
+            // echo "<pre>"; print_r($status); die;
+            // dd($status['appstatus']);
+        try {
+            $pay_laters = Paylater::with('orders')
+                ->where('user_id', Auth::user()->id)
+                ->where('due_date', '!=', null)
+                ->where('is_paid', 0)
+                ->get();
+            $credit_limit = CreditLimit::where('user_id', Auth::user()->id)->first();
+            return view('front.pay_later.pay_later')->with(compact('pay_laters', 'credit_limit','status'));
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+         return view('front.pay_later.pay_later')->with(compact('status'));
+
+    }
+
+    public function application(){
+        return view('front.pay_later.pay_later_application');    
+    }
+
+    //credit limit, paylater informations w/ pay now button
+    public function credits()
     {
         try {
             $pay_laters = Paylater::with('orders')
@@ -28,16 +62,6 @@ class PaylaterController extends Controller
         } catch (\Throwable $th) {
             throw $th;
         }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**

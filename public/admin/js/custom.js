@@ -43,7 +43,7 @@ $(document).ready(function(){
     $(document).on("click",".updateAdminStatus",function(){
         var status = $(this).children("i").attr("status");
         var admin_id = $(this).attr("admin_id");
-
+        // alert(admin_id);
         $.ajax({
             headers:{
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -53,7 +53,7 @@ $(document).ready(function(){
             url: '/admin/update-admin-status',
             data: {status:status,admin_id:admin_id},
             success:function(resp){
-                //alert(resp);
+                // alert(resp);
                 if(resp['status']==0){ //update the value in the html
                     $("#admin-"+admin_id).html("<i style='font-size:30px;' class='mdi mdi-check-circle-outline' status='Inactive'> </i> ");
                 } else if(resp['status']==1){ //update the value in the html

@@ -82,7 +82,7 @@ use App\Models\OrdersLog; ?>
               <div class="col-md-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title"> Delivery Addresse </h4>
+                    <h4 class="card-title"> Delivery Addresses </h4>
                     <div class="form-group" style="height:15px;">
                         <label style="font-weight:600;">Name : </label>
                         <label>{{ $orderDetails['name'] }}</label>

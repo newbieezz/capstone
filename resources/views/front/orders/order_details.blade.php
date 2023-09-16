@@ -23,53 +23,55 @@ use App\Models\Order;
     <!-- Page Introduction Wrapper /- -->
     <div class="page-cart u-s-p-t-80">
         <div class="container">
-            <div class="row">
-                <table class="table table-striped table-borderless">
-                    <tr  class="table-success"><td colspan="2"><strong>Order Details</strong></td></tr>
-                    <tr><td>Order Date</td><td>{{ date('Y-m-d h:i:s', strtotime($orderDetails['created_at'])) }}</td></tr>
-                    <tr><td>Order Status</td><td>{{ $orderDetails['order_status'] }}</td></tr>
-                    <tr><td>Order Total</td><td>₱ {{ $orderDetails['grand_total'] }}</td></tr>
-                    @if ($orderDetails['courier_name'] != "")
-                    <tr><td>Courier Name</td><td>₱ {{ $orderDetails['courier_name'] }}</td></tr>
-                    <tr><td>Tracking Number</td><td> {{ $orderDetails['tracking_number'] }}</td></tr>
-                    @endif
-                    <tr><td>Payment Method</td><td>{{ $orderDetails['payment_method'] }}</td></tr>
-                </table>
-                <table class="table table-striped table-borderless">
-                    <tr  class="table-success">
-                        <th>Product Image</th>
-                        <th>Product Code</th>
-                        <th>Product Name</th>
-                        <th>Product Size</th>
-                        <th>Product Qty</th>
-                    </tr>
-                    @foreach ($orderDetails['orders_products'] as $product)
-                        <tr>
-                            <td>
-                                @php $getProductImage = Product::getProductImages($product['product_id']) @endphp
-                                <a target="blank" href="{{ url('product/'.$product['product_id']) }}">
-                                    <img style="width:80px" src="{{ asset('/front/images/product_images/small/'.$getProductImage) }}" >
-                                </a>
-                            </td>
-                            <td>{{ $product['product_code'] }}</td>
-                            <td>{{ $product['product_name'] }}</td>
-                            <td>{{ $product['product_size'] }}</td>
-                            <td>{{ $product['product_qty'] }}</td>
+            <div class="row">               
+                <form id="orderReceiveForm" action="{{ url('user/order-received/'.$orderDetails['id']) }}" method="post"> @csrf
+                    <table class="table table-striped table-borderless">
+                        <tr  class="table-success"><td colspan="2"><strong>Order Details</strong></td></tr>
+                        <tr><td>Order Date</td><td>{{ date('Y-m-d h:i:s', strtotime($orderDetails['created_at'])) }}</td></tr>
+                        <tr><td>Order Status</td><td>{{ $orderDetails['order_status'] }}</td></tr>
+                        <tr><td>Order Total</td><td>₱ {{ $orderDetails['grand_total'] }}</td></tr>
+                        @if ($orderDetails['courier_name'] != "")
+                        <tr><td>Courier Name</td><td>₱ {{ $orderDetails['courier_name'] }}</td></tr>
+                        <tr><td>Tracking Number</td><td> {{ $orderDetails['tracking_number'] }}</td></tr>
+                        @endif
+                        <tr><td>Payment Method</td><td>{{ $orderDetails['payment_method'] }}</td></tr>
+                    </table>
+                    <table class="table table-striped table-borderless">
+                        <tr  class="table-success">
+                            <th>Product Image</th>
+                            <th>Product Code</th>
+                            <th>Product Name</th>
+                            <th>Product Size</th>
+                            <th>Product Qty</th>
                         </tr>
-                    @endforeach
-                </table>
-                <table class="table table-striped table-borderless">
-                    <tr class="table-success"><td colspan="2"><strong>Delivery Address</strong></td></tr>
-                    <tr><td>Name</td><td>{{ $orderDetails['name'] }}</td></tr>
-                    <tr><td>Address</td><td>{{ $orderDetails['address'] }}</td></tr>
-                    <tr><td>Mobile</td><td>{{ $orderDetails['mobile'] }}</td></tr>
-                    <tr><td>Email</td><td>{{ $orderDetails['email'] }}</td></tr>
-                </table>
-                <div class="col border-end d-flex justify-content-center align-items-end">
-                    <button class="btn btn-primary" type="button">
-                     Order Received 
-                    </button>
-                  </div>
+                        @foreach ($orderDetails['orders_products'] as $product)
+                            <tr>
+                                <td>
+                                    @php $getProductImage = Product::getProductImages($product['product_id']) @endphp
+                                    <a target="blank" href="{{ url('product/'.$product['product_id']) }}">
+                                        <img style="width:80px" src="{{ asset('/front/images/product_images/small/'.$getProductImage) }}" >
+                                    </a>
+                                </td>
+                                <td>{{ $product['product_code'] }}</td>
+                                <td>{{ $product['product_name'] }}</td>
+                                <td>{{ $product['product_size'] }}</td>
+                                <td>{{ $product['product_qty'] }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                    <table class="table table-striped table-borderless">
+                        <tr class="table-success"><td colspan="2"><strong>Delivery Address</strong></td></tr>
+                        <tr><td>Name</td><td>{{ $orderDetails['name'] }}</td></tr>
+                        <tr><td>Address</td><td>{{ $orderDetails['address'] }}</td></tr>
+                        <tr><td>Mobile</td><td>{{ $orderDetails['mobile'] }}</td></tr>
+                        <tr><td>Email</td><td>{{ $orderDetails['email'] }}</td></tr>
+                    </table>
+                    <div class="col border-end d-flex justify-content-center align-items-end">
+                        <button class="btn btn-primary" type="submit">
+                        Order Received 
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

@@ -1,5 +1,7 @@
 <?php use App\Models\Product;
-    use App\Models\Vendor;  ?>
+    use App\Models\Vendor;  
+    $collection = new Illuminate\Database\Eloquent\Collection();
+?>
 @extends('front.layout.layout')
 @section('content')
     <!-- Page Introduction Wrapper -->
@@ -32,7 +34,7 @@
                     <!-- Page-Bar /- -->
                     <!-- Simple Paganitaion /- -->
                     <div class="">
-                             @include('front.products.vendor_products_listing')
+                        @include('front.products.vendor_products_listing')
                     </div>
                     @if(isset($_GET['sort']))
                         <div> {{ $vendorProducts->appends(['sort'=>$_GET['sort']])->links() }}</div> <div>&nbsp;</div> 

@@ -19,6 +19,7 @@ use App\Models\Installment;
 use App\Models\Paylater;
 use App\Models\Vendor;
 use App\Models\Notification;
+use App\Models\PayLaterApplication;
 use App\Models\TransactionFee;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -211,9 +212,8 @@ class ProductController extends Controller
         // $productDetails = Product::with(['section','category','attributes'=>function($query){
         //     $query->where('stock','>',0)->where('status',1);
         //  },'images','brands','vendor'])->find($vendorid)->toArray();
-
-        $vendorProducts = $vendorProducts->paginate(30);
-        // dd($vendorProducts);
+        $vendorProducts = $vendorProducts->paginate(10);
+        // echo "<pre>"; print_r($vendorProducts); die;
        return view('front.products.vendor_listing')->with(compact('getVendorShop','vendorProducts'));
     }
 
@@ -229,7 +229,7 @@ class ProductController extends Controller
             $getProductStock = ProductsAttribute::getProductStock($data['product_id'],$data['size']);
             //condition if stock less than number of product stock
             if($getProductStock<$data['quantity']){
-                return redirect()->back()->wiwth('error_message','Required Quantity is not available!');
+                return redirect()->back()->with('error_message','Required Quantity is not available!');
             }
 
             //generate session id if not exists
@@ -360,7 +360,7 @@ class ProductController extends Controller
     public function checkout(Request $request, $id=null){
             $deliveryAddresses = DeliveryAddress::deliveryAddresses(); //show the addresses
             $getCartItems = Cart::getCartItems();
-
+            
             //if cart is empty then redirect user to the cart page
             if(count($getCartItems) == 0){
                 $message = "Cart is empty! Please add some Products to checkout";
@@ -378,6 +378,7 @@ class ProductController extends Controller
 
             //get the selected vendor
             $selectedVendorId = $item['product']['vendor_id'] ; 
+            $status = PayLaterApplication::get()->first()->toArray();
 
             //get the items for the selected vendor
             if(isset($groupedProducts[$selectedVendorId])){
@@ -450,6 +451,7 @@ class ProductController extends Controller
                      $order->payment_gateway = $data['payment_gateway'];
                      $order->payment_method = $payment_method;
                      $order->grand_total = $grand_total;
+                     $order->order_received = "No";
                      $order->save(); //save
                      $order_id = DB::getPdo()->lastInsertId(); //fetch the latest saved order 
 
@@ -476,17 +478,17 @@ class ProductController extends Controller
                         // dd($orderDetails);
                         $getProductStock = ProductsAttribute::getProductStock($item['product_id'],$item['size']);
                         $newStock = $getProductStock - $item['quantity'];
-                        // if (!$newStock) {
-                        //     Notification::insert([
-                        //         'module' => 'product',
-                        //         'module_id' => $order['product_id'],
-                        //         'user_id' => $orderDetails['vendor_id'],
-                        //         'sender' => 'product',
-                        //         'receiver' => 'vendor',
-                        //         'message' => $order['product_name'] . ' is out of stock.'
-                        //     ]);
-                        // }
-                        //update the new stock on each product
+                        if (!$newStock) {
+                            Notification::insert([
+                                'module' => 'product',
+                                'module_id' => $item['product_id'],
+                                'user_id' => $orderDetails['vendor_id'],
+                                'sender' => 'product',
+                                'receiver' => 'vendor',
+                                'message' => $order['product_name'] . ' is out of stock.'
+                            ]);
+                        }
+                        // update the new stock on each product
                         ProductsAttribute::where(['product_id'=>$item['product_id'],'size'=>$item['size']])->update(['stock'=>$newStock]);
                         // dd($newStock);
                     }

@@ -351,6 +351,7 @@ class AdminController extends Controller
     public function updateAdminStatus(Request $request){
         if($request->ajax()){
             $data = $request->all();
+            
             //making the inactive->active, vice versa
             if($data['status']=="Active"){
                 $status = 0;

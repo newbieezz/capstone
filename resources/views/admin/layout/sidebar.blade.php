@@ -109,6 +109,9 @@
                         <li class="nav-item"> <a @if(Session::get('page')=="view_users") style="background:#4B49AC !important; color:aliceblue !important;" 
                                                  @else style="background: #fff !important; color:#4B49AC !important;" @endif 
                             class="nav-link" href="{{ url('admin/users') }}">Customer/User</a></li>
+                        <li class="nav-item"> <a @if(Session::get('page')=="users_paylater") style="background:#4B49AC !important; color:aliceblue !important;" 
+                                                 @else style="background: #fff !important; color:#4B49AC !important;" @endif 
+                            class="nav-link" href="{{ url('admin/user-paylater') }}">Users PayLater Application</a></li>
                     </ul>
                 </div>
             </li>

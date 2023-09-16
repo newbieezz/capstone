@@ -152,6 +152,8 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         // USERS
         Route::get('users','UserController@users');
         Route::post('update-user-status','UserController@updateUserStatus');
+        Route::get('user-paylater','UserController@usersPayLater');
+        Route::post('/update-paylater-status','UserController@updateAppstatus'); 
 
         //  ORDERS
         Route::get('orders','OrderController@orders');
@@ -244,14 +246,16 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
         Route::get('user/orders/{id?}','OrderController@orders');
         //Users Pay Later
         Route::get('user/pay-later','PayLaterController@index');
+        Route::get('pay-later','PayLaterController@application');
+        Route::post('pay-later-application','PayLaterApplicationController@saveApplication');
         //Paypal
         Route::get('paypal','PaypalController@paypal');
         Route::post('pay','PaypalController@pay')->name('payment');
         Route::get('success','PaypalController@success');
         Route::get('error','PaypalController@error');
         //Recieve Order/Delivery
-        Route::post('receive-order','OrderController@receiveOrder');
-
+        Route::match(['GET','POST'],'user/order-received/{id?}','OrderController@receiveOrder');
+        // Route::match(['get','post'],'user/orderReceived','OrderController@receiveOrder');
         
 
     });

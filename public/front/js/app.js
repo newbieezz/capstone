@@ -15,8 +15,9 @@
  * $(function() { ... }) is also jQuery short-hand for
  * $(document).ready(function() { ... });
  */
-$(function () {
 
+$(function () {
+    
     // Initialize NProgress
     NProgress.configure({ showSpinner: false });
     // Bind Scroll Up plugin to all pages

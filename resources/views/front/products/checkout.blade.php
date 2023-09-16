@@ -1,5 +1,6 @@
 <?php use App\Models\Product; 
       use App\Models\ProductsFilter; 
+      use App\Models\PaylaterApplication;
 ?>
 @extends('front.layout.layout')
 @section('content')
@@ -136,27 +137,30 @@
                                             <input type="radio" class="radio-box" name="payment_gateway" id="paypal" value="Paypal">
                                             <label class="label-text" for="paypal">Paypal</label>
                                         </div>
-                                        <div class="u-s-m-b-13">
-                                            <label class="label-text" for="paylater">Buy Now, Pay Later</label>
-                                            
-                                            {{-- INSTALLMENTS --}}
-                                        {{-- @foreach($installments as $installment)
-                                            <div style="margin-left:25px" class="u-s-m-b-13">
-                                                <input type="radio" class="radio-box" name="{{$installment['installment_id']}}" id="{{$installment['installment_id']}}" value="{{$installment['installment_id']}}">
-                                                <label class="label-text" for="{{$installment['installment_id']}}">{{ $installment['description'] }}</label>
-                                                <br>
-                                                <span>For {{ round(($total_price + ($total_price * ($installment['interest_rate']/100))) / $installment['number_of_months'] , 2) }} Php/Month</span>
+                                        {{-- FOR BUY NOW PAY LATER --}}
+                                        @if($status['appstatus'] =='Approved')
+                                            <div class="u-s-m-b-13">
+                                                <label class="label-text" for="paylater">Buy Now, Pay Later</label>
+                                                
+                                                {{-- INSTALLMENTS --}}
+                                            {{-- @foreach($installments as $installment)
+                                                <div style="margin-left:25px" class="u-s-m-b-13">
+                                                    <input type="radio" class="radio-box" name="{{$installment['installment_id']}}" id="{{$installment['installment_id']}}" value="{{$installment['installment_id']}}">
+                                                    <label class="label-text" for="{{$installment['installment_id']}}">{{ $installment['description'] }}</label>
+                                                    <br>
+                                                    <span>For {{ round(($total_price + ($total_price * ($installment['interest_rate']/100))) / $installment['number_of_months'] , 2) }} Php/Month</span>
+                                                </div>
+                                                @endforeach --}}
                                             </div>
-                                            @endforeach --}}
-                                        </div>
-                                        <div class="u-s-m-b-13">
-                                            @foreach($installments as $key => $installment)
-                                            <div style="margin-left:25px" class="u-s-m-b-13">
-                                                <input type="radio" class="radio-box" name="payment_gateway" id="paylater{{$key}}" value="paylater-{{ $installment['id'] }}">
-                                                <label class="label-text" for="paylater{{$key}}">{{ $installment['description'] }} For {{ round(($total_price + ($total_price * ($installment['interest_rate']/100))) / $installment['number_of_months'] , 2) }} Php/Month</label>
+                                            <div class="u-s-m-b-13">
+                                                @foreach($installments as $key => $installment)
+                                                <div style="margin-left:25px" class="u-s-m-b-13">
+                                                    <input type="radio" class="radio-box" name="payment_gateway" id="paylater{{$key}}" value="paylater-{{ $installment['id'] }}">
+                                                    <label class="label-text" for="paylater{{$key}}">{{ $installment['description'] }} For {{ round(($total_price + ($total_price * ($installment['interest_rate']/100))) / $installment['number_of_months'] , 2) }} Php/Month</label>
+                                                </div>
+                                                @endforeach
                                             </div>
-                                            @endforeach
-                                        </div>
+                                        @endif
                                         <div class="u-s-m-b-13">
                                             <input type="checkbox" required="" class="check-box" id="accept"  name="accept" value="Yes" title="Please agree to T&C" >
                                             <label class="label-text no-color" for="accept">I’ve read and accept the

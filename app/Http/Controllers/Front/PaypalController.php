@@ -36,7 +36,7 @@ class PaypalController extends Controller
 
     public function pay(Request $request){
         try{
-            $paypal_amount = round(Session::get('grand_total')/52,2);
+            $paypal_amount = round(Session::get('grand_total'),2);
             $response = $this->gateway->purchase(array(
                 'amount' => $paypal_amount,
                 'currency' => env('PAYPAL_CURRENCY'),

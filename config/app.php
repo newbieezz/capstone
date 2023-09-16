@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'PStore'),
 
     /*
     |--------------------------------------------------------------------------
@@ -142,6 +142,10 @@ return [
         'driver' => 'file',
         // 'store'  => 'redis',
     ],
+
+    // change date format
+    'date_format' => 'm/d/Y',
+    'date_format_js' => 'mm/dd/yy',
 
     /*
     |--------------------------------------------------------------------------

@@ -2,10 +2,7 @@
  <!-- Row-of-Product-Container -->
  <div class="row product-container grid-style">
     @foreach($vendorProducts as $product)
-        @if (empty($vendorProducts))
-            <h4>No Products Available in this Store</h4>
-        @else
-            <!-- Display products wtih loop -->
+        <!-- Display products wtih loop -->
             <div class="product-item col-lg-4 col-md-6 col-sm-6">
                 <div class="item">
                     <div class="image-container">
@@ -75,6 +72,6 @@
                     @endif
                 </div>
             </div>
-        @endif
     @endforeach
+
 </div>
