@@ -53,7 +53,7 @@
                 <h2 class="account-h2 u-s-m-b-20">Emergency Contact</h2>
                 <h6 class="account-h6 u-s-m-b-30">Please be mindful and truthful!</h6>
                     <p id="emerCon-error"></p>
-            <form action="{{url('pay-later-application')}}" method="post"> @csrf
+            <form action="{{url('pay-later-application')}}" method="post" enctype="multipart/form-data"> @csrf
                 <input type="hidden" name="appstatus" value="1" id="appstatus">
                         <div class="u-s-m-b-30">
                             <label >Name

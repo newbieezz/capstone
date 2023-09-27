@@ -33,29 +33,27 @@ class PayLaterApplicationController extends Controller
             ];
                 $this->validate($request,$rules);
                 //upload valid_id image 
-                if($request->hasFile('valid_id')){
-                    $name = $request->file('valid_id')->getClientOriginalName();
-                    $path = $request->file('valid_id')->store('public/front/images/users');
-                    $data['valid_id'] = $name;
+                if($image = $request->file('valid_id')){
+                    $path = 'front/images/users/validid';
+                    $name = date('YmdHis') . "." . $image->getClientOriginalExtension();
+                    $image->move($path, $name);
+                    $data['valid_id'] = "$name";
                 } 
                 //upload selfie image
-                if($request->hasFile('selfie')){
-                    $files = $request->file('selfie');
-                    $extensions = $files->getClientOriginalExtension();
-                    //generate new image name
-                    $imageNames = rand(111,99999).'.'.$extensions;
-                    $paths = 'front/images/users/'.$imageNames;
-                    Image::make($files)->resize(500,500)->save($paths);
-                    $data['selfie'] = $imageNames;
+                if($images = $request->file('selfie')){
+                    $paths = 'front/images/users/selfie';
+                    $names = date('YmdHis') . "." . $images->getClientOriginalExtension();
+                    $images->move($paths, $names);
+                    $data['selfie'] = "$names";
+                } 
 
-                }
                 //save all the data 
                  //user id
                  //get user_id and save all the data with the user_id
                 //  User::create($data);
                 $user_id = Auth::user()->id;
                 $data['user_id'] = $user_id;
-                $data['appstatus'] = 1;
+                $data['appstatus'] = 'Pending';
                     // echo "<pre>"; print_r($data); die;
                     PayLaterApplication::create($data);
                 $message = "Application is submitted successfully. We will inform you through email for further updates.";

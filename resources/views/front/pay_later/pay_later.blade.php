@@ -21,21 +21,12 @@
     </div>
     <div class="page-cart u-s-p-t-80">
         <div class="container">
-            @if ($status['appstatus'] ==null)
-                <div class="row">
-                    {{-- <h2>Credit Limit:  {{$credit_limit['current_credit_limit']}} <h6>&nbsp;&nbsp; </h6></h2> &nbsp; --}}
-                    <h2>Want to use and avail PayLater payment method?</h2> &nbsp;  <br> <br>
-                        <button type="button" class="btn btn-primary w-right" ><a href="{{ url('pay-later') }}" style="color:white;">Click to Apply</a></button>
-                    <div style="row">
-                    </div>
-                </div>
-            @elseif ($status['appstatus'] =='Pending' )
+            @if ($status['id'] != 0  && $status['appstatus'] =='Pending' )
                 <div class="row" style="center">
-                   
                     <h1>Good Day!   </h1> <br> <br> <br>
                     <h2>Your Application is Pending / Under Review. We will inform you the updates by email.</h2>
                 </div>
-            @elseif ($status['appstatus'] =='Approved' )
+            @elseif ($status['id'] != 0  && $status['appstatus'] =='Approved' )
                 {{-- Approved Users Pay Later Information Details --}}
                 <div class="row">
                     <table class="table table-striped table-borderless">
@@ -56,6 +47,14 @@
                         </tr>
                         @endforeach
                     </table>
+                </div>
+            @else
+                <div class="row">
+                    {{-- <h2>Credit Limit:  {{$credit_limit['current_credit_limit']}} <h6>&nbsp;&nbsp; </h6></h2> &nbsp; --}}
+                    <h2>Want to use and avail PayLater payment method?</h2> &nbsp;  <br> <br>
+                        <button type="button" class="btn btn-primary w-right" ><a href="{{ url('pay-later') }}" style="color:white;">Click to Apply</a></button>
+                    <div style="row">
+                    </div>
                 </div>
                 {{--End of Approved User's Payment Info--}}
             @endif  
