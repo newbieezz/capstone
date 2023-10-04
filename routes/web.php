@@ -32,7 +32,6 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
 
     //Admin Login Route 
     Route::match(['get','post'],'login','AdminController@login');
-
     //Addning the dashboard of the Admin Middleware
     Route::group(['middleware' => ['admin']], function() {
     //All this routes will come/execute after admin login
@@ -163,15 +162,17 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
 
         //Order Invoices
         Route::get('orders/invoice/{id}','OrderController@viewOrderInvoice');
-
+        
 
     });
+    
 });
 
 //Route Group for the Front Views  USERS
 Route::namespace('App\Http\Controllers\Front')->group(function(){
     //Route for the Index page
     Route::get('/','IndexController@index');
+    
     //dynamic routes for the product listing page fetch by category
     $catUrl = Category::select('url')->where('status',1)->get()->pluck('url')->toArray();
     foreach($catUrl as $key => $url) {

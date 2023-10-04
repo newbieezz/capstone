@@ -17,6 +17,7 @@ class UserController extends Controller
     
     public function users(){
         $users = User::get()->toArray();
+        Session::put('page','view_users');
         // dd($users);
         return view('admin.users.users')->with(compact('users'));//users array return to blade file
     }

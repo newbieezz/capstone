@@ -30,7 +30,6 @@ class PaylaterController extends Controller
             echo "hakkdog"; die;
          }
         else{
-            return view("front.pay_later.pay_later", compact(['status']));
             $status = PayLaterApplication::get()->first()->toArray();
         
             // dd($status['appstatus']);
@@ -45,7 +44,7 @@ class PaylaterController extends Controller
         } catch (\Throwable $th) {
             throw $th;
         } }
-         return view('front.pay_later.pay_later')->with(compact('status'));
+         return view('front.pay_later.pay_later')->with(compact('status','pay_laters', 'credit_limit'));
 
     }
 

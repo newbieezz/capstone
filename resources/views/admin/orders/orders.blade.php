@@ -63,6 +63,8 @@
             </footer> <!-- partial --> 
         </div>
     </body>
+
+
 </html>
 
 @endsection 

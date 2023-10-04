@@ -13,16 +13,18 @@ use App\Models\VendorsBankDetails;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Intervention\Image\Facades\Image;
-
+use App\Models\Calculator;
 
 class AdminController extends Controller
 {
     // public function for the dashboard
     public function dashboard(){
         Session::put('page','dashboard');
-        return view('admin.dashboard');
+    
+           return view('admin.dashboard');
     }
 
+    
     // function for the Update of Admin Password
     public function updateAdminPassword(Request $request){  
         Session::put('page','update_admin_password');
@@ -340,10 +342,11 @@ class AdminController extends Controller
 
     // View Vendor Details by the Admin
     public function viewVendorDetails($id){
-        Session::put('page','view_vendors');
         $vendorDetails = Admin::with('vendorPersonal','vendorBusiness','vendorBank')->where('id',$id)->first();
         $vendorDetails = json_decode(json_encode($vendorDetails),true);
-        dd($vendorDetails);
+        // dd($vendorDetails);
+        Session::put('page','view_vendors');
+
         return view('admin.admins.view_vendor_details')->with(compact('vendorDetails'));
     }
 

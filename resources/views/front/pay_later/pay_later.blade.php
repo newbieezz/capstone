@@ -26,7 +26,7 @@
                     <h1>Good Day!   </h1> <br> <br> <br>
                     <h2>Your Application is Pending / Under Review. We will inform you the updates by email.</h2>
                 </div>
-            @elseif ($status['id'] != 0  && $status['appstatus'] =='Approved' )
+            @elseif ($status['appstatus'] = 'Approved' )
                 {{-- Approved Users Pay Later Information Details --}}
                 <div class="row">
                     <table class="table table-striped table-borderless">
