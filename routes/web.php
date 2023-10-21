@@ -163,6 +163,8 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         //Order Invoices
         Route::get('orders/invoice/{id}','OrderController@viewOrderInvoice');
         
+        //Buy Now Pay Later & Installments
+        Route::get('bpaylater','PayLaterController@paylaters');
 
     });
     

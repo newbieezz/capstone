@@ -138,7 +138,7 @@
                                             <label class="label-text" for="paypal">Paypal</label>
                                         </div>
                                         {{-- FOR BUY NOW PAY LATER --}}
-                                        @if($status['appstatus'] =='Approved')
+                                        @if($status['appstatus'] ='Approved')
                                             <div class="u-s-m-b-13">
                                                 <label class="label-text" for="paylater">Buy Now, Pay Later</label>
                                                 
@@ -156,7 +156,7 @@
                                                 @foreach($installments as $key => $installment)
                                                 <div style="margin-left:25px" class="u-s-m-b-13">
                                                     <input type="radio" class="radio-box" name="payment_gateway" id="paylater{{$key}}" value="paylater-{{ $installment['id'] }}">
-                                                    <label class="label-text" for="paylater{{$key}}">{{ $installment['description'] }} For {{ round(($total_price + ($total_price * ($installment['interest_rate']/100))) / $installment['number_of_months'] , 2) }} Php/Month</label>
+                                                    <label class="label-text" for="paylater{{$key}}">{{ $installment['description'] }} For {{ round(($total_price + ($total_price * ($installment['interest_rate']/100))) / $installment['number_of_weeks'] , 2) }} Php/week</label>
                                                 </div>
                                                 @endforeach
                                             </div>

@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Installment;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class InstallmentsTableSeeder extends Seeder
 {
@@ -14,33 +16,12 @@ class InstallmentsTableSeeder extends Seeder
      */
     public function run()
     {
-        \DB::table('installments')
-            ->insert([
-                [
-                    'number_of_months' => 1,
-                    'interest_rate' => 1,
-                    'description'      => 'Pay in 1 month'
-                ],
-                [
-                    'number_of_months' => 3,
-                    'interest_rate' => 1.25,
-                    'description'      => 'Pay in 3 months'
-                ],
-                [
-                    'number_of_months' =>  6,
-                    'interest_rate' => 1.50,
-                    'description'      => 'Pay in 6 months'
-                ],
-                [
-                    'number_of_months' => 9,
-                    'interest_rate' => 1.75,
-                    'description'      => 'Pay in 9 months'
-                ],
-                [
-                    'number_of_months' => 12,
-                    'interest_rate' => 2,
-                    'description'      => 'Pay in 12 months'
-                ],
-            ]);
+            $installmentsRecords = [
+                ['number_of_weeks'=>1, 'interest_rate'=>2, 'description'=>'Pay in 1 week'],
+                ['number_of_weeks'=>2, 'interest_rate'=>3, 'description'=>'Pay in 2 week'],
+                ['number_of_weeks'=>3, 'interest_rate'=>4, 'description'=>'Pay in 3 week'],
+                ['number_of_weeks'=>4, 'interest_rate'=>5, 'description'=>'Pay in 4 week'],
+            ];
+            Installment::insert($installmentsRecords);
     }
 }

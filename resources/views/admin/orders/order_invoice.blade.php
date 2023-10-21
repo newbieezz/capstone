@@ -18,9 +18,6 @@
                         @if(!empty( $userDetails['address'] ))
     					    {{ $userDetails['address'] }}<br>
                         @endif
-                        @if(!empty( $userDetails['city'] ))
-    					    {{ $userDetails['city'] }}<br>
-                        @endif
                         @if(!empty( $userDetails['mobile'] ))
     					    {{ $userDetails['mobile'] }}<br>
                         @endif
@@ -31,9 +28,9 @@
     			</div>
     			<div class="col-xs-6 text-right">
     				<address>
-        			<strong>Shipped To:</strong><br>
+        			<strong>Delivered To:</strong><br>
                         {{ $orderDetails['name'] }}<br>
-                        {{ $orderDetails['address'] }} , {{ $orderDetails['city'] }} City<br>
+                        {{ $orderDetails['address'] }} , Cebu City<br>
                         {{ $orderDetails['mobile'] }}<br>
     				</address>
     			</div>
@@ -99,7 +96,7 @@
     								<td class="no-line"></td>
     								<td class="no-line"></td>
     								<td class="no-line text-right"><strong>Delivery Fee</strong></td>
-    								<td class="no-line text-right">₱ 0</td>
+    								<td class="no-line text-right">₱ 0 </td>
     							</tr>
     							<tr>
     								<td class="no-line"></td>

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('installments', function (Blueprint $table) {
             $table->id();
-            $table->integer('number_of_months');
+            $table->integer('number_of_weeks');
             $table->decimal('interest_rate', 15,2)->defaul(0);
             $table->string('description', 255);
             $table->timestamps();

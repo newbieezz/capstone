@@ -15,8 +15,9 @@ class Installment extends Model
     * @var array
     */
    protected $fillable = [
-       'number_of_months',
+       'number_of_weeks',
        'description',
        'interest_rate'
    ];
+
 }

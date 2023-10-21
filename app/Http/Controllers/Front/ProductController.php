@@ -347,9 +347,17 @@ class ProductController extends Controller
             Cart::where('id',$data['cartid'])->delete();
             $getCartItems = Cart::getCartItems(); //call cartitems to pass
 
+            $groupedProducts = [];
+            foreach ($getCartItems as $item) {
+                $vendorShop = $item['product']['vendor_id'];
+                if (!isset($groupedProducts[$vendorShop])) {
+                    $groupedProducts[$vendorShop] = [];
+                }
+                $groupedProducts[$vendorShop][] = $item;
+            }
             return response()->json([
                    'view'=>(String)View::make('front.products.cart_items')
-                    ->with(compact('getCartItems'))
+                    ->with(compact('getCartItems','groupedProducts'))
             ]);
         }
     }
@@ -497,12 +505,13 @@ class ProductController extends Controller
                     if ($payment_method == 'Paylater') {
                         $installment_id = explode('-',$data['payment_gateway'])[1];
                         $installment = Installment::find($installment_id);
-                        for($x = 0; $x < $installment['number_of_months']; $x++) {
+                        // dd($installment);
+                        for($x = 0; $x < $installment['number_of_weeks']; $x++) {
                             $paylater = new PayLater();
                             $paylater->installment_id = $installment_id;
                             $paylater->user_id = Auth::user()->id;
                             $paylater->order_id = $order_id;
-                            $paylater->amount = round(($grand_total + ($grand_total * ($installment['interest_rate']/100))) / $installment['number_of_months'] , 2);
+                            $paylater->amount = round(($grand_total + ($grand_total * ($installment['interest_rate']/100))) / $installment['number_of_weeks'] , 2);
                             $paylater->interest_rate = $installment['interest_rate'];
                             $paylater->save();
                         }

@@ -61,9 +61,9 @@
                         <li class="nav-item"> <a @if(Session::get('page')=="orders") style="background:#4B49AC !important; color:aliceblue !important;" 
                                                  @else style="background: #fff !important; color:#4B49AC !important;" @endif
                             class="nav-link" href="{{ url('admin/orders') }}">Orders</a></li>
-                        {{-- <li class="nav-item"> <a @if(Session::get('page')=="subscribers") style="background:#4B49AC !important; color:aliceblue !important;" 
+                        <li class="nav-item"> <a @if(Session::get('page')=="bpaylater") style="background:#4B49AC !important; color:aliceblue !important;" 
                                                  @else style="background: #fff !important; color:#4B49AC !important;" @endif
-                            class="nav-link" href="{{ url('admin/subscribers') }}">Subscribers</a></li>                     --}}
+                            class="nav-link" href="{{ url('admin/bpaylater') }}">Buy Now, Pay Later</a></li>                    
                     </ul>
                 </div>
             </li> 

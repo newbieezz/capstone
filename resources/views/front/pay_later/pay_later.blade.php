@@ -29,6 +29,7 @@
             @elseif ($status['appstatus'] = 'Approved' )
                 {{-- Approved Users Pay Later Information Details --}}
                 <div class="row">
+                    <h2>Credit Limit:  {{$credit_limit['current_credit_limit']}} <h6>&nbsp;&nbsp; </h6></h2> &nbsp;
                     <table class="table table-striped table-borderless">
                         <tr>
                             <th>Order ID</th>
@@ -50,7 +51,6 @@
                 </div>
             @else
                 <div class="row">
-                    {{-- <h2>Credit Limit:  {{$credit_limit['current_credit_limit']}} <h6>&nbsp;&nbsp; </h6></h2> &nbsp; --}}
                     <h2>Want to use and avail PayLater payment method?</h2> &nbsp;  <br> <br>
                         <button type="button" class="btn btn-primary w-right" ><a href="{{ url('pay-later') }}" style="color:white;">Click to Apply</a></button>
                     <div style="row">

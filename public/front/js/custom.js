@@ -82,7 +82,6 @@ $(document).ready(function(){
                 }
             })
         }
-        
     });
 
     //jquery function for user register form validation

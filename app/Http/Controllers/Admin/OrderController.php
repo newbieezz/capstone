@@ -97,7 +97,7 @@ class OrderController extends Controller
                 $pay_later = PayLater::where('order_id', $data['order_id'])->get();
                 foreach ($pay_later as $key => $value) {
                     PayLater::find($value['id'])->update([
-                        'due_date' => Carbon::now()->addMonths($key + 1)->format('Y-m-d')
+                        'due_date' => Carbon::now()->addWeeks($key + 1)->format('Y-m-d')
                     ]);
                 }
             }

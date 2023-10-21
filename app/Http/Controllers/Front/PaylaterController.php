@@ -33,17 +33,17 @@ class PaylaterController extends Controller
             $status = PayLaterApplication::get()->first()->toArray();
         
             // dd($status['appstatus']);
-        try {
-            $pay_laters = Paylater::with('orders')
-                ->where('user_id', Auth::user()->id)
-                ->where('due_date', '!=', null)
-                ->where('is_paid', 0)
-                ->get();
-            $credit_limit = CreditLimit::where('user_id', Auth::user()->id)->first();
-            return view('front.pay_later.pay_later')->with(compact('pay_laters', 'credit_limit','status'));
-        } catch (\Throwable $th) {
-            throw $th;
-        } }
+            try {
+                $pay_laters = Paylater::with('orders')
+                    ->where('user_id', Auth::user()->id)
+                    ->where('due_date', '!=', null)
+                    ->where('is_paid', 0)
+                    ->get();
+                $credit_limit = CreditLimit::where('user_id', Auth::user()->id)->first();
+                return view('front.pay_later.pay_later')->with(compact('pay_laters', 'credit_limit','status'));
+            } catch (\Throwable $th) {
+                throw $th;
+            } }
          return view('front.pay_later.pay_later')->with(compact('status','pay_laters', 'credit_limit'));
 
     }
