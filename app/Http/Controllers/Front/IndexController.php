@@ -39,5 +39,14 @@ class IndexController extends Controller
         return view('front.layout.terms');
     }
 
+    public function paylaterTerms(){
+        return view('front.layout.paylaterTerms');
+    }
+
+    public function sample(){
+        return view('front.layout.sample');
+    }
+
+
 }
     

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\CreditLimit;
+use App\Models\Installment;
 use App\Models\Order;
 use App\Models\Paylater;
 use Illuminate\Http\Request;
@@ -38,21 +40,12 @@ class PayLaterController extends Controller
         //     // $orderDetails = Order::with('orders_products')->where('id',$id)->first()->toArray();
         // }
         $userDetails = User::get()->first()->toArray();
-        // dd($userDetails);
-        try {
-            $pay_laters = Paylater::with('orders')
-                ->where('user_id', $userDetails['id'])
-                ->where('due_date', '!=', null)
-                ->where('is_paid', 0)
-                ->get();
-            // $credit_limit = CreditLimit::where('user_id', Auth::user()->id)->first();
-            dd($pay_laters);
-            return view('admin.paylater.paylaters')->with(compact('pay_laters'));
-        } catch (\Throwable $th) {
-            throw $th;
-        }
+                // echo "<pre>"; print_r($data);
+        $orderDetails = Order::with('orders_products')->where('id',$userDetails['id'])->first()->toArray();
+        echo "<pre>"; print_r($orderDetails); die;
 
-        return view('admin.paylater.paylaters')->with(compact('orders'));
+
+        // return view('admin.paylater.paylaters')->with(compact('userDetails'));
     }
 
 }

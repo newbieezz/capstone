@@ -24,7 +24,7 @@
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -47,10 +47,10 @@
                   @endif
                   <form class="forms-sample" action="{{ url('admin/add-edit-attributes/'.$product['id']) }}" 
                   method="post"> @csrf
-                  <form class="forms-sample" @if(empty($product['id'])) action="{{ url('admin/add-edit-product') }}"
+                    <form class="forms-sample" @if(empty($product['id'])) action="{{ url('admin/add-edit-product') }}"
                         @else action="{{ url('admin/add-edit-product/'.$product['id']) }}" @endif
                         method="post"enctype="multipart/form-data"> @csrf
-                    <div class="form-group">
+                      <div class="form-group">
                         <label for="product_name">Product Name</label>
                             &nbsp; {{ $product['product_name'] }}
                       </div>
@@ -133,7 +133,7 @@
                 </div>
               </div>
             </div>
-         </div> 
+        </div> 
     </div>
     <!-- content-wrapper ends -->
     <!-- partial:partials/_footer.html -->

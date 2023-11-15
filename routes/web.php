@@ -210,6 +210,9 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
     //Site About and Terms
     Route::get('/about','IndexController@about');
     Route::get('/terms','IndexController@terms');
+    Route::get('/paylaterTerms','IndexController@paylaterTerms');
+    Route::get('/sample','IndexController@sample');
+
 
     //User Login-Register
     Route::get('user/login-register',['as'=>'login','uses'=>'UserController@loginRegister']);

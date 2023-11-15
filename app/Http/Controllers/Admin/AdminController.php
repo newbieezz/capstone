@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Intervention\Image\Facades\Image;
 use App\Models\Calculator;
+use App\Models\Installment;
 
 class AdminController extends Controller
 {
@@ -111,6 +112,8 @@ class AdminController extends Controller
     // function for Vendor Details, Update and stuffs
     public function updateVendorDetails($slug, Request $request){
         Session::put('page','update_vendor_details');
+        $installments = Installment::get()->toArray();
+        
         if($slug=="personal"){
             Session::put('page','personal');
             if($request->isMethod('post')){
@@ -212,6 +215,8 @@ class AdminController extends Controller
                     } else {
                         $imageName = "";
                     }
+                    //installments
+
                     $vendorCount = VendorsBusinessDetails::where('vendor_id',Auth::guard('admin')->user()->vendor_id)->count();
                     if($vendorCount > 0 ){
                         // Update in vendors_business_details Table
@@ -274,7 +279,8 @@ class AdminController extends Controller
                 $vendorDetails = array();
             }
         }
-        return view('admin.settings.update_vendor_details')->with(compact('slug','vendorDetails'));
+        return view('admin.settings.update_vendor_details')->with(compact('slug','vendorDetails','installments'));
+        
     }
 
     public function login(Request $request){
@@ -345,6 +351,7 @@ class AdminController extends Controller
         $vendorDetails = Admin::with('vendorPersonal','vendorBusiness','vendorBank')->where('id',$id)->first();
         $vendorDetails = json_decode(json_encode($vendorDetails),true);
         // dd($vendorDetails);
+        
         Session::put('page','view_vendors');
 
         return view('admin.admins.view_vendor_details')->with(compact('vendorDetails'));

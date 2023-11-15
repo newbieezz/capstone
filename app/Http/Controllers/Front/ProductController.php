@@ -416,7 +416,6 @@ class ProductController extends Controller
                         return redirect()->back()->with('error_message',$message);
                     }
 
-                    // echo "<pre>"; print_r($data); die;
                     //get the delivery address from the address_id
                     $deliveryAddress = DeliveryAddress::where('id',$data['address_id'])->first()->toArray();
                     // dd($deliveryAddress);
@@ -567,7 +566,7 @@ class ProductController extends Controller
         return view('front.products.checkout')->with(compact('deliveryAddresses','selectedVendorId','selectedVendorItems','getCartItems', 'installments')); //show checkout page   
     }
 
-    //user order placed THANKS page
+    //user order placed
     public function orderplaced(Request $request){
         if(Session::has('order_id')){
             //Empty the cart
