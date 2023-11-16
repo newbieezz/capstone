@@ -166,14 +166,17 @@
                       @endif
                   </div>
                   <div class="form-group">
-                      {{-- <input type="hidden" name="vendor_id" value="{{ $venDetails['id'] }}"> --}}
+                    <label for="installment_weeks">Installment and Interest</label> <br>                      
+                    <input type="hidden" name="vendor_id" value="{{ $vendorDetails['id'] }}">
                       <select name="number_of_weeks" id="number_of_weeks" required="">
                         <option value="" selected="">Select</option>
                         @foreach($installments as $installment)
-                          <option value="{{ $installment['number_of_weeks']}}" 
-                            @if(!empty($installment['number_of_weeks'] ) ) selected="" @endif>  
-                              {{ $installment['number_of_weeks'] }}week :  {{ $installment['interest_rate'] }}% interest</option>
+                          <option value="{{ $installment['installment_weeks']}} {{$installment['interest'] }}" 
+                            @if(!empty($vendorDetails['number_of_weeks'] ) ) selected="" @endif>  
+                              {{ $installment['installment_weeks'] }}week :  {{ $installment['interest'] }}% interest</option>
                         @endforeach
+                        <input type="hidden" name="installment_id" value="{{ $installment['id'] }}">
+                      </select>
                   </div>
                   <button type="submit" class="btn btn-primary mr-2">Submit</button>
                   <button type="reset" class="btn btn-light">Cancel</button>
