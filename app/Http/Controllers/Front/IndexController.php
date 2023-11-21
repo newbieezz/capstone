@@ -46,6 +46,9 @@ class IndexController extends Controller
     public function sample(){
         return view('front.layout.sample');
     }
+    public function faqs(){
+        return view('front.layout.faqs');
+    }
 
 
 }

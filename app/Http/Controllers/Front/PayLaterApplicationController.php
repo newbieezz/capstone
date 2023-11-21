@@ -17,7 +17,7 @@ class PayLaterApplicationController extends Controller
     public function saveApplication(Request $request){
         if($request->isMethod('post')){
             $data = $request->all();
-            // dd($data);  
+            dd($data);  
             $rules = [
                 'dob' => 'required',
                     'pob' => 'required',

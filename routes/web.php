@@ -212,6 +212,7 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
     Route::get('/terms','IndexController@terms');
     Route::get('/paylaterTerms','IndexController@paylaterTerms');
     Route::get('/sample','IndexController@sample');
+    Route::get('/faqs','IndexController@faqs');
 
 
     //User Login-Register
@@ -253,7 +254,7 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
         //Users Pay Later
         Route::get('user/pay-later','PayLaterController@index');
         Route::get('pay-later','PayLaterController@application');
-        Route::post('pay-later-application','PayLaterApplicationController@saveApplication');
+        Route::get('pay-later-application','PayLaterApplicationController@saveApplication');
         //Paypal
         Route::get('paypal','PaypalController@paypal');
         Route::post('pay','PaypalController@pay')->name('payment');

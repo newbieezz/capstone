@@ -57,7 +57,7 @@
                                                 <a style="float:right; margin-left:10px" href="javascript:;" data-addressid="{{ $address['id'] }}"
                                                     class="removeAddress">Remove</a>
                                                 <a style="float:right;" href="javascript:;" data-addressid="{{ $address['id'] }}"
-                                                    class="editAddress">Edit</a>
+                                                    class="editAddress">Edit</a> 
                                             </div>
                                             <br />
                                         @endforeach <br />

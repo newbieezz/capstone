@@ -29,27 +29,32 @@ class OrderController extends Controller
     public function receiveOrder($id=null){
        $getOrders = Order::getOrders();
         //    dd($getOrders);
-        foreach($getOrders as $order['orders_products']){
-            $order_id = $order['orders_products']['id'];
-            // dd($order_id);
-                foreach($order as $current){
-                    // dd($current['orders_products']);
-                    foreach ($current as $final){
-                        dd($final);
-                        if($order_id == $final){
-                            $received = "Yes";
-                            Order::where(['id'==$final])->update(['order_received'=>$received]);
-
-                        }
-                    }
-                }
+        // foreach($getOrders as $order['orders_products']){
+        //     $order_id = $order['orders_products']['id'];
+        //     // dd($order_id);
+        //     $received = "Yes";
+        //     Order::where('id',$order_id)->update(['order_received'=>$received]);
                 
+        // }
+                // NOT DONE YET -> ALL THE ORDERS WILL CHANGED
+         //group the cart items by vendor
+         foreach($getOrders as $order['orders_products']){
+            $order_id = $order['orders_products']['id'];
+            if (!isset($getOrderid[$order_id])) {
+                $getOrderid[$order_id] = [];
+            }
+            $getOrderid[$order_id][] = $order;
+            // dd($getOrderid);
+            $selectedOrderId = $getOrderid;
+            // dd($selectedOrderId);
+            $groupedProducts = [];
+            foreach($selectedOrderId as $key => $value) {
+                $groupedProducts[$key] = $value;
+                // dd($groupedProducts);
+                $received = "Yes";
+                Order::where('id',$order_id)->update(['order_received'=>$received]);
+            }
         }
-        //    dd($order_id);
-       
-    //     // Order::where(['id'=>$selectedOrderId])->update(['order_received'=>$received]);
-            
-    //     }
     
 
         

@@ -171,7 +171,8 @@
                       <select name="number_of_weeks" id="number_of_weeks" required="">
                         <option value="" selected="">Select</option>
                         @foreach($installments as $installment)
-                          <option value="{{ $installment['installment_weeks']}} {{$installment['interest'] }}" 
+                          <option value="{{ $installment['installment_weeks']}} {{$installment['interest'] }}"   
+                          {{-- //error --}}
                             @if(!empty($vendorDetails['number_of_weeks'] ) ) selected="" @endif>  
                               {{ $installment['installment_weeks'] }}week :  {{ $installment['interest'] }}% interest</option>
                         @endforeach
@@ -183,7 +184,7 @@
                 </form>
               </div>
             </div>
-          </div>        
+          </div>          
       </div> 
      @elseif($slug=="bank")
      <div class="row">

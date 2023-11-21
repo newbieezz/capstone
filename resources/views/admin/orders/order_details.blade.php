@@ -121,7 +121,7 @@ use App\Models\OrdersLog; ?>
                             <strong>{{ $log['order_status'] }}</strong> 
 
                             {{-- @if($log['order_status'] == "Delivering") --}}
-                              @if(isset($log['order_item_id'])&&$log['order_item_id']>0)
+                              {{-- @if(isset($log['order_item_id'])&&$log['order_item_id']>0)
                                 @php
                                   $getItemDetails = OrdersLog::getItemDetails($log['order_item_id'])
                                 @endphp
@@ -131,7 +131,7 @@ use App\Models\OrdersLog; ?>
                                 @endif
                                 @if(!empty($getItemDetails['tracking_number']))
                                   <br><span>Tracking Number: {{ $getItemDetails['tracking_number'] }}</span>
-                                @endif
+                                @endif --}}
                               {{-- @else
                                 @if(!empty($orderDetails['courier_name']))
                                   <br><span>Courier Name: {{ $orderDetails['courier_name'] }}</span>
@@ -139,7 +139,7 @@ use App\Models\OrdersLog; ?>
                                 @if(!empty($orderDetails['tracking_number']))
                                   <br><span>Tracking Number: {{ $orderDetails['tracking_number'] }}</span>
                                 @endif --}}
-                              @endif
+                              {{-- @endif --}}
                             {{-- @endif --}}
                               <br>{{ date('Y-m-d h:i:s', strtotime($orderDetails['created_at'])) }} <br>
                             <hr>

@@ -26,8 +26,10 @@ class PaylaterController extends Controller
     {
                 
          //call get function to use
+        //  $status = PayLaterApplication::get('appstatus')->where(Auth::user()->id)->first()->toArray();
          if($status['id'] = 0){
-            echo "hakkdog"; die;
+            // dd($status['appstatus']);
+            echo "hakdogg";die;
          }
         else{
             $status = PayLaterApplication::get()->first()->toArray();
