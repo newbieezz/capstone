@@ -8,7 +8,7 @@ use App\Models\Order;
         <div class="container">
             <div class="page-intro">
                 <h2>Order #{{ $orderDetails['id'] }} Details</h2>
-                <ul class="bread-crumb">
+                <ul class="bread-crumb">    
                     <li class="has-separator">
                         <i class="ion ion-md-home"></i>
                         <a href="{{ url('/') }}">Home</a>
@@ -24,7 +24,8 @@ use App\Models\Order;
     <div class="page-cart u-s-p-t-80">
         <div class="container">
             <div class="row">               
-                <form id="orderReceiveForm" action="{{ url('user/order-received/'.$orderDetails['id']) }}" method="post"> @csrf
+                <form action="{{ url('user/order-received') }}" method="post"> @csrf
+                    <input type="hidden" name="order_id" value="{{ $orderDetails['id'] }}"/>
                     <table class="table table-striped table-borderless">
                         <tr  class="table-success"><td colspan="2"><strong>Order Details</strong></td></tr>
                         <tr><td>Order Date</td><td>{{ date('Y-m-d h:i:s', strtotime($orderDetails['created_at'])) }}</td></tr>

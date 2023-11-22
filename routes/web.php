@@ -261,8 +261,8 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
         Route::get('success','PaypalController@success');
         Route::get('error','PaypalController@error');
         //Recieve Order/Delivery
-        Route::match(['GET','POST'],'user/order-received/{id?}','OrderController@receiveOrder');
-        // Route::match(['get','post'],'user/orderReceived','OrderController@receiveOrder');
+        // Route::post('/order-received','OrderController@receiveOrder');
+        Route::match(['get','post'],'user/order-received','OrderController@receiveOrder');
         
 
     });
