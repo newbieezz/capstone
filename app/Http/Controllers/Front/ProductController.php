@@ -422,13 +422,13 @@ class ProductController extends Controller
                     //set payment method as COD if Selected from user else set as prepaid and such
                     if($data['payment_gateway'] == "COD"){
                         $payment_method = "COD";
-                        $order_status = "New";
+                        $order_status = "Processing";
                     } else if($data['payment_gateway'] == "Paypal"){
                         $payment_method = "Paypal";
-                        $order_status = "New";
+                        $order_status = "Processing";
                     } else if(str_contains($data['payment_gateway'], 'paylater')){
                         $payment_method = "Paylater";
-                        $order_status = "Pending";
+                        $order_status = "Processing";
                     } else {
                         $payment_method = "Prepaid"; //advance payment from the customer
                         $order_status = "Pending";
@@ -485,6 +485,7 @@ class ProductController extends Controller
                         // dd($orderDetails);
                         $getProductStock = ProductsAttribute::getProductStock($item['product_id'],$item['size']);
                         $newStock = $getProductStock - $item['quantity'];
+
                         if (!$newStock) {
                             Notification::insert([
                                 'module' => 'product',
@@ -554,7 +555,9 @@ class ProductController extends Controller
                     } else if($data['payment_gateway']=="Paypal"){
                         // Paypal - Redirect User to Paypal page after saving order
                         return redirect('/paypal');
-                    } 
+                    } else if(str_contains($data['payment_gateway'], 'paylater')){
+                        //paylater logic to be implemented
+                    }
                     else {
                         echo "Other Prepaid payment methods coming soon!";
                     }

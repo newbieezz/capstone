@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
-class Vendor extends Model
+use Stephenjude\Wallet\Interfaces\Wallet;
+use Stephenjude\Wallet\Traits\HasWallet;
+class Vendor extends Model implements Wallet
 {
     use HasFactory;
-
+    use HasWallet;
     public function vendorshopdetails(){
         //every shop belongs to a vendor (match the id of in the vendor table with the vendor_id)
         return $this->belongsTo('App\Models\VendorsBusinessDetails','id','vendor_id');

@@ -32,6 +32,12 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
 
     //Admin Login Route 
     Route::match(['get','post'],'login','AdminController@login');
+    //E-WALLET
+Route::match(['get','post'],'/addFunds','EwalletController@addFunds');
+Route::post('/transferToAdmin','EwalletController@transferToAdmin');
+Route::post('/deductCommission','EwalletController@deductCommission');
+Route::post('/transferToUser','EwalletController@transferToUser');
+
     //Addning the dashboard of the Admin Middleware
     Route::group(['middleware' => ['admin']], function() {
     //All this routes will come/execute after admin login
@@ -166,6 +172,8 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         //Buy Now Pay Later & Installments
         Route::get('bpaylater','PayLaterController@paylaters');
 
+        
+
     });
     
 });
@@ -263,7 +271,8 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
         //Recieve Order/Delivery
         // Route::post('/order-received','OrderController@receiveOrder');
         Route::match(['get','post'],'user/order-received','OrderController@receiveOrder');
-        
+       
+
 
     });
    

@@ -13,11 +13,12 @@ use App\Models\VendorsBankDetails;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Intervention\Image\Facades\Image;
-use App\Models\Calculator;
 use App\Models\Installment;
 
-class AdminController extends Controller
+
+class AdminController extends Controller 
 {
+    
     // public function for the dashboard
     public function dashboard(){
         Session::put('page','dashboard');
@@ -394,5 +395,7 @@ class AdminController extends Controller
         Auth::guard('admin')->logout();
         return redirect('admin/login');
     }
+
+    // E-Wallets
 
 }

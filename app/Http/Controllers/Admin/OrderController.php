@@ -147,6 +147,9 @@ class OrderController extends Controller
                 'message' => "Your order status is {$data['order_status']}. Please check order ID: " . $data['order_id']
             ]);
 
+            //insert wallet deduction if status changed to ACCEPTED
+            
+
             $message = "Order Status has been updated successfuly!";
             return redirect()->back()->with('success_message',$message);
         }
@@ -159,7 +162,7 @@ class OrderController extends Controller
 
         return view('admin.orders.order_invoice')->with(compact('orderDetails','userDetails'));
     }
-
+ 
     public function trackOrder($id){
         // if($request->isMethod)
     }

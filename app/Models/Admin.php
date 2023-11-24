@@ -5,10 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Stephenjude\Wallet\Interfaces\Wallet;
+use Stephenjude\Wallet\Traits\HasWallet;
 
-class Admin extends Authenticatable
+class Admin extends Authenticatable implements Wallet
 {
     use HasFactory;
+    use HasWallet;
     protected $guard = 'admin';
 
     // Creating a relation to vendors_personal
