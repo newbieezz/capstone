@@ -27,7 +27,7 @@ class PayLaterApplication extends Model
         'appstatus',
     ];
     public function users(){
-        return $this->belongsTo('App\Nodels\User','id','user_id');
+        return $this->belongsTo('App\Models\User','user_id');
     }
 
     public function setEntryDateAttribute($input)

@@ -1,5 +1,8 @@
 <?php use App\Models\Product; 
-use App\Models\OrdersLog; ?>
+use App\Models\OrdersLog; 
+use App\Models\Vendor;
+$getVendorTransferFee = Vendor::getVendorTransferFee(Auth::guard('admin')->user()->vendorid);
+?>
 @extends('admin.layout.layout') 
 @section('content')
 
@@ -113,9 +116,6 @@ use App\Models\OrdersLog; ?>
                                 {{ $status['name'] }}</option>
                           @endforeach
                         </select>
-                        <input type="text" name="courier_name" id="courier_name" placeholder="Courier Name">
-                        <input type="text" name="tracking_number" id="tracking_number" placeholder="Tracking Number">
-                        <button type="submit">Update</button>
                       </form>
                       <br> @foreach($orderLog as $key => $log)
                             <strong>{{ $log['order_status'] }}</strong> 
@@ -156,11 +156,15 @@ use App\Models\OrdersLog; ?>
                     <h4 class="card-title"> Ordered Products </h4>
                     <table class="table table-striped table-borderless">
                         <tr  class="table-success">
-                            <th>Product Image</th>
-                            <th>Product Code</th>
-                            <th>Product Name</th>
-                            <th>Product Size</th>
-                            <th>Product Qty</th>
+                            <th>Image</th>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Size</th>
+                            <th>Unit Price</th>
+                            <th>Qty</th>
+                            <th>Total Price</th>
+                            <th>Fee</th>
+                            <th>Vendor Amount</th>
                         </tr>
                         @foreach ($orderDetails['orders_products'] as $product)
                             <tr>
@@ -173,7 +177,11 @@ use App\Models\OrdersLog; ?>
                                 <td>{{ $product['product_code'] }}</td>
                                 <td>{{ $product['product_name'] }}</td>
                                 <td>{{ $product['product_size'] }}</td>
+                                <td>{{ $product['product_price'] }}</td>
                                 <td>{{ $product['product_qty'] }}</td>
+                                <td>{{ $total_price = $product['product_price'] * $product['product_qty'] }}</td>
+                                <td>{{ $getVendorTransferFee }}</td>
+                                <td>{{ $vendorAmount = $total_price - $getVendorTransferFee }}</td>
                             </tr>
                         @endforeach
                     </table>

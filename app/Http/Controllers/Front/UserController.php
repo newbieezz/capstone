@@ -46,6 +46,7 @@ class UserController extends Controller
                 $user->mobile = $data['mobile'];
                 $user->email = $data['email'];
                 $user->password = bcrypt($data['password']);//encrypt in hash
+                $user->bnpl_status = "NotActivated";
                 $user->status = 0;
                 $user->save();
 

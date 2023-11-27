@@ -361,8 +361,6 @@ class ProductController extends Controller
             ]);
         }
     }
-   
-
     
     //check out by store
     public function checkout(Request $request, $id=null){
@@ -440,12 +438,12 @@ class ProductController extends Controller
                             $total_price = $total_price + ($getDiscountAttributePrice['final_price'] * $item['quantity']);
                     }
 
-                    $transaction_fee = $total_price * 0.05;
+                    // $transaction_fee = $total_price * 0.05;
                     //calculate grand total
-                    $grand_total = $total_price + $transaction_fee ;
+                    // $total_price = $total_price + $transaction_fee ;
 
                     //Insert tht grand total in session variable
-                    Session::put('grand_total',$grand_total);
+                    Session::put('grand_total',$total_price);
                      //Insert order details
                      $order = new Order;
                      $order->user_id = Auth::user()->id;
@@ -457,7 +455,7 @@ class ProductController extends Controller
                      $order->order_status = $order_status;
                      $order->payment_gateway = $data['payment_gateway'];
                      $order->payment_method = $payment_method;
-                     $order->grand_total = $grand_total;
+                     $order->grand_total = $total_price;
                      $order->order_received = "No";
                      $order->save(); //save
                      $order_id = DB::getPdo()->lastInsertId(); //fetch the latest saved order 
@@ -511,14 +509,14 @@ class ProductController extends Controller
                             $paylater->installment_id = $installment_id;
                             $paylater->user_id = Auth::user()->id;
                             $paylater->order_id = $order_id;
-                            $paylater->amount = round(($grand_total + ($grand_total * ($installment['interest_rate']/100))) / $installment['number_of_weeks'] , 2);
+                            $paylater->amount = round(($total_price + ($total_price * ($installment['interest_rate']/100))) / $installment['number_of_weeks'] , 2);
                             $paylater->interest_rate = $installment['interest_rate'];
                             $paylater->save();
                         }
 
                         $credit_limit = CreditLimit::where('user_id', Auth::user()->id)->first();
                         $credit_limit->update([
-                            'current_credit_limit' => $credit_limit->current_credit_limit - ($grand_total + ($grand_total * ($installment['interest_rate']/100)))
+                            'current_credit_limit' => $credit_limit->current_credit_limit - ($total_price + ($total_price * ($installment['interest_rate']/100)))
                         ]);
                     }
 

@@ -103,13 +103,13 @@
                     <h2 class="account-h2 u-s-m-b-20">Additional Informations</h2>
                     <h6 class="account-h6 u-s-m-b-30">Upload your Government ID and additional information needed.</h6>
                     <p id="emerCon-success"></p>
-                        <div class="u-s-m-b-30">
+                        {{-- <div class="u-s-m-b-30">
                             <label >Date of Birth
                                 <span class="astk">*</span>
                             </label>
                             <input class="date form-control datepicker" type="text" id="dob" name="dob">
                             <p id="emerCon-dob"></p>
-                        </div>
+                        </div> --}}
                         <div class="u-s-m-b-30">
                             <label >Place of Birth
                                 <span class="astk">*</span>

@@ -24,12 +24,21 @@ class PaylaterController extends Controller
      */
     public function index()
     {
-                
+        
+        $getUserBNPLstatus = User::getUserBNPLstatus('bnpl_status');
+
          //call get function to use
         //  $status = PayLaterApplication::get('appstatus')->where(Auth::user()->id)->first()->toArray();
-         if($status['id'] = 0){
-            // dd($status['appstatus']);
-            echo "hakdogg";die;
+        // $user = User::with('pay_later_applications')->where('id',Auth::user()->id)->get()->toArray();
+        // $status = PayLaterApplication::where($user[],Auth::user()->id)->first()->toArray();
+        // dd($getUserBNPLstatus);
+
+
+         if( $getUserBNPLstatus=="NotActivated"){
+
+            // echo "hakdogg";die;
+            return view('front.pay_later.pay_later')->with('getUserBNPLstatus');
+
          }
         else{
             $status = PayLaterApplication::get()->first()->toArray();
@@ -42,11 +51,11 @@ class PaylaterController extends Controller
                     ->where('is_paid', 0)
                     ->get();
                 $credit_limit = CreditLimit::where('user_id', Auth::user()->id)->first();
-                return view('front.pay_later.pay_later')->with(compact('pay_laters', 'credit_limit','status'));
+                return view('front.pay_later.pay_later')->with(compact('pay_laters', 'credit_limit','getUserBNPLstatus'));
             } catch (\Throwable $th) {
                 throw $th;
             } }
-         return view('front.pay_later.pay_later')->with(compact('status','pay_laters', 'credit_limit'));
+         return view('front.pay_later.pay_later')->with(compact('status','pay_laters', 'credit_limit','getUserBNPLstatus'));
 
     }
 

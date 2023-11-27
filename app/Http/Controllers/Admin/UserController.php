@@ -54,6 +54,7 @@ class UserController extends Controller
             // dd($users);
 
             PayLaterApplication::where('id',$data['app_id'])->update(['appstatus'=>$data['appstatus']]);
+            User::where('id',$data['app_id'])->update(['bnpl_status'=>$data['appstatus']]);
             //send order status update email
             $user = User::first()->toArray();
             // dd($user['name']);

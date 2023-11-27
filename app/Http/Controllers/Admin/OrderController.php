@@ -11,6 +11,7 @@ use App\Models\OrderStatus;
 use App\Models\User;
 use App\Models\Paylater;
 use App\Models\Notification;
+use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -80,12 +81,6 @@ class OrderController extends Controller
             $data = $request->all();
             //update order status
             Order::where('id',$data['order_id'])->update(['order_status'=>$data['order_status']]);
-          
-            //update courier name and tacking number
-            if(!empty($data['courier_name']) && !empty($data['tracking_number'])){
-                Order::where('id',$data['order_id'])->update(['courier_name'=>$data['courier_name'],
-                        'tracking_number'=>$data['tracking_number']]);
-            }
 
             //update order log
             $log = new OrdersLog();
@@ -106,24 +101,6 @@ class OrderController extends Controller
             $deliveryDetails = Order::select('mobile','email','name')->where('id',$data['order_id'])->first()->toArray();
             $orderDetails = Order::with('orders_products')->where('id',$data['order_id'])->first()->toArray();
 
-            
-            if(!empty($data['courier_name']) && !empty($data['tracking_number'])){
-                //send order status update email
-                $email = $deliveryDetails['email'];
-                $messageData = [
-                    'email' => $email,
-                    'name' => $deliveryDetails['name'],
-                    'order_id' => $data['order_id'],
-                    'orderDetails' => $orderDetails,
-                    'order_status' => $data['order_status'],
-                    'courier_name' => $data['courier_name'],
-                    'tracking_number' => $data['tracking_number']
-                ];
-                Mail::send('emails.order_status',$messageData,function($message)use($email){
-                    $message->to($email)->subject('Order Status Updated - P-Store Mart');
-                });
-
-            } else {
                 //send order status update email
                 $email = $deliveryDetails['email'];
                 $messageData = [
@@ -136,7 +113,7 @@ class OrderController extends Controller
                 Mail::send('emails.order_status',$messageData,function($message)use($email){
                     $message->to($email)->subject('Order Status Updated - P-Store Mart');
                 });
-            }
+            
 
             Notification::insert([
                 'module' => 'order',
@@ -147,6 +124,11 @@ class OrderController extends Controller
                 'message' => "Your order status is {$data['order_status']}. Please check order ID: " . $data['order_id']
             ]);
 
+            //upate vendors table with transfer fee
+            $transaction_fee = $orderDetails['grand_total'] * 0.05;
+            dd($transaction_fee);
+            Vendor::where('id',$orderDetails['vendor_id'])->update(['transaction_fee'=>$transaction_fee]);
+            // dd($orderDetails);
             //insert wallet deduction if status changed to ACCEPTED
             
 
@@ -163,7 +145,4 @@ class OrderController extends Controller
         return view('admin.orders.order_invoice')->with(compact('orderDetails','userDetails'));
     }
  
-    public function trackOrder($id){
-        // if($request->isMethod)
-    }
 }

@@ -7,6 +7,7 @@ use App\Models\PayLaterApplication;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class PayLaterApplicationController extends Controller
 {
@@ -17,9 +18,8 @@ class PayLaterApplicationController extends Controller
     public function saveApplication(Request $request){
         if($request->isMethod('post')){
             $data = $request->all();
-            dd($data);  
+            // dd($data);  
             $rules = [
-                'dob' => 'required',
                     'pob' => 'required',
                     'sof' => 'required',
                     'comp_name' => 'required',
@@ -54,8 +54,12 @@ class PayLaterApplicationController extends Controller
                 $user_id = Auth::user()->id;
                 $data['user_id'] = $user_id;
                 $data['appstatus'] = 'Pending';
+                
                     // echo "<pre>"; print_r($data); die;
                     PayLaterApplication::create($data);
+                    
+                User::where('id',$user_id)->update(['bnpl_status'=>'Pending']);
+
                 $message = "Application is submitted successfully. We will inform you through email for further updates.";
                 return redirect('user/pay-later')->with('success_message',$message);
 

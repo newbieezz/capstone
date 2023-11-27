@@ -16,8 +16,11 @@
                                     </button>
                                 </div>
                                 @endif
-                                <a style="max-width: 150px; float: left; display:inline-block;" href="{{ url('admin/add-edit-product') }}" 
-                                class="btn btn-block btn-primary">Add Product</a>
+                                @if ($adminType == "vendor")
+                                    <a style="max-width: 150px; float: left; display:inline-block;" href="{{ url('admin/add-edit-product') }}" 
+                                    class="btn btn-block btn-primary">Add Product</a>
+                                @endif
+                                
                                 <div class="table-responsive pt-3"> 
                                 <table id="products" class="table table-bordered"> 
                                 <thead> 

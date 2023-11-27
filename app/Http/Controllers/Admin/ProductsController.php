@@ -41,7 +41,7 @@ class ProductsController extends Controller
             $products = $products->where('vendor_id',$vendor_id);
         }
         $products = $products->get()->toArray();
-        return view('admin.products.products')->with(compact('products'));
+        return view('admin.products.products')->with(compact('products','adminType'));
     }
 
         // Update Product Status
@@ -159,7 +159,6 @@ class ProductsController extends Controller
             //saving in the products table
             $product->admin_type = $adminType;
             $product->admin_id = $admin_id;
-
             if($adminType=="vendor"){ //identifies the admin type as the product being added
                 $product->vendor_id = $vendor_id;
             }else {

@@ -262,7 +262,7 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
         //Users Pay Later
         Route::get('user/pay-later','PayLaterController@index');
         Route::get('pay-later','PayLaterController@application');
-        Route::get('pay-later-application','PayLaterApplicationController@saveApplication');
+        Route::post('pay-later-application','PayLaterApplicationController@saveApplication');
         //Paypal
         Route::get('paypal','PaypalController@paypal');
         Route::post('pay','PaypalController@pay')->name('payment');

@@ -32,5 +32,10 @@ class Vendor extends Model implements Wallet
         return $getVendorDetails; //used in checkout page (checkout function inside ProductController)
     }
 
+    public static function getVendorTransferFee($vendorid){
+        $getVendorTransferFee = Vendor::select('transfer_fee')->first()->toArray();
+        return $getVendorTransferFee['transfer_fee'];
+    
+    }
     
 }
