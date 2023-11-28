@@ -12,7 +12,6 @@
                               <table id="orders" class="table table-bordered"> 
                               <thead> 
                                 <tr> 
-                                    <th> Order ID </th> 
                                     <th> Order Date </th> 
                                     <th> Customer Name</th> 
                                     <th> Customer Email </th> 
@@ -28,7 +27,6 @@
                               {{-- if product info is not coming then it won't display --}}
                               @if($order['orders_products'])
                                 <tr> 
-                                     <td> {{ $order['id']}}  </td> 
                                      <td> {{ date('Y-m-d h:i:s', strtotime($order['created_at'])) }} </td> 
                                      <td> {{ $order['name']}}  </td> 
                                      <td> {{ $order['email']}}  </td> 

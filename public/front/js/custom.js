@@ -116,54 +116,6 @@ $(document).ready(function(){
         
     })
 
-        //jquery function for user register form validation
-    // $("#payLaterApplicationForm").submit(function(){
-    //     var formdata = $(this).serialize();//get the complete data from the form
-    //     // $(".loader").show(); //show the loader 
-    //     $.ajax({
-    //         headers:{
-    //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //         },
-    //         url:"pay-later-application",
-    //         type:"POST",
-    //         data:formdata,
-    //         success:function(resp){
-    //             if(resp.type=="error"){ //validation fails
-    //                     //display all the errors in array used eachloop
-    //                     $.each(resp.errors,function(i,error){ //loop the error in an array
-    //                         $("#emerCon-"+i).attr('style','color:red');
-    //                         $("#emerCon-"+i).html(error);
-    //                     setTimeout(function(){ //jquery function to set the time to disappear after 3 secs
-    //                         $("#emerCon-"+i).css({'display':'none'});
-    //                     },3000);
-    //                 });
-    //             } else if(resp.type=="success"){ //if success in validation
-    //                 $("#emerCon-success").attr('style','color:green');
-    //                 $("#emerCon-success").html(resp.message);
-    //             } 
-    //         }, error:function(){
-    //             alert("Error");
-    //         }
-    //     })
-        
-    // })
-
-    //jquery function for the ordere received button
-    // $("#orderReceiveForm").submit(function(){
-    //     var formdata = $(this).serialize();//gets the data inside the form
-    //     $.ajax({
-    //         headers:{
-    //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //         },
-    //         url:"/user/orders/",
-    //         type:"POST",
-    //         data:formdata,
-    //         success:function(resp){
-                
-    //         }
-    //     })
-    // });
-
     //jquery function for login form validation
     $("#loginForm").submit(function(){
         var formdata = $(this).serialize();//get the complete data from the form

@@ -19,7 +19,7 @@ class OrderController extends Controller
             $orders = Order::with('orders_products')->where('user_id',Auth::user()->id)->orderBy('id','Desc')->get()->toArray();
             return view('front.orders.orders')->with(compact('orders'));
         } else {
-            $orderDetails = Order::with('orders_products')->where('id',$id)->first()->toArray();//fetch the details from id
+            $orderDetails = Order::with('orders_products')->where('id',$id)->orderBy('id','Desc')->first()->toArray();//fetch the details from id
             return view('front.orders.order_details')->with(compact('orderDetails'));
             
         }

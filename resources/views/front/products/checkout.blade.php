@@ -93,14 +93,6 @@
                                                 @endforeach
                                                 <tr>
                                                     <td>
-                                                        <h3 class="order-h3">Transaction Fee</h3>
-                                                    </td>
-                                                    <td>
-                                                        <h3 class="order-h3">₱ {{ $total_price }}</h3>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
                                                         <h6 class="order-h6">Delivery Fee</h6>
                                                     </td>
                                                     <td>
@@ -129,10 +121,10 @@
                                             <input type="radio" class="radio-box" name="payment_gateway" id="cash-on-delivery" value="COD">
                                             <label class="label-text" for="cash-on-delivery">Cash on Delivery</label>
                                         </div>
-                                        <div class="u-s-m-b-13">
+                                        {{-- <div class="u-s-m-b-13">
                                             <input type="radio" class="radio-box" name="payment_gateway" id="credit-card-stripe" value="Stripe">
                                             <label class="label-text" for="credit-card-stripe">Credit Card (Stripe)</label>
-                                        </div>
+                                        </div> --}}
                                         <div class="u-s-m-b-13">
                                             <input type="radio" class="radio-box" name="payment_gateway" id="paypal" value="Paypal">
                                             <label class="label-text" for="paypal">Paypal</label>

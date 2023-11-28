@@ -43,7 +43,6 @@ class OrderController extends Controller
             $orders = Order::with('orders_products')->orderBy('id','Desc')->get()->toArray(); //for admin query
             // $orderDetails = Order::with('orders_products')->where('id',$id)->first()->toArray();
         }
-
         return view('admin.orders.orders')->with(compact('orders'));
         
     }
@@ -126,8 +125,7 @@ class OrderController extends Controller
 
             //upate vendors table with transfer fee
             $transaction_fee = $orderDetails['grand_total'] * 0.05;
-            dd($transaction_fee);
-            Vendor::where('id',$orderDetails['vendor_id'])->update(['transaction_fee'=>$transaction_fee]);
+            
             // dd($orderDetails);
             //insert wallet deduction if status changed to ACCEPTED
             

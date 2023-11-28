@@ -19,6 +19,12 @@ class PayLaterController extends Controller
     public function paylaters(){
         Session::put('page','bpaylater');
 
+            $credit_limit = CreditLimit::getCreditLimit();
+            // dd($credit_limit);
+
+            $credit_limits = User::with('credit_limits')->where(Auth::user()->id,$credit_limit['user_id'])->first()->toArray();
+
+        return view('admin.paylater.paylaters')->with(compact('credit_limits','credit_limit'));;
     }
 
 }

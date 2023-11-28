@@ -1,7 +1,7 @@
 <?php use App\Models\Product; 
 use App\Models\OrdersLog; 
-use App\Models\Vendor;
-$getVendorTransferFee = Vendor::getVendorTransferFee(Auth::guard('admin')->user()->vendorid);
+use App\Models\Vendor; 
+$getVendorTransferFee = Vendor::getVendorTransferFee(Auth::guard('admin')->user());
 ?>
 @extends('admin.layout.layout') 
 @section('content')
@@ -116,6 +116,7 @@ $getVendorTransferFee = Vendor::getVendorTransferFee(Auth::guard('admin')->user(
                                 {{ $status['name'] }}</option>
                           @endforeach
                         </select>
+                        <button type="submit">Update</button>
                       </form>
                       <br> @foreach($orderLog as $key => $log)
                             <strong>{{ $log['order_status'] }}</strong> 
@@ -180,7 +181,7 @@ $getVendorTransferFee = Vendor::getVendorTransferFee(Auth::guard('admin')->user(
                                 <td>{{ $product['product_price'] }}</td>
                                 <td>{{ $product['product_qty'] }}</td>
                                 <td>{{ $total_price = $product['product_price'] * $product['product_qty'] }}</td>
-                                <td>{{ $getVendorTransferFee }}</td>
+                                <td>{{ round($total_price * $getVendorTransferFee/100,2)  }}</td>
                                 <td>{{ $vendorAmount = $total_price - $getVendorTransferFee }}</td>
                             </tr>
                         @endforeach

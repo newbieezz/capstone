@@ -62,7 +62,24 @@
                     <div style="row">
                     </div>
                 </div>
-            @endif  
+            @endif      
+            <div class="row">
+                <h2>My Transactions <h6>&nbsp;&nbsp; </h6></h2> &nbsp;
+                <table class="table table-striped table-borderless">
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Paid</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
         </div>
     </div> <br><br><br><br><br><br><br><br><br>
+
 @endsection

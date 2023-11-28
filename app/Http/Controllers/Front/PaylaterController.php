@@ -27,13 +27,6 @@ class PaylaterController extends Controller
         
         $getUserBNPLstatus = User::getUserBNPLstatus('bnpl_status');
 
-         //call get function to use
-        //  $status = PayLaterApplication::get('appstatus')->where(Auth::user()->id)->first()->toArray();
-        // $user = User::with('pay_later_applications')->where('id',Auth::user()->id)->get()->toArray();
-        // $status = PayLaterApplication::where($user[],Auth::user()->id)->first()->toArray();
-        // dd($getUserBNPLstatus);
-
-
          if( $getUserBNPLstatus=="NotActivated"){
 
             // echo "hakdogg";die;

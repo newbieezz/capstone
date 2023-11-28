@@ -440,7 +440,7 @@ class ProductController extends Controller
 
                     // $transaction_fee = $total_price * 0.05;
                     //calculate grand total
-                    // $total_price = $total_price + $transaction_fee ;
+                    // dd($total_price);
 
                     //Insert tht grand total in session variable
                     Session::put('grand_total',$total_price);

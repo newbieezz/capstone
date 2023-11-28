@@ -14,4 +14,13 @@ class CreditLimit extends Model
         'credit_limit',
         'current_credit_limit',
     ];
+
+    public function credit_limit(){
+        return $this->belongsTo('App\Models\User','id','user_id');
+    }
+
+    public static function getCreditLimit(){
+        $getCreditLimit = CreditLimit::select('current_credit_limit')->first()->toArray();
+        return $getCreditLimit['current_credit_limit'];
+    }
 }
