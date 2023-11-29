@@ -165,7 +165,7 @@
                         <input type="hidden" name="current_address_proof" @if(isset($vendorDetails['address_proof_image'])) value="{{ $vendorDetails['address_proof_image']}}" @endif>
                       @endif
                   </div>
-                  <div class="form-group">
+                  {{-- <div class="form-group">
                     <label for="installment_weeks">Installment and Interest</label> <br>                      
                     <input type="hidden" name="vendor_id" value="{{ $vendorDetails['id'] }}">
                       <select name="number_of_weeks" id="number_of_weeks" required="">
@@ -173,12 +173,12 @@
                         @foreach($installments as $installment)
                           <option value="{{ $installment['installment_weeks']}} {{$installment['interest'] }}"   
                           {{-- //error --}}
-                            @if(!empty($vendorDetails['number_of_weeks'] ) ) selected="" @endif>  
+                            {{-- @if(!empty($vendorDetails['number_of_weeks'] ) ) selected="" @endif>  
                               {{ $installment['installment_weeks'] }}week :  {{ $installment['interest'] }}% interest</option>
                         @endforeach
                         <input type="hidden" name="installment_id" value="{{ $installment['id'] }}">
                       </select>
-                  </div>
+                  </div>  --}}
                   <button type="submit" class="btn btn-primary mr-2">Submit</button>
                   <button type="reset" class="btn btn-light">Cancel</button>
                 </form>
