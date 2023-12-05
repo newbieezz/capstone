@@ -47,7 +47,7 @@
                                 <!-- Delivery Address-Details /- -->
                                 {{--check if the array comes --}}
                                     @if(count($deliveryAddresses)>0) 
-                                      <h4 class="section-h4">Delivery Details</h4>
+                                      <h4 class="section-h4">Additional Delivery Information</h4>
                                         @foreach($deliveryAddresses as $address)
                                             <div class="control-group" style="float:left; margin-right:8px;"><input type="radio" name="address_id" id="address{{ $address['id'] }}" value="{{ $address['id'] }}" /></div>
                                             <div>
@@ -121,22 +121,22 @@
                                             <input type="radio" class="radio-box" name="payment_gateway" id="cash-on-delivery" value="COD">
                                             <label class="label-text" for="cash-on-delivery">Cash on Delivery</label>
                                         </div>
-                                        {{-- <div class="u-s-m-b-13">
-                                            <input type="radio" class="radio-box" name="payment_gateway" id="credit-card-stripe" value="Stripe">
-                                            <label class="label-text" for="credit-card-stripe">Credit Card (Stripe)</label>
-                                        </div> --}}
                                         <div class="u-s-m-b-13">
+                                            <input type="radio" class="radio-box" name="payment_gateway" id="gcash" value="Gcash">
+                                            <label class="label-text" for="gcash">Gcash</label>
+                                        </div>
+                                        {{-- <div class="u-s-m-b-13">
                                             <input type="radio" class="radio-box" name="payment_gateway" id="paypal" value="Paypal">
                                             <label class="label-text" for="paypal">Paypal</label>
-                                        </div>
+                                        </div> --}}
                                         {{-- FOR BUY NOW PAY LATER --}}
-                                        @if($status['appstatus'] ='Approved')
+                                        @if($userpl['bnpl_status']=="Approved")
                                             <div class="u-s-m-b-13">
                                                 <label class="label-text" for="paylater">Buy Now, Pay Later</label>
                                                 
                                                 {{-- INSTALLMENTS --}}
                                             {{-- @foreach($installments as $installment)
-                                                <div style="margin-left:25px" class="u-s-m-b-13">
+                                                <div style="margin-left:25px" class="u-s-m-b-13">php 
                                                     <input type="radio" class="radio-box" name="{{$installment['installment_id']}}" id="{{$installment['installment_id']}}" value="{{$installment['installment_id']}}">
                                                     <label class="label-text" for="{{$installment['installment_id']}}">{{ $installment['description'] }}</label>
                                                     <br>
@@ -144,14 +144,15 @@
                                                 </div>
                                                 @endforeach --}}
                                             </div>
-                                            <div class="u-s-m-b-13">
-                                                @foreach($installments as $key => $installment)
-                                                <div style="margin-left:25px" class="u-s-m-b-13">
-                                                    <input type="radio" class="radio-box" name="payment_gateway" id="paylater{{$key}}" value="paylater-{{ $installment['id'] }}">
-                                                    <label class="label-text" for="paylater{{$key}}">{{ $installment['description'] }} For {{ round(($total_price + ($total_price * ($installment['interest_rate']/100))) / $installment['number_of_weeks'] , 2) }} Php/week</label>
+                                                <div class="u-s-m-b-13">
+                                                    @foreach($installments as $key => $installment)
+                                                    <div style="margin-left:25px" class="u-s-m-b-13">
+                                                        <input type="radio" class="radio-box" name="payment_gateway" id="paylater{{$key}}" value="paylater-{{ $installment['id'] }}">
+                                                        <label class="label-text" for="paylater{{$key}}">{{ $installment['description'] }} For {{ round(($total_price + ($total_price * ($installment['interest_rate']/100))) / $installment['number_of_weeks'] , 2) }} Php/week</label>
+                                                    </div>
+                                                    @endforeach
                                                 </div>
-                                                @endforeach
-                                            </div>
+                                            
                                         @endif
                                         <div class="u-s-m-b-13">
                                             <input type="checkbox" required="" class="check-box" id="accept"  name="accept" value="Yes" title="Please agree to T&C" >

@@ -81,10 +81,16 @@
                             and history.</h6>
                         <form id="vendorForm" action="{{ url('/vendor/register') }}" method="post"> @csrf
                             <div class="u-s-m-b-30">
-                                <label for="vendorname">Name
+                                <label for="vendorname">First Name
                                     <span class="astk">*</span>
                                 </label>
-                                <input type="text" id="vendorname" name="name" class="text-field" placeholder="Vendor  Name">
+                                <input type="text" id="vendorname" name="name" class="text-field" placeholder="Vendor First Name">
+                            </div>
+                            <div class="u-s-m-b-30">
+                                <label for="vendorlastname">Last Name
+                                    <span class="astk">*</span>
+                                </label>
+                                <input type="text" id="vendorlastname" name="lastname" class="text-field" placeholder="Vendor Last  Name">
                             </div>
                             <div class="u-s-m-b-30">
                                 <label for="vendormobile">Mobile

@@ -216,13 +216,32 @@ class AdminController extends Controller
                     } else {
                         $imageName = "";
                     }
+
+                    //shop image
+                    if($request->hasFile('shop_image')){
+                        $image_tmps = $request->file('shop_image');
+                        if($image_tmps->isValid()){
+                            // Building function to get the image extension of the file
+                            $extensions = $image_tmps->getClientOriginalExtension();
+                            // Generate new image name
+                            $imageNames = rand(111,99999).'.'.$extensions;
+                            $imagePaths = 'admin/images/shops/'.$imageNames;
+                            // Upload the Image
+                            Image::make($image_tmps)->save($imagePaths);
+
+                        }
+                    } else if(!empty($data['current_shop_proof'])) {
+                        $imageNames = $data['current_shop_proof'];
+                    } else {
+                        $imageNames = "";
+                    }
                     //installments
 
                     $vendorCount = VendorsBusinessDetails::where('vendor_id',Auth::guard('admin')->user()->vendor_id)->count();
                     if($vendorCount > 0 ){
                         // Update in vendors_business_details Table
                         VendorsBusinessDetails::where('vendor_id', Auth::guard('admin')->user()->vendor_id)->update(['shop_name'=>$data['shop_name']
-                        ,'shop_address'=>$data['shop_address'], 'shop_mobile'=>$data['shop_mobile'],'shop_website'=>$data['shop_website'],
+                        ,'shop_address'=>$data['shop_address'], 'shop_mobile'=>$data['shop_mobile'],'shop_website'=>$data['shop_website'],'shop_image'=>$imageNames,
                         'address_proof'=>$data['address_proof'], 'business_license_number'=>$data['business_license_number'],'address_proof_image'=>$imageName]);
                         return redirect()->back()->with('success_message','Vendor details updated successfully!');
                     } else {
@@ -248,28 +267,24 @@ class AdminController extends Controller
                  // Array of Validation Rules
                 $rules = [
                     'account_holder_name' => 'required|regex:/^[\pL\s\-]+$/u',
-                    'bank_name' => 'required',
                     'account_number' => 'required|numeric',
-                    'bank_swift_code' => 'required',
                 ];
                     $customMessages = [
                         'account_holder_name.required' => 'Account Holder Name is required!',
                         'account_holder_name.regex' => 'Account Holder Name is required!',
-                        'bank_name.required' => 'Bank Name is required!',
                         'account_number.numeric' => 'Account Number is required!',
-                        'bank_swift_code.required' => 'Swift Code is required!',
                     ];
                     $this->validate($request,$rules,$customMessages);
                     $vendorCount = $vendorDetails = VendorsBankDetails::where('vendor_id',Auth::guard('admin')->user()->vendor_id)->count();
                     if($vendorCount > 0) {
                         // Update in vendors_banks_details Table
                         VendorsBankDetails::where('vendor_id', Auth::guard('admin')->user()->vendor_id)->update(['account_holder_name'=>$data['account_holder_name']
-                        ,'bank_name'=>$data['bank_name'],'account_number'=>$data['account_number'],'bank_swift_code'=>$data['bank_swift_code']]);
+                        ,'account_number'=>$data['account_number']]);
                         return redirect()->back()->with('success_message','Vendor bank details updated successfully!');
                     } else {
                         // Update and Insert in vendors_banks_details Table
                         VendorsBankDetails::insert(['vendor_id'=> Auth::guard('admin')->user()->vendor_id,'account_holder_name'=>$data['account_holder_name']
-                        ,'bank_name'=>$data['bank_name'],'account_number'=>$data['account_number'],'bank_swift_code'=>$data['bank_swift_code']]);
+                        ,'account_number'=>$data['account_number']]);
                         return redirect()->back()->with('success_message','Vendor bank details updated successfully!'); 
                     }
             }
@@ -349,11 +364,12 @@ class AdminController extends Controller
 
     // View Vendor Details by the Admin
     public function viewVendorDetails($id){
+        Session::put('page','update_vendor_details');
+
         $vendorDetails = Admin::with('vendorPersonal','vendorBusiness','vendorBank')->where('id',$id)->first();
         $vendorDetails = json_decode(json_encode($vendorDetails),true);
         // dd($vendorDetails);
         
-        Session::put('page','view_vendors');
 
         return view('admin.admins.view_vendor_details')->with(compact('vendorDetails'));
     }
@@ -396,6 +412,5 @@ class AdminController extends Controller
         return redirect('admin/login');
     }
 
-    // E-Wallets
 
 }

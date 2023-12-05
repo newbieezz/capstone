@@ -1,3 +1,4 @@
+
 @extends('admin.layout.layout') 
 @section('content')
 
@@ -25,12 +26,13 @@
                                 <table id="products" class="table table-bordered"> 
                                 <thead> 
                                   <tr>
-                                      <th> Product Name </th> 
-                                      <th> Product Code </th> 
-                                      <th> Product Price </th>  
-                                      <th> Photo </th> 
-                                      <th> Category </th>   
-                                      <th> Section </th>    
+                                      <th> Date Created </th> 
+                                      <th> Name </th> 
+                                      <th> Code </th>
+                                      <th> Size </th>
+                                      <th> Stocks</th>
+                                      <th> Price </th>  
+                                      <th> Photo </th>   
                                       <th> Status </th> 
                                       <th> Action </th> 
                                   </tr> 
@@ -38,8 +40,11 @@
                                 <tbody> 
                                 @foreach ($products as $product)
                                   <tr> 
+                                      <td> {{ $product['created_at'] }}  </td>
                                       <td> {{ $product['product_name']}}  </td>
-                                      <td> {{ $product['product_code']}}  </td> 
+                                      <td>  {{$product['product_code']}} </td> 
+                                      <td>    </td>
+                                      <td>  </td> 
                                       <td> {{ $product['product_price']}}  </td>  
                                       <td> @if(!empty($product['product_image']))
                                               <img src="{{ asset('front/images/product_images/small/'.$product['product_image']) }}">
@@ -47,14 +52,12 @@
                                             <img src="{{ asset('front/images/product_images/small/noimage.png') }}">
                                             @endif
                                       </td>
-                                      <td> {{ $product['category'] ['category_name']}}  </td>
-                                      <td> {{ $product['section'] ['name']}}  </td>
                                       <td> @if($product['status']==1)   &nbsp;
-                                              <a title="Active" class="updateProductStatus" id="product-{{$product['id']}}" product_id="{{$product['id']}}"
+                                              <a title="Enabled" class="updateProductStatus" id="product-{{$product['id']}}" product_id="{{$product['id']}}"
                                                   href="javascript:void(0)">  
                                               <i style="font-size:30px" class="mdi mdi-check-circle" status="Active"> </i> </a>
                                             @else  &nbsp;
-                                            <a title="Inactive" class="updateProductStatus" id="product-{{$product['id']}}" product_id="{{$product['id']}}"
+                                            <a title="Disabled" class="updateProductStatus" id="product-{{$product['id']}}" product_id="{{$product['id']}}"
                                                   href="javascript:void(0)"> 
                                               <i style="font-size:30px" class="mdi mdi-check-circle-outline" status="Inactive"> </i> </a>
                                             @endif
@@ -69,7 +72,7 @@
                                               <a title="Delete" href="javascript:void(0)" class="confirmDelete" module="product" moduleid="{{$product['id']}}">
                                               <i style="font-size:30px" {{--class="mdi mdi-delete-forever"--}}> </i> Delete</a>
                                       </td>  
-                                  </tr> 
+                                    </tr> 
                                   @endforeach
                                 </tbody> 
                                 </table> 

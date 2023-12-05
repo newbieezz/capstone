@@ -1,6 +1,6 @@
 
         <!-- Show existing Delivery Address /- -->
-        <h4 class="section-h4 deliveryText">Add New Delivery Address</h4>
+        <h4 class="section-h4 deliveryText">Additional Address</h4>
         <div class="u-s-m-b-24">
             <input type="checkbox" class="check-box" id="ship-to-different-address" data-toggle="collapse" data-target="#showdifferent" />
             @if(count($deliveryAddresses)>0) 
@@ -16,7 +16,7 @@
                 <div class="group-inline u-s-m-b-13">
                     <div class="group-1 u-s-p-r-16">
                         <label for="first-name-extra">
-                            Name
+                            Name for Delivery
                             <span class="astk">*</span>
                         </label>
                         <input type="text" name="delivery_name" id="delivery_name" class="text-field" />
@@ -24,7 +24,7 @@
                     </div>
                     <div class="group-2">
                         <label for="last-name-extra">
-                            Mobile Number
+                            Active Mobile Number
                             <span class="astk">*</span>
                         </label>
                         <input type="text" name="delivery_mobile" id="delivery_mobile" class="text-field" />
@@ -33,7 +33,7 @@
                 </div>
                 <div class="street-address u-s-m-b-13">
                     <label for="req-st-address-extra">
-                        Address
+                        Landmark Address
                         <span class="astk">*</span>
                     </label>
                     <input type="text" name="delivery_address" id="delivery_address" class="text-field" placeholder="House name and street name" />

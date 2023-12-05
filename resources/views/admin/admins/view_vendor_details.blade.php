@@ -93,27 +93,29 @@
               <div class="col-md-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title"> Bank Information </h4>
+                    <h4 class="card-title"> GCash Information </h4>
                       <div class="form-group">
                         <label>Account Holder Name</label>
                         <input class="form-control" readonly="" @if(isset($vendorDetails['vendor_bank']['account_holder_name']))value="{{ $vendorDetails['vendor_bank']['account_holder_name'] }}" @endif> 
                       </div>
-                      <div class="form-group">
-                          <label for="vendor_name">Bank Name</label>
-                          <input type="text" class="form-control"readonly="" @if(isset($vendorDetails['vendor_bank']['bank_name'] ))value="{{ $vendorDetails['vendor_bank']['bank_name'] }}" @endif>
-                        </div>
                         <div class="form-group">
                           <label for="vendor_address">Account Number</label>
                           <input type="text" class="form-control" readonly="" @if(isset($vendorDetails['vendor_bank']['account_number'] ))value="{{  $vendorDetails['vendor_bank']['account_number'] }}" @endif>
                         </div>
-                        <div class="form-group">
-                          <label for="vendor_city">Bank SWIFT Code</label>
-                          <input type="text" class="form-control" readonly="" @if(isset($vendorDetails['vendor_bank']['bank_swift_code']))value="{{  $vendorDetails['vendor_bank']['bank_swift_code'] }}" @endif>
-                        </div>
                   </div>
                 </div>
               </div> 
-              
+              <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title"> Wallet Information </h4>
+                      <div class="form-group">
+                        <label>Balance</label>
+                        <input class="form-control" readonly="" @if(isset($vendorDetails['wallet_balance']))value="{{ $vendorDetails['wallet_balance'] }}" @endif> 
+                      </div>
+                  </div>
+                </div>
+              </div> 
         </div> 
     </div> 
     @include('admin.layout.footer')

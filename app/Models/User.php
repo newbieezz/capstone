@@ -53,5 +53,15 @@ class User extends Authenticatable
 
         return $getUserBNPLstatus['bnpl_status'];
     }
+
+    public function gcash_payments(){
+        return $this->belongsTo('App\Models\GcashPayment','user_id');
+        
+    }
+
+    public function paylaters(){
+        return $this->hasMany(PayLaterApplication::class);
+        
+    }
     
 }

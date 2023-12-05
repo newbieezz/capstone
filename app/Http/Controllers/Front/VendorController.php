@@ -20,6 +20,10 @@ class VendorController extends Controller
         return view('front.vendors.login_register');
     }
 
+    public function login(){
+        return view('front.vendors.login');
+    }
+
     public function vendorRegister(Request $request){
         //get the data in post method
         if($request->isMethod('post')){
@@ -28,6 +32,7 @@ class VendorController extends Controller
             //validate vendor
             $rules = [
                 "name" => "required",
+                "lastname" => "required",
                 "email" => "required|email|unique:admins|unique:vendors",//must be a unique email and be checked thru admins table for its uniqueness
                 "mobile" => "required|min:10|numeric|unique:vendors|unique:vendors", 
                 "accept" => "required",
@@ -35,6 +40,7 @@ class VendorController extends Controller
 
             $customMessages = [
                 "name.required" => "Name is required!",
+                "lastname.required" => "Last Name is required!",
                 "email.required" => "Email is required!",
                 "email.unique" => "Email already Exists!",
                 "mobile.required" => "Mobile is required!",
@@ -70,6 +76,7 @@ class VendorController extends Controller
             $admin->type = 'vendor';
             $admin->vendor_id = $vendor_id;
             $admin->name = $data['name'];
+            $admin->lastname = $data['lastname'];
             $admin->email = $data['email'];
             $admin->password = bcrypt($data['password']);
             $admin->mobile = $data['mobile'];
@@ -136,24 +143,6 @@ class VendorController extends Controller
     }
 
     public function vendorlist(Request $request){
-        // ADD SHOP IMAGE
-        // $vendor = new VendorsBusinessDetails;
-        //  //Upload shop image after resize, small250x250, medium500x500, large1000x1000
-        //     if($request->hasFile('shop_image')){
-        //         $image_tmp = $request->file('shop_image');
-        //             if($image_tmp->isValid()){
-        //                 // Building function to get the image extension of the file
-        //             $extension = $image_tmp->getClientOriginalExtension();
-        //                     // Generate new image name
-        //             $imageName = rand(111,99999).'.'.$extension;
-        //             $mediumImagePath = 'front/images/shop_images/'.$imageName;
-        //                     // Upload the Image
-        //             Image::make($image_tmp)->resize(500,500)->save($mediumImagePath);
-    
-        //              $vendor->shop_image = $imageName;
-    
-        //         }
-        //     } 
        
         $getVendorShop = Vendor::getVendorShop('shop_name');
     //     //get vendor products

@@ -17,7 +17,10 @@ use Illuminate\Support\Str;
 class UserController extends Controller
 {
     public function loginRegister(){
-        return view('front.users.login_register');
+        return view('front.users.login_register'); //only login
+    }
+    public function userReg(){
+        return view('front.users.user_register'); //only register
     }
 
     public function userRegister(Request $request ){
@@ -43,6 +46,7 @@ class UserController extends Controller
                 //register the user
                 $user = new User;
                 $user->name = $data['name'];
+                $user->lastname = $data['lastname'];
                 $user->mobile = $data['mobile'];
                 $user->email = $data['email'];
                 $user->password = bcrypt($data['password']);//encrypt in hash
@@ -67,26 +71,6 @@ class UserController extends Controller
                 //redirect user with successs message
                 $redirectTo = url('user/login-register');
                 return response()->json(['type'=>'success','url'=>$redirectTo,'message'=>'Please confirm your email to activate your account!']);
-
-                //send register email then activate user acc (no confirmation email)
-                // $email = $data['email'];
-                // $messageData = ['name'=>$data['name'],'mobile'=>$data['mobile'],'email'=>$data['email']];//infor getting from the user
-                // Mail::send('emails.register',$messageData,function($message)use($email){ //send the email using mail
-                //     $message->to($email)->subject('Welcome to P-Store Mart');
-                // });
-
-                // if(Auth::attempt(['email'=>$data['email'],'password'=>$data['password']])){
-                //     $redirectTo = url('cart'); //sending to cart page
-
-                //     //Update user cart with user id
-                //     if(!empty(Session::get('session_id'))){
-                //         $user_id = Auth::user()->id;
-                //         $session_id = Session::get('session_id');
-                //         Cart::where('session_id',$session_id)->update(['user_id'=>$user_id]);
-                //     }
-                    
-                //     return response()->json(['type'=>'success','url'=>$redirectTo]);
-                // }
 
             } else{ //error message if fails
                 return response()->json(['type'=>'error','errors'=>$validator->messages()]);
@@ -150,7 +134,7 @@ class UserController extends Controller
                         Cart::where('session_id',$session_id)->update(['user_id'=>$user_id]);
                     }
 
-                    $redirectTo = url('cart'); //sending to cart page
+                    $redirectTo = url('/'); //sending to cart page
                     return response()->json(['type'=>'success','url'=>$redirectTo]);
                 } else { //if auth is incorrect
                     return response()->json(['type'=>'incorrect','message'=>'Incorrect Email or Password']);

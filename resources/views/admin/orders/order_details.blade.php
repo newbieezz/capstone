@@ -55,6 +55,19 @@ $getVendorTransferFee = Vendor::getVendorTransferFee(Auth::guard('admin')->user(
                     <label style="font-weight:600;">Payment Gateway : </label>
                     <label>{{ $orderDetails['payment_gateway'] }}</label>
                   </div>
+                  <h4 class="card-title"> Delivery Addresses </h4>
+                    <div class="form-group" style="height:15px;">
+                        <label style="font-weight:600;">Name : </label>
+                        <label>{{ $orderDetails['name'] }}</label>
+                    </div>
+                    <div class="form-group" style="height:15px;">
+                        <label style="font-weight:600;">Address : </label>
+                        <label>{{ $orderDetails['address'] }}</label>
+                    </div> 
+                    <div class="form-group" style="height:15px;">
+                        <label style="font-weight:600;">Mobile : </label>
+                        <label>{{ $orderDetails['mobile'] }}</label>
+                    </div>
                 </div>
               </div>
             </div> 
@@ -79,25 +92,46 @@ $getVendorTransferFee = Vendor::getVendorTransferFee(Auth::guard('admin')->user(
                         <label style="font-weight:600;">Email : </label>
                         <label>{{ $userDetails['email'] }}</label>
                     </div>
+                    @if(!empty($gcashpay['payment_proof']))
+                        <div class="form-group">
+                            <label for="payment_proof">Proof of Payment</label>
+                            <br>
+                            <img style="width:200px;" src="{{ url('front/images/gcash/'.$gcashpay['payment_proof'] ) }}"></img>
+                          </div>
+                      @else 
+                        <div class="form-group">
+                          <label for="payment_proof">Proof of Payment</label>
+                          <br>
+                          <img style="width:200px;" src="{{ url('admin/images/photos/noimage.gif') }}"></img>
+                        </div>
+                      @endif
                   </div>
                 </div>
               </div>       
               <div class="col-md-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title"> Delivery Addresses </h4>
-                    <div class="form-group" style="height:15px;">
-                        <label style="font-weight:600;">Name : </label>
-                        <label>{{ $orderDetails['name'] }}</label>
-                    </div>
-                    <div class="form-group" style="height:15px;">
-                        <label style="font-weight:600;">Address : </label>
-                        <label>{{ $orderDetails['address'] }}</label>
-                    </div> 
-                    <div class="form-group" style="height:15px;">
-                        <label style="font-weight:600;">Mobile : </label>
-                        <label>{{ $orderDetails['mobile'] }}</label>
-                    </div>
+                    <h4 class="card-title"> Update Rider Delivery Information </h4>
+                    <form class="forms-sample" action="{{ url('admin/update-rider') }}" method="post"enctype="multipart/form-data"> @csrf
+                      <input type="hidden" name="order_id" value="{{ $orderDetails['id'] }}">
+                      <div class="form-group">
+                        <label style="font-weight:600;">Rider Name : </label>
+                        <input class="form-control" id="ridername" placeholder="Full Name" name="ridername" required=""  @if(isset($rider['name'])) value="{{ $rider['name'] }}" @endif>
+                      </div>
+                      <div class="form-group">
+                          <label style="font-weight:600;">Motorcycle Plate No : </label>
+                          <input class="form-control" id="platenum" placeholder="Plate Number" name="platenum" required=""  @if(isset($rider['plate_num'])) value="{{ $rider['plate_num'] }}"@endif>
+                      </div> 
+                      <div class="form-group" >
+                          <label style="font-weight:600;">Active Mobile : </label>
+                          <input class="form-control" id="activemobile" placeholder="Mobile Number" name="activemobile" required=""  @if(isset($rider['mobile'])) value="{{ $rider['mobile'] }}"@endif>
+                      </div>
+                      <div class="form-group" >
+                        <label style="font-weight:600;">Delivery Fee : </label>
+                        <input class="form-control" id="deliveryfee" placeholder="Delivery Fee" name="deliveryfee" required=""  @if(isset($rider['delivery_fee'])) value="{{ $rider['delivery_fee'] }}"@endif>
+                      </div>
+                      <button type="submit" class="btn btn-primary mr-2">Update</button>
+                    </form>
                   </div>
                 </div>
               </div> 
@@ -120,31 +154,16 @@ $getVendorTransferFee = Vendor::getVendorTransferFee(Auth::guard('admin')->user(
                       </form>
                       <br> @foreach($orderLog as $key => $log)
                             <strong>{{ $log['order_status'] }}</strong> 
-
-                            {{-- @if($log['order_status'] == "Delivering") --}}
-                              {{-- @if(isset($log['order_item_id'])&&$log['order_item_id']>0)
+                             @if($log['order_status'] == "Delivering") 
+                              @if(isset($log['order_item_id'])&&$log['order_item_id']>0)
                                 @php
                                   $getItemDetails = OrdersLog::getItemDetails($log['order_item_id'])
                                 @endphp
                                 - for item {{ $getItemDetails['product_code'] }}
-                                @if(!empty($getItemDetails['courier_name']))
-                                <br><span>Courier Name: {{ $getItemDetails['courier_name'] }}</span>
-                                @endif
-                                @if(!empty($getItemDetails['tracking_number']))
-                                  <br><span>Tracking Number: {{ $getItemDetails['tracking_number'] }}</span>
-                                @endif --}}
-                              {{-- @else
-                                @if(!empty($orderDetails['courier_name']))
-                                  <br><span>Courier Name: {{ $orderDetails['courier_name'] }}</span>
-                                @endif
-                                @if(!empty($orderDetails['tracking_number']))
-                                  <br><span>Tracking Number: {{ $orderDetails['tracking_number'] }}</span>
-                                @endif --}}
-                              {{-- @endif --}}
-                            {{-- @endif --}}
-                              <br>{{ date('Y-m-d h:i:s', strtotime($orderDetails['created_at'])) }} <br>
-                            <hr>
-                           @endforeach
+                              @endif
+                            @endif
+                            @endforeach
+                            <br>{{ date('Y-m-d h:i:s', strtotime($orderDetails['created_at'])) }} <br>    
                     @else
                       This feature is restricted!
                     @endif

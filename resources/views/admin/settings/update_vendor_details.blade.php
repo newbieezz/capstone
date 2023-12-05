@@ -75,7 +75,7 @@
                         <a target="_blank" href="{{ url('admin/images/photos/'.Auth::guard('admin')->user()->image) }}"> View Current Image</a>
                         <input type="hidden" name="current_vendor_image" value="{{Auth::guard('admin')->user()->image}}">
                       @endif
-                    </div>
+                  </div>
                   <button type="submit" class="btn btn-primary mr-2">Submit</button>
                   <button type="reset" class="btn btn-light">Cancel</button>
                 </form>
@@ -144,6 +144,14 @@
                           placeholder="Enter Shop Website" name="shop_website" @if(isset($vendorDetails['shop_website'])) value="{{ $vendorDetails['shop_website']}}" @endif>
                     </div>
                     <div class="form-group">
+                      <label for="shop_image">Shop Image</label>
+                      <input type="file" class="form-control" id="shop_image" name="shop_image" required="">
+                      @if(!empty($vendorDetails['shop_image']))
+                        <a target="_blank" href="{{ url('admin/images/shops/'.$vendorDetails['shop_image']) }}"> View Current Image</a>
+                        <input type="hidden" name="current_shop_image" @if(isset($vendorDetails['shop_image'])) value="{{ $vendorDetails['shop_image']}}" @endif>
+                      @endif
+                    </div>
+                    <div class="form-group">
                       <label for="business_license_number">Business License Number</label>
                       <input type="text" class="form-control" id="business_license_number" 
                           placeholder="Enter Business License Number" name="business_license_number" required="" @if(isset($vendorDetails['business_license_number'])) value="{{ $vendorDetails['business_license_number']}}" @endif>
@@ -165,6 +173,7 @@
                         <input type="hidden" name="current_address_proof" @if(isset($vendorDetails['address_proof_image'])) value="{{ $vendorDetails['address_proof_image']}}" @endif>
                       @endif
                   </div>
+                  
                   {{-- <div class="form-group">
                     <label for="installment_weeks">Installment and Interest</label> <br>                      
                     <input type="hidden" name="vendor_id" value="{{ $vendorDetails['id'] }}">
@@ -191,7 +200,7 @@
       <div class="col-md-6 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
-            <h4 class="card-title">Update Bank Information </h4>
+            <h4 class="card-title">Update Gcash Information </h4>
           
             <!--Validation Error Message -->
               @if ($errors->any())
@@ -232,19 +241,9 @@
                       placeholder="Enter Account Holder Name" name="account_holder_name" required="" @if(isset($vendorDetails['account_holder_name'])) value="{{ $vendorDetails['account_holder_name']}}" @endif>
                 </div>
                 <div class="form-group">
-                  <label for="bank_name">Bank Name</label>
-                  <input type="text" class="form-control" id="bank_name" 
-                      placeholder="Enter Bank Name" name="bank_name" required="" @if(isset($vendorDetails['bank_name'])) value="{{ $vendorDetails['bank_name']}}" @endif>
-                </div>
-                <div class="form-group">
                   <label for="account_number">Account Number</label>
                   <input type="text" class="form-control" id="account_number" 
                       placeholder="Enter Account Number" name="account_number" required="" @if(isset($vendorDetails['account_number'])) value="{{ $vendorDetails['account_number']}}" @endif>
-                </div>
-                <div class="form-group">
-                  <label for="bank_swift_code">Bank SWIFT Code</label>
-                  <input type="text" class="form-control" id="bank_swift_code" maxlength="11" minlength="8"
-                      placeholder="Enter SWIFT Code" name="bank_swift_code" required="" @if(isset($vendorDetails['bank_swift_code'])) value="{{ $vendorDetails['bank_swift_code']}}" @endif>
                 </div>
 
               <button type="submit" class="btn btn-primary mr-2">Submit</button>

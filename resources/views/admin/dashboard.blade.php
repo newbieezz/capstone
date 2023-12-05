@@ -1,17 +1,86 @@
 @extends('admin.layout.layout') 
 @section('content')
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+      /* margin: 50px; */
+     border: 2px solid powderblue;
+      
+    }
+
+    ul.a {
+  list-style-type: circle;
+ font-size: 20px;
+    }
+
+</style>
 <div class="main-panel">
     <div class="content-wrapper">
         <div class="row">
             <div class="col-md-12 grid-margin">
                 <div class="row">
                     <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                        <h3 class="font-weight-bold">Welcome {{ Auth::guard('admin')->user()->name}}</h3>
+                        <h2 class="font-weight-bold">Welcome {{ Auth::guard('admin')->user()->name}}</h2>
                         <h6 class="font-weight-normal mb-0">All systems are running smoothly!</h6>
                     </div>
                 </div>
             </div>
+    
+     <div class="content-wrapper">
+        <div class="row">
+            <div class="col-md-12 grid-margin">
+                <div class="row">
+                    <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+                        <h3 class="font-weight-bold">To Start selling your products Please follow the Guide below !</h3><br><br>
+                        <h4 class="font-weight-normal mb-0"> <ul class="a"> <li> STEP 1 :SUPPLY/UPDATE THE PERSONAL INFORMATION </li><br>
+                        &bull;Vendor User Email<br> 
+                        &bull;Name<br>
+                        &bull;Address<br>
+                        &bull;Mobile<br>
+                        &bull;Photo<br> <br>
+
+                        <li>STEP 2:SUPPLY/UPDATE SHOP INFORMATION</li><br>
+                        &bull;Shop Name<br> 
+                        &bull;Shop Address<br>
+                        &bull;Shop Address Proof/Landmark<br>
+                        &bull;Shop Address Image<br>
+                        &bull;Shop Contact<br>
+                        &bull;Shop Website<br>
+                        &bull;Business licenses Number<br>
+                        &bull;<br> <br>
+
+                        
+                        <li>STEP 3: PROCEED TO  PAYMENT INFORMATION or BANK DETAILS </li><br>
+                        &bull;Account Holder Name<br> 
+                        &bull;Bank Name<br>
+                        &bull;Bank Account Numer (for payment transfer for installement or Online Payment)<br><br>
+
+                        <li>STEP 4:SUPPLY YOUR SHOP</li><br>
+                        &bull;Add Product Name<br> 
+                        &bull;Add Product Price <br>
+                        &bull;Product Photo<br>
+                        &bull;Product Category<br>
+                        &bull;Product Section<br>
+                        &bull;Shop Address Image<br><br>
+
+                        <li>STEP 5: ADD PRODUCT STATUS FOR STOCK MANAGEMENT </li><br>
+                        &bull;Product Action for Stocks, product specification and details<br> 
+
+                        <ul>
+</h4>
+                    
+                    </div>
+                </div>
+            </div>
+
+            
+         
         </div>
+        {{-- <div class="row">
         <div class="row">
             <div class="col-md-6 grid-margin stretch-card">
                 <div class="card tale-bg">
@@ -73,7 +142,7 @@
                     </div>
                 </div>
             </div>
-        </div>  
+        </div>   --}}
     </div>
     @include('admin.layout.footer')
 </div>

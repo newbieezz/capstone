@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\ApplicationStatus;
+use App\Models\Paylater;
 use App\Models\PayLaterApplication;
 use App\Models\PaylaterApplicationStatus;
 use App\Models\User;
@@ -85,6 +86,17 @@ class UserController extends Controller
     public function deleteApplication($id){
         PayLaterApplication::where('id',$id)->delete();
         $message = "Application has been";
+    }
+
+    public function viewloan(){
+        Session::put('page','loans');
+        $loans = Paylater::get()->first()->toArray();
+
+        $user = User::with('paylaters')->where('id',$loans['user_id'])->first()->toArray();
+        
+    //    dd($user);
+       return view('admin.paylater.loan');
+
     }
 
 }

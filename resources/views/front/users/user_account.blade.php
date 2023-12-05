@@ -46,7 +46,6 @@
                 </div>
             @endif
             <div class="row">
-                <!-- Login -->
                 <div class="col-lg-6" style="margin-bottom: 60px;">
                     <div class="login-wrapper">
                         <h2 class="account-h2 u-s-m-b-20" style="font-size: 20px;">Update Contact Details</h2>
@@ -86,7 +85,6 @@
                         </form>
                     </div>
                 </div>
-                <!-- Login /- -->
                  <!-- update password -->
                  <div class="col-lg-6">
                     <div class="reg-wrapper">
@@ -124,5 +122,4 @@
             </div>
         </div>
     </div>
-    <!-- Account-Page /- -->
 @endsection

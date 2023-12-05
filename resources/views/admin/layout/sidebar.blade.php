@@ -14,7 +14,7 @@
                 <a  @if(Session::get('page')=="update_personal_details" || Session::get('page')=="admin/update-vendor-details/business" || Session::get('page')=="bank" ) 
                 style="background: #4B49AC !important; color:#fff !important" @endif class="nav-link" data-toggle="collapse" href="#ui-vendors" aria-expanded="false" aria-controls="ui-vendors">
                 <i class="icon-layout menu-icon"></i>
-                <span class="menu-title">Vendor Details</span>
+                <span class="menu-title">My Details</span>
                 <i class="menu-arrow"></i>
                 </a>
                 <div class="collapse" id="ui-vendors">
@@ -27,7 +27,7 @@
                             class="nav-link" href="{{ url('admin/update-vendor-details/business') }}">Shop Details</a></li>
                         <li class="nav-item"> <a @if(Session::get('page')=="bank") style="background:#4B49AC !important; color:aliceblue !important;" 
                                                  @else style="background: #fff !important; color:#4B49AC !important;" @endif 
-                            class="nav-link" href="{{ url('admin/update-vendor-details/bank') }}">Bank Details</a></li>
+                            class="nav-link" href="{{ url('admin/update-vendor-details/bank') }}">GCash Details</a></li>
                     </ul>
                 </div>
             </li> 
@@ -36,7 +36,7 @@
                     style="background: #4B49AC !important; color:#fff !important" @endif
                     class="nav-link" data-toggle="collapse" href="#ui-catalogue" aria-expanded="false" aria-controls="ui-catalogue">
                 <i class="icon-bar-graph menu-icon"></i>
-                <span class="menu-title">Manage Catalogue</span>
+                <span class="menu-title">Manage Products</span>
                 <i class="menu-arrow"></i>
                 </a>
                 <div class="collapse" id="ui-catalogue">
@@ -44,6 +44,13 @@
                         <li class="nav-item"> <a  @if(Session::get('page')=="products") style="background:#4B49AC !important; color:aliceblue !important;" 
                                                   @else style="background: #fff !important; color:#4B49AC !important;" @endif
                             class="nav-link" href="{{ url('admin/products') }}">Products</a></li>
+                    </ul>
+                </div>
+                <div class="collapse" id="ui-catalogue">
+                    <ul class="nav flex-column sub-menu" style="background: #fff !important; color:#4B49AC !important" >
+                        <li class="nav-item"> <a  @if(Session::get('page')=="products") style="background:#4B49AC !important; color:aliceblue !important;" 
+                                                  @else style="background: #fff !important; color:#4B49AC !important;" @endif
+                            class="nav-link" href="{{ url('admin/products') }}">Tickets/Requests</a></li>
                     </ul>
                 </div>
             </li>  
@@ -61,9 +68,12 @@
                         <li class="nav-item"> <a @if(Session::get('page')=="orders") style="background:#4B49AC !important; color:aliceblue !important;" 
                                                  @else style="background: #fff !important; color:#4B49AC !important;" @endif
                             class="nav-link" href="{{ url('admin/orders') }}">Orders</a></li>
+                                    <li class="nav-item"> <a  @if(Session::get('page')=="loans") style="background:#4B49AC !important; color:aliceblue !important;" 
+                                                              @else style="background: #fff !important; color:#4B49AC !important;" @endif
+                                        class="nav-link" href="{{ url('admin/viewLoan') }}">List of Loans</a></li>
                         <li class="nav-item"> <a @if(Session::get('page')=="bpaylater") style="background:#4B49AC !important; color:aliceblue !important;" 
                                                  @else style="background: #fff !important; color:#4B49AC !important;" @endif
-                            class="nav-link" href="{{ url('admin/bpaylater') }}">Buy Now, Pay Later</a></li>                    
+                            class="nav-link" href="{{ url('admin/set-interest') }}">Buy Now, Pay Later</a></li>                    
                     </ul>
                 </div>
             </li> 
@@ -84,7 +94,7 @@
                     </ul>
                 </div>
             </li> 
-        @else
+        @else <!--For ADMIN/SUPERADMIN/SUBADMIN -->
             <li class="nav-item">
                 <a @if(Session::get('page')=="update_admin_password" || Session::get('page')=="update_admin_details") style="background: #4B49AC !important; color:#fff !important"
                 @endif class="nav-link" data-toggle="collapse" href="#ui-settings" aria-expanded="false" aria-controls="ui-settings">
@@ -137,7 +147,7 @@
                     style="background: #4B49AC !important; color:#fff !important" @endif
                     class="nav-link" data-toggle="collapse" href="#ui-catalogue" aria-expanded="false" aria-controls="ui-catalogue">
                 <i class="icon-bar-graph menu-icon"></i>
-                <span class="menu-title">Manage Catalogue</span>
+                <span class="menu-title">Manage Products</span>
                 <i class="menu-arrow"></i>
                 </a>
                 <div class="collapse" id="ui-catalogue">
@@ -180,6 +190,23 @@
                     </ul>
                 </div>
             </li>
+            {{-- Wallet Management - Add & Deduct Vendors Wallet --}}
+            <li class="nav-item">
+                <a @if(Session::get('page')=="wallet") 
+                    style="background: #4B49AC !important; color:#fff !important" @endif
+                    class="nav-link" data-toggle="collapse" href="#ui-wallet" aria-expanded="false" aria-controls="ui-wallet">
+                <i class="icon-head menu-icon"></i>
+                <span class="menu-title">Manage Wallet</span>
+                <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="ui-wallet">
+                    <ul class="nav flex-column sub-menu" style="background: #fff !important; color:#4B49AC !important">
+                        <li class="nav-item"> <a @if(Session::get('page')=="wallet") style="background:#4B49AC !important; color:aliceblue !important;" 
+                                                 @else style="background: #fff !important; color:#4B49AC !important;" @endif
+                            class="nav-link" href="{{ url('admin/wallet-transactions') }}">Wallets</a></li>                  
+                    </ul>
+                </div>
+            </li> 
              <!--Banners Management -->
              <li class="nav-item">
                 <a @if(Session::get('page')=="banners") 
@@ -196,7 +223,29 @@
                             class="nav-link" href="{{ url('admin/banners') }}">Home Page Banners</a></li>                  
                     </ul>
                 </div>
+             </li>
+            
+            <!--Terms Management -->
+            <li class="nav-item">
+            <a @if(Session::get('page')=="terms") 
+                style="background: #4B49AC !important; color:#fff !important" @endif
+                class="nav-link" data-toggle="collapse" href="#ui-terms" aria-expanded="false" aria-controls="ui-terms">
+            <i class="icon-head menu-icon"></i>
+            <span class="menu-title">Manage Terms</span>
+            <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-terms">   
+                <ul class="nav flex-column sub-menu" style="background: #fff !important; color:#4B49AC !important">
+                    <li class="nav-item"> <a @if(Session::get('page')=="terms") style="background:#4B49AC !important; color:aliceblue !important;" 
+                                                @else style="background: #fff !important; color:#4B49AC !important;" @endif
+                        class="nav-link" href="{{ url('admin/terms') }}">Terms and Conditions</a></li>                  
+                </ul>
+            </div>
             </li>
+
+
+
+
         @endif
     </ul>
 </nav>

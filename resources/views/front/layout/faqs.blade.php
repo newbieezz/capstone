@@ -21,6 +21,7 @@
 </body>
 
 <body>
+  <button class="btn btn-light"><a href="{{ url('/') }}">Back </a> </button>
 <div class="container">
   <h2>Frequently Asked Questions: </h2>
   <div class="panel-group" id="accordion" >

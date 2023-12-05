@@ -32,6 +32,10 @@ use App\Models\Order;
                         <tr><td>Order Status</td><td>{{ $orderDetails['order_status'] }}</td></tr>
                         <tr><td>Order Total</td><td>₱ {{ $orderDetails['grand_total'] }}</td></tr>
                         <tr><td>Payment Method</td><td>{{ $orderDetails['payment_method'] }}</td></tr>
+                        <tr><td>Delivery Riders Name</td><td>{{ $rider['name'] }}</td></tr>
+                        <tr><td>Plate Number</td><td>{{ $rider['plate_num'] }}</td></tr>
+                        <tr><td>Mobile Number</td><td>{{ $rider['mobile'] }}</td></tr>
+                        <tr><td><b>Delivery Fee</b></td><td>To Pay :  <b>₱ {{ $rider['delivery_fee'] }}</b></td></tr>
                     </table>
                     <table class="table table-striped table-borderless">
                         <tr  class="table-success">

@@ -10,21 +10,56 @@ use Illuminate\Support\Facades\Session;
 use Intervention\Image\Facades\Image;
 use App\Models\Section;
 use App\Models\Category;
+use App\Models\ProdMeasurements;
 use App\Models\ProductsAttribute;
 use App\Models\ProductsFilter;
 use App\Models\ProductsFiltersValue;
 use App\Models\ProductsImage;
+use App\Models\Size;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Str;
+use App\Models\Vendor;
 
 class ProductsController extends Controller
 {
-    public function products(){
+    public function productsz(){
         Session::put('page','products');
 
         $adminType = Auth::guard('admin')->user()->type;
         $vendor_id = Auth::guard('admin')->user()->vendor_id;
+        $vendor = Vendor::where('id',$vendor_id)->first();
+        if($adminType=="vendor" && $vendor_id == $vendor['id']){
+            //check vendor status
+            $vendorStatus = Auth::guard('admin')->user()->status; //if 0 redirect to ask to fill for more details before he/she cann add some product
+            if($vendorStatus==0){
+                return redirect('admin/update-vendor-details/personal')->with('error_message','Your Vendor Account is not approved yet. Please make sure too fill your valid personal, business and bank details!');
+            }
+            $prods = DB::table('products')
+            ->join('products_attributes', 'products.id', '=', 'products_attributes.product_id')
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->select('products.*', 'products_attributes.size', 'products_attributes.stock','products_attributes.price','categories.category_name')
+            ->get();
+        // dd($prods);
+        }
+        // $products = Product::with(['section'=>function($query){
+        //     $query->select('id','name');
+        //     },'category'=>function($query){
+        //         $query->select('id','category_name');
+        //     }
+        // ]); //subquery-> add the section and category relation
 
+        
+
+        // dd($prods);
+
+        return view('admin.products.products')->with(compact('adminType','prods'));
+    }
+    public function products(){
+        Session::put('page','products');
+        $adminType = Auth::guard('admin')->user()->type;
+        $vendor_id = Auth::guard('admin')->user()->vendor_id;
         if($adminType=="vendor"){
             //check vendor status
             $vendorStatus = Auth::guard('admin')->user()->status; //if 0 redirect to ask to fill for more details before he/she cann add some product
@@ -41,8 +76,10 @@ class ProductsController extends Controller
             $products = $products->where('vendor_id',$vendor_id);
         }
         $products = $products->get()->toArray();
-        return view('admin.products.products')->with(compact('products','adminType'));
+        // dd($products);
+        return view('admin.products.products')->with(compact('products','adminType','vendor_id'));
     }
+
 
         // Update Product Status
     public function updateProductStatus(Request $request){
@@ -77,6 +114,8 @@ class ProductsController extends Controller
             $product = Product::find($id);
             $message = "Product updated successfully!";
         }
+        //generate random alpha numeric for product code
+        $prod_code = Str::random(12);
         //get the data
         if($request->isMethod('post')){
             $data = $request->all();
@@ -85,14 +124,14 @@ class ProductsController extends Controller
             $rules = [
                 'category_id' => 'required',
                 'product_name' => 'required|regex:/^[\pL\s\-]+$/u',
-                'product_code' => 'required',
-                'product_price' => 'required|numeric',
+                // 'product_code' => 'required',
+                // 'product_price' => 'required|numeric',
             ];
             $customMessages = [
                 'category_id.required' => 'Category is required!',
                 'product_name.required' => 'Product Name is required!',
-                'product_code.required' => 'Product Code is required!',
-                'product_price.required' => 'Product Price is required!',
+                // 'product_code.required' => 'Product Code is required!',
+                // 'product_price.required' => 'Product Price is required!',
                 'product_price.numeric' => 'Valid Product Price is required!',
             ];
                 $this->validate($request,$rules,$customMessages);
@@ -118,21 +157,21 @@ class ProductsController extends Controller
                     }
                 } 
                 //Upload the product video
-                if($request->hasFile('product_video')){
-                    $video_tmp = $request->file('product_video');
-                    if($video_tmp->isValid()){
-                        //Upload the video in folder
-                        $extension = $video_tmp->getClientOriginalExtension();
-                        $videoName = rand(111,99999).'.'.$extension;
-                        //modify the video name
-                        $videoPath = 'front/videos/product_videos/';
-                        //move the image from tmp to actual folder
-                        $video_tmp->move($videoPath,$videoName);
+                // if($request->hasFile('product_video')){
+                //     $video_tmp = $request->file('product_video');
+                //     if($video_tmp->isValid()){
+                //         //Upload the video in folder
+                //         $extension = $video_tmp->getClientOriginalExtension();
+                //         $videoName = rand(111,99999).'.'.$extension;
+                //         //modify the video name
+                //         $videoPath = 'front/videos/product_videos/';
+                //         //move the image from tmp to actual folder
+                //         $video_tmp->move($videoPath,$videoName);
 
-                        //Insert video name in products table
-                        $product->product_video = $videoName;
-                    }
-                }
+                //         //Insert video name in products table
+                //         $product->product_video = $videoName;
+                //     }
+                // }
             
              //insert/save the data into the products table
             $categoryDetails = Category::find($data['category_id']);
@@ -169,9 +208,9 @@ class ProductsController extends Controller
                 $data['product_discount'] = 0;
             }
             $product->product_name = $data['product_name'];
-            $product->product_code = $data['product_code'];
-            $product->product_price = $data['product_price'];
+            $product->product_code = $prod_code;
             $product->product_discount = $data['product_discount'];
+            $product->product_price = $data['product_price'];
             $product->description = $data['description'];
             if(!empty($data['is_featured'])){
                 $product->is_featured = $data['is_featured'];
@@ -184,6 +223,7 @@ class ProductsController extends Controller
                 $product->is_bestseller = "No";
             }
             $product->status = 1;
+            // dd($product);
             $product->save();
             return redirect('admin/products')->with('success_message', $message);
 
@@ -238,35 +278,39 @@ class ProductsController extends Controller
     }
 
     //delete product video
-    public function deleteProductVideo($id){
-        Session::put('page','products');
-        //get the video from the product folder and database
-        $productVideo = Product::select('product_video')->where('id',$id)->first();
+    // public function deleteProductVideo($id){
+    //     Session::put('page','products');
+    //     //get the video from the product folder and database
+    //     $productVideo = Product::select('product_video')->where('id',$id)->first();
 
-        //get video path
-        $product_video_path = 'front/videos/product_videos/';
+    //     //get video path
+    //     $product_video_path = 'front/videos/product_videos/';
 
-        //delete video if exist in folder
-        if(file_exists($product_video_path.$productVideo->product_video)){
-            unlink($product_video_path.$productVideo->product_video); 
-        }
+    //     //delete video if exist in folder
+    //     if(file_exists($product_video_path.$productVideo->product_video)){
+    //         unlink($product_video_path.$productVideo->product_video); 
+    //     }
 
-        //delete video from table
-        Product::where('id',$id)->update(['product_video'=>'']);
-        $message = "Product Video has been deleted successfully";
-        return redirect()->back()->with('success_message',$message);
+    //     //delete video from table
+    //     Product::where('id',$id)->update(['product_video'=>'']);
+    //     $message = "Product Video has been deleted successfully";
+    //     return redirect()->back()->with('success_message',$message);
 
-    }
+    // }
 
     //add attributes
     public function addAttributes(Request $request,$id){
-        $product = Product::select('id','product_name','product_code','product_price','product_image')->with('attributes')->find($id);
+        // $product = Product::select('id','product_name','product_code','product_price','product_image')->with('attributes')->find($id);
+        $product = Product::select('id','product_name','product_code','product_image')->with('attributes')->find($id);
         Session::put('page','products');
+        $measurements = ProdMeasurements::get()->toArray();
+        // $sizes = Size::get()->toArray();
+        // dd($sizes);
         if($request->isMethod('post')){
             $data = $request->all();
 
-            foreach($data['sku'] as $key => $value){
-                if(!empty($value)){
+            // foreach($data as $key => $value){
+               
 
                     // sku duplicate check
                     // $skucount = ProductsAttribute::where('sku',$value)->count();
@@ -282,7 +326,7 @@ class ProductsController extends Controller
                     //      Please add another size!');
                     //  }
 
-                    //   // weight duplicate check
+                      // weight duplicate check
                     //   $weightcount = ProductsAttribute::where(['product_id'=>$id,'weight',$data['weight'][$key]])->count();
                     //   if($weightcount>0){
                     //       return redirect()->back()->with('error_message','Weight already exists!
@@ -292,20 +336,27 @@ class ProductsController extends Controller
                     $attribute = new ProductsAttribute;
                     //saving
                     $attribute->product_id = $id;
-                    $attribute->sku = $value;
-                    $attribute->size = $data['size'][$key];
-                    $attribute->weight = $data['weight'][$key];
-                    $attribute->price = $data['price'][$key];
-                    $attribute->stock = $data['stock'][$key];
+                    $attribute->sku = $data['sku'];
+                    $attribute->size = $data['size'];
+                    // if(!empty($data['weight'])){
+                    //     $attribute->weight = $data['weight'];
+                    // } else {
+                    //     $attribute->weight = '';
+                    // }
+                    // $attribute->weight = $data['weight'];
+                    // $attribute->measurement = $data['measurement_name'];
+                    $attribute->price = $data['price'];
+                    $attribute->stock = $data['stock'];
                     $attribute->status = 1;
+                    // dd($attribute);
                     $attribute->save();
-                }
-            }
+                
+            // }
 
             return redirect()->back()->with('success_message','Product Atrributes has been added successfully!');
         }
 
-        return view('admin.attributes.add_edit_attributes')->with(compact('product'));
+        return view('admin.attributes.add_edit_attributes')->with(compact('product','measurements'));
     }
 
      // Update Attribute Status

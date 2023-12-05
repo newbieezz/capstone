@@ -59,10 +59,6 @@
                              &nbsp; {{ $product['product_code'] }}
                       </div>
                       <div class="form-group">
-                        <label for="product_price">Product Price</label>
-                             &nbsp; {{ $product['product_price'] }}
-                      </div>
-                      <div class="form-group">
                         <label for="product_image">Product Photo </label>
                             @if(!empty($product['product_image']))
                                 <img style="width:120px;" src="{{ url('front/images/product_images/large/'.$product['product_image']) }}">
@@ -73,12 +69,29 @@
                       <div class="form-group">
                         <div class="field_wrapper">
                             <div>
-                                <input type="text" name="size[]" placeholder="Size" style="width:120px;" required=""/>
-                                <input type="text" name="weight[]" placeholder="Weight" style="width:120px;" required=""/>
-                                <input type="text" name="sku[]" placeholder="SKU-Code" style="width:120px;" required=""/>
-                                <input type="text" name="price[]" placeholder="Price" style="width:120px;" required=""/>
-                                <input type="text" name="stock[]" placeholder="Stock" style="width:120px;" required=""/>
-                                <a href="javascript:void(0);" class="add_button" title="Add field">  Add</a>
+                              
+                                {{-- <select name="size_id" id="size_id" class="select-box">
+                                    <option value="">Measurement</option>
+                                    @foreach($sizes as $size) <!--BRANDS -->
+                                        <option @if(!empty($product['size_id']==$size['id'])) selected="" @endif
+                                          value="{{ $size['id'] }}">{{ $size['name'] }}</option>
+                                    @endforeach
+                                </select> --}}
+                              
+                                  {{-- <input type="text" name="weight" placeholder="Net-Weight" style="width:120px;"/>
+                              
+                                <select name="measurement_name" id="measurement_name" class="select-box" >
+                                    <option value="">Measuremnt</option>
+                                    @foreach($measurements as $measurement) <!--BRANDS -->
+                                        <option @if(!empty($product['measurement_id']==$measurement['id'])) selected="" @endif
+                                          value="{{ $measurement['name'] }}">{{ $measurement['name'] }}</option>
+                                    @endforeach
+                                </select> --}}
+
+                                <input type="text" name="size" placeholder="Measurement" style="width:120px;" required=""/>
+                                <input type="text" name="sku" placeholder="SKU-Code" style="width:120px;" required=""/>
+                                <input type="text" name="price" placeholder="Price" style="width:120px;" required=""/>
+                                <input type="text" name="stock" placeholder="Stock" style="width:120px;" required=""/>
                             </div>
                         </div>
                       </div>
@@ -92,8 +105,8 @@
                     <thead> 
                       <tr> 
                           <th> ID </th> 
-                          <th> Size </th> 
-                          <th> Weight </th> 
+                          <th> Measurement </th> 
+                          {{-- <th> Weight </th>  --}}
                           <th> SKU-Code </th>  
                           <th> Price </th> 
                           <th> Stock </th>   
@@ -106,7 +119,7 @@
                       <tr> 
                            <td> {{ $attribute['id']}}  </td> 
                            <td> {{ $attribute['size']}}  </td>
-                           <td> {{ $attribute['weight']}}  </td> 
+                           {{-- <td> {{ $attribute['weight']}} {{$attribute['measurement']}} </td>  --}}
                            <td> {{ $attribute['sku']}}  </td>
                            <td> 
                                <input type="number" name="price[]" value="{{ $attribute['price']}}" required="" style="width:70px;">

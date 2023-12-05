@@ -11,8 +11,7 @@ class Section extends Model
 
     public function categories(){
         //every section has one to many categories together with the subcategories
-        return $this->hasMany('App\Models\Category','section_id')->where(['parent_id'=>0,'status'=>1])
-        ->with('subcategories');
+        return $this->hasMany('App\Models\Category','section_id')->where(['parent_id'=>0,'status'=>1])->with('subcategories');
     }
 
     //static function to use on the front/index header

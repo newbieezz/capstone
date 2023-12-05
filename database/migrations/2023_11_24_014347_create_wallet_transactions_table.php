@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('wallet_transactions', function (Blueprint $table) {
             $table->id();
-            $table->int('admin_id');
+            $table->integer('admin_id');
             $table->float('amount');
             $table->string('transaction_type');
             $table->dateTime('create_time');

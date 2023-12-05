@@ -11,26 +11,33 @@
                 <div class="card"> 
                     <div class="card-body"> 
                       <h4 class="card-title">Wallet Management</h4>
+                      @if(Session::has('success_message'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>Success: </strong> {{ Session::get('success_message')}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                      @endif
                       <div class="table-responsive pt-3"> 
-                        <h4>Balance: </h4> <br>
-                        <form id="addFundsForm">
-                            <label for="amount">Add Funds to Wallet:</label>
-                            <input type="number" id="amount" name="amount" step="0.01" required>
-                            <button type="submit">Add Funds</button>
+                        <h4>Balance: {{$vendorDetails['vendorPersonal']['wallet_balance']}}</h4> <br>
+                        <form id="addFundsForm" action="{{url('admin/addFunds')}}" method="post"> @csrf
+                            <h5><i>Note: Send GCash screenshot for Proof of Payment then wait for Admin to approve to transfer the amount to your Wallet.</i></h5> <br><br>
+                            <div class="form-group">
+                                <label for="transferAmount">Amount:</label>
+                                <input type="number" id="transferAmount" name="transferAmount" step="0.01" required><br>
+                            </div>
+                            <div class="form-group">
+                                <label for="proof_image">Proof of Payment</label>
+                                <input type="file" class="form-control" id="proof_image" name="proof_image" required="" style="width: 40%">
+                                @if(!empty(Auth::guard('admin')->user()->proof_image))
+                                  <a target="_blank" href="{{ url('admin/images/gcashproofs/'.Auth::guard('admin')->user()->proof_image) }}"> View Current Image</a>
+                                  <input type="hidden" name="current_proof" value="{{Auth::guard('admin')->user()->proof_image}}">
+                                @endif
+                            </div>
+                                <button type="submit" class="btn btn-primary mr-2">Submit</button>
                         </form>
-                    
-                        <form id="transferToAdminForm">
-                            <label for="transferAmount">Transfer to Admin:</label>
-                            <input type="number" id="transferAmount" name="transferAmount" step="0.01" required>
-                            <button type="submit">Transfer to Admin</button>
-                        </form>
-                    
-                        {{-- <form id="deductInterestForm">
-                            <label for="deductAmount">Deduct 5% Interest:</label>
-                            <input type="number" id="deductAmount" name="deductAmount" step="0.01" required>
-                            <button type="submit">Deduct Interest</button>
-                        </form> --}}
-                    </div> 
+                     </div> 
                 </div> 
             </div> 
         </div> 

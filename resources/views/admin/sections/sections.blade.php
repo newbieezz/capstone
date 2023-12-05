@@ -22,7 +22,7 @@
                               <table id="sections" class="table table-bordered"> 
                               <thead> 
                                 <tr> 
-                                    <th> Admin ID </th> 
+                                    <th> Section ID </th> 
                                     <th> Name </th> 
                                     <th> Status </th> 
                                     <th> Action </th> 

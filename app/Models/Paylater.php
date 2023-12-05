@@ -28,7 +28,4 @@ class Paylater extends Model
         return $this->belongsTo('App\Models\Order', 'order_id', 'id');
     }
 
-    public static function getCreditLimit(){
-        
-    }
 }

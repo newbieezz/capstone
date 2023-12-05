@@ -92,13 +92,6 @@
                             @else value="{{ old('product_name') }}" @endif>
                       </div>
                       <div class="form-group">
-                        <label for="product_code">Product Code</label>
-                        <input type="text" class="form-control" id="product_code" 
-                            placeholder="Enter Product Code" name="product_code"    
-                            @if(!empty($product['product_code'])) value="{{ $product['product_code'] }}" 
-                            @else value="{{ old('product_code') }}" @endif>
-                      </div>
-                      <div class="form-group">
                         <label for="product_price">Product Price</label>
                         <input type="text" class="form-control" id="product_price" 
                             placeholder="Enter Product Price" name="product_price"    
@@ -122,15 +115,6 @@
                         @endif
                       </div>
                       <div class="form-group">
-                        <label for="product_video">Product Video (Recommended Size: Less than 2 MB) Optional</label>
-                        <input type="file" class="form-control" id="product_video" name="product_video" >
-                        @if(!empty($product['product_video']))
-                        <a target="_blank" href="{{ url('front/videos/product_videos/'.$product['product_video']) }}">View Video</a> &nbsp; &nbsp; | &nbsp; &nbsp;
-                          <a href="javascript:void(0)" class="confirmDelete" module="product-video" 
-                          moduleid="{{$product['id']}}">Delete Video</a>
-                        @endif
-                      </div>
-                      <div class="form-group">
                         <label for="description">Product Description</label>
                         <textarea class="form-control" name="description" id="description" rows="3" 
                               >{{ $product['description'] }}</textarea>
@@ -140,11 +124,11 @@
                         <input type="checkbox" name="is_featured" id="is_featured" value="Yes"
                          @if(!empty($product['is_featured']) && $product['is_featured']=="Yes") checked="" @endif>
                       </div>
-                      <div class="form-group">
+                      {{-- <div class="form-group">
                         <label for="is_bestseller">Best Seller Item</label>
                         <input type="checkbox" name="is_bestseller" id="is_bestseller" value="Yes"
                          @if(!empty($product['is_bestseller']) && $product['is_bestseller']=="Yes") checked="" @endif>
-                      </div>
+                      </div> --}}
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
                     <button type="reset" class="btn btn-light">Cancel</button>
                   </form>

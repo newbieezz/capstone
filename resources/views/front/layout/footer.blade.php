@@ -1,21 +1,6 @@
-<div class="outer-footer-wrapper u-s-p-y-80">
-  <h6>
-      For special offers and other discount information
-  </h6>
-  <h1>
-      Subscribe to our Newsletter
-  </h1>
-  <p>
-      Subscribe to the mailing list to receive updates on promotions, new arrivals, discount and coupons.
-  </p>
-  <form class="newsletter-form">
-      <label class="sr-only" for="newsletter-field">Enter your Email</label>
-      <input type="text" id="newsletter-field" placeholder="Your Email Address">
-      <button type="submit" class="button">SUBMIT</button>
-  </form>
-</div>
+
 <!-- ======= Footer ======= -->
-  <footer id="footer">
+  <br><br><br><footer id="footer">
     <div class="footer-top">
       <div class="container">
         <div class="row">

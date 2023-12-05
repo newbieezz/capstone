@@ -10,21 +10,36 @@ use App\Models\Paylater;
 use Illuminate\Http\Request;
 use App\Models\Section;
 use App\Models\User;
+use App\Models\Vendor;
+use App\Models\VendorsBusinessDetails;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 
 
 class PayLaterController extends Controller
 {
-    public function paylaters(){
+    public function paylaters(Request $request){
         Session::put('page','bpaylater');
 
-            $credit_limit = CreditLimit::getCreditLimit();
-            // dd($credit_limit);
+    }
 
-            $credit_limits = User::with('credit_limits')->where(Auth::user()->id,$credit_limit['user_id'])->first()->toArray();
+    public function setInterest(Request $request){
+        Session::put('page','bpaylater');
 
-        return view('admin.paylater.paylaters')->with(compact('credit_limits','credit_limit'));;
+        $vendor = Vendor::where('id',Auth::guard('admin')->user()->id)->first()->toArray();
+        $shopDetails = VendorsBusinessDetails::where('vendor_id',Auth::guard('admin')->user()->id)->first()->toArray();
+            // dd($shopDetails);
+
+            $installments = Installment::get()->toArray();
+            if($request->isMethod('post')){
+                $data = $request->all();
+                // dd($data);
+                VendorsBusinessDetails::where('vendor_id',$vendor['id'])->update(['installment_weeks'=>$data['number_of_weeks'],'interest'=>$data['interest_rate']]);
+
+                    return redirect()->back()->with('success_message','Installemts Interest set successfully!');
+            }
+        return view('admin.paylater.set_interest')->with(compact('installments','vendor','shopDetails'));
+        
     }
 
 }

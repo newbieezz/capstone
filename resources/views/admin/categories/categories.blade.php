@@ -42,7 +42,7 @@
                                      <td> {{ $category['id']}}  </td> 
                                      <td> {{ $category['category_name']}}  </td>
                                      <td> {{ $parent_category }} </td> 
-                                     <td> {{ $category['section'] ['name']}}  </td> 
+                                     <td> {{ $category['section']['name']}}  </td> 
                                      <td> {{ $category['url']}}  </td>  
                                      <td> @if($category['status']==1)   &nbsp;
                                             <a class="updateCategoryStatus" id="category-{{$category['id']}}" category_id="{{$category['id']}}"

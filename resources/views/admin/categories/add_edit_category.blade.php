@@ -69,34 +69,18 @@
                         @include('admin.categories.append_categories_level')
                       </div>
                       <div class="form-group">
-                        <label for="category_image">Category Photo</label>
-                        <input type="file" class="form-control" id="category_image" name="category_image" >
-                        @if(!empty($category['category_image']))
-                        <a target="_blank" href="{{ url('front/images/category_images/'.$category['category_image']) }}">View Image</a> &nbsp; &nbsp; | &nbsp; &nbsp;
-                          <a href="javascript:void(0)" class="confirmDelete" module="category-image" 
-                          moduleid="{{$category['id']}}">Delete Image</a>
-                        @endif
-                      </div>
-                      <div class="form-group">
-                        <label for="category_discount">Category Discount</label>
-                        <input type="text" class="form-control" id="category_discount" 
-                            placeholder="Enter Category Discount" name="category_discount"    
-                            @if(!empty($category['category_discount'])) value="{{ $category['category_discount'] }}" 
-                            @else value="{{ old('category_discount') }}" @endif>
-                      </div>
-                      <div class="form-group">
                         <label for="description">Category Description</label>
                         <textarea class="form-control" name="description" id="description" rows="3" >
                         </textarea>
                       </div>
-                      <div class="form-group">
+                       <div class="form-group">
                         <label for="url">Category URL</label>
                         <input type="text" class="form-control" id="url" 
                             placeholder="Enter Category URL" name="url"    
                             @if(!empty($category['url'])) value="{{ $category['url'] }}" 
                             @else value="{{ old('url') }}" @endif>
                       </div>
-                      <div class="form-group">
+                      {{--<div class="form-group">
                         <label for="meta_title">Meta Title</label>
                         <input type="text" class="form-control" id="meta_title" 
                             placeholder="Enter Meta Title" name="meta_title"    
@@ -116,7 +100,7 @@
                             placeholder="Enter Meta Keywords" name="meta_keywords"    
                             @if(!empty($category['meta_keywords'])) value="{{ $category['meta_keywords'] }}" 
                             @else value="{{ old('meta_keywords') }}" @endif>
-                      </div>
+                      </div> --}}
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
                     <button type="reset" class="btn btn-light">Cancel</button>
                   </form>

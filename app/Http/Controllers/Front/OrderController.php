@@ -3,13 +3,21 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
+use App\Models\GcashPayment;
 use App\Models\Order;
 use App\Models\OrdersProduct;
-use App\Models\User;
+use App\Models\ProductsAttribute;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Session;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Mail;
+use App\Models\Notification;
+use App\Models\Rider;
+use App\Models\VendorsBusinessDetails;
+use App\Models\VendorsBankDetails;
 class OrderController extends Controller
 {
     public function orders($id=null){
@@ -20,52 +28,125 @@ class OrderController extends Controller
             return view('front.orders.orders')->with(compact('orders'));
         } else {
             $orderDetails = Order::with('orders_products')->where('id',$id)->orderBy('id','Desc')->first()->toArray();//fetch the details from id
-            return view('front.orders.order_details')->with(compact('orderDetails'));
+            $rider = Rider::where('order_id',$orderDetails['id'])->first()->toArray();
+            return view('front.orders.order_details')->with(compact('orderDetails','rider'));
             
         }
         
     }
 
     public function receiveOrder(Request $request){
-    //    $getOrders = Order::getOrders();
-    //     //    dd($getOrders);
-    //     // foreach($getOrders as $order['orders_products']){
-    //     //     $order_id = $order['orders_products']['id'];
-    //     //     // dd($order_id);
-    //     //     $received = "Yes";
-    //     //     Order::where('id',$order_id)->update(['order_received'=>$received]);
-                
-    //     // }
-    //             // NOT DONE YET -> ALL THE ORDERS WILL CHANGED
-    //      //group the cart items by vendor
-    //      foreach($getOrders as $order['orders_products']){
-    //         $order_id = $order['orders_products']['id'];
-    //         if (!isset($getOrderid[$order_id])) {
-    //             $getOrderid[$order_id] = [];
-    //         }
-    //         $getOrderid[$order_id][] = $order;
-    //         // dd($getOrderid);
-    //         $selectedOrderId = $getOrderid;
-    //         // dd($selectedOrderId);
-    //         $groupedProducts = [];
-    //         foreach($selectedOrderId as $key => $value) {
-    //             $groupedProducts[$key] = $value;
-    //             // dd($groupedProducts);
-    //             $received = "Yes";
-    //             Order::where('id',$order_id)->update(['order_received'=>$received]);
-    //         }
-    //     }
-    
+        // dd($orders['vendor_id']);//
         if($request->isMethod('post')){
             $data = $request->all();
             // dd($data);
+                $orders = Order::with('orders_products')->where('user_id',Auth::user()->id)->first()->toArray();
+                $vendor_id = $orders['vendor_id'];
                 $received = "Yes";
             Order::where('id',$data['order_id'])->update(['order_received'=>$received]);
+            Notification::insert([
+                'module' => 'order',
+                'module_id' => $data['order_id'],
+                'user_id' => $vendor_id, //VENDOR id
+                'sender' => 'customer',
+                'receiver' => 'vendor',
+                'message' => "Order has been received. Check order ID: " . $data['order_id']
+            ]);
         }
-
         
         return view('front.orders.received');
         
-
     }
+
+    public function gcash(Request $request){
+        
+        // dd($vendor);
+
+        if(Session::has('order_id'))
+        {   
+            $orderDetails = Order::get()->first()->toArray();//fetch the details from id
+            $vendor = VendorsBankDetails::where('vendor_id',$orderDetails['vendor_id'])->first()->toArray();
+            return view('front.gcash.gcash')->with(compact('vendor','orderDetails'));
+            
+        } else{
+            return redirect('cart');
+        }
+    }
+
+    public function gcashpay(Request $request){
+        Session::get('user_name');
+            if($request->isMethod('post')){
+                $data = $request->all();
+                
+             // Upload Image/Photo
+            if($image = $request->file('payment_proof')){
+                $path = 'front/images/gcash';
+                $name = date('YmdHis') . "." . $image->getClientOriginalExtension();
+                $image->move($path, $name);
+                $data['payment_proof'] = "$name";
+            } 
+                    $received = "Yes";
+
+                    $gcash = new GcashPayment;
+                    $gcash->order_id = Session::get('order_id');;
+                    $gcash->user_id = Auth::user()->id;
+                    $gcash->payer_id = mt_rand(100000,999999);
+                    $gcash->amount = Session::get('grand_total');
+                    $gcash->payment_status = 'Success';
+                    $gcash->payment_proof = $data['payment_proof'];
+                    // dd($gcash);
+                    $gcash->save();
+
+                    // send order email upon successfully paid
+                    $order_id = Session::get('order_id');
+                    $orderDetails = Order::with('orders_products')->where('id',$order_id)->first()->toArray();
+                    //update order status in db
+                    Order::where('id',$order_id)->update(['order_status'=>'Paid']);
+                    $email = Auth::user()->email; //get the email from user model
+                    $messageData = [
+                        'email' => $email,
+                        'name' => Auth::user()->name,
+                        'order_id' => $order_id,
+                        'orderDetails' => $orderDetails
+                    ];
+                    Mail::send('emails.order',$messageData,function($message)use($email){
+                        $message->to($email)->subject('Order Placed - P-Store Mart');
+                    });
+                    
+                    Notification::insert([
+                        'module' => 'order',
+                        'module_id' => $order_id,
+                        'user_id' => $orderDetails['orders_products'][0]['vendor_id'],
+                        'sender' => 'customer',
+                        'receiver' => 'vendor',
+                        'message' => Auth::user()->name . ' has made an order. Please check order ID: ' . $order_id
+                    ]);
+
+                    foreach($orderDetails['orders_products'] as $key => $order){
+                        //reduce stock script starts
+                        // dd($orderDetails);
+                        $getProductStock = ProductsAttribute::getProductStock($order['product_id'],$order['product_size']);
+                        $newStock = $getProductStock - $order['product_qty'];
+                        ProductsAttribute::where(['product_id'=>$order['product_id'],'size'=>$order['product_size']])->update(['stock'=>$newStock]);
+    
+                        if (!$newStock) {
+                            Notification::insert([
+                                'module' => 'product',
+                                'module_id' => $order['product_id'],
+                                'user_id' => $orderDetails['orders_products'][$key]['vendor_id'],
+                                'sender' => 'product',
+                                'receiver' => 'vendor',
+                                'message' => $order['product_name'] . ' is out of stock.'
+                            ]);
+                        }
+    
+                    }
+
+            
+            //empty the cart
+            Cart::where('user_id',Auth::user()->id)->delete();
+            return view('front.paypal.ordersuccess');
+        }
+    }
+
 }

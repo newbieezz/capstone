@@ -34,5 +34,13 @@ class Order extends Model
         return $this->hasMany('App\Models\PayLater', 'order_id', 'id');
     }
     
+    public function riders(){
+        return $this->hasMany('App\Models\Rider', 'order_id');
+    }
+    
+    public function rider(){
+        return $this->belongsTo('App\Models\Rider','order_id');
+        
+    }
 
 }

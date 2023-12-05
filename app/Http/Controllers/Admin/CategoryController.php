@@ -70,37 +70,17 @@ class CategoryController extends Controller
             ];
                 $this->validate($request,$rules,$customMessages);
 
-            if($data['category_discount']==""){
-                $data['category_discount'] =0;
-            }
-
-                // Upload Category Image/Photo
-                if($request->hasFile('category_image')){
-                    $image_tmp = $request->file('category_image');
-                    if($image_tmp->isValid()){
-                        // Building function to get the image extension of the file
-                        $extension = $image_tmp->getClientOriginalExtension();
-                        // Generate new image name
-                        $imageName = rand(111,99999).'.'.$extension;
-                        $imagePath = 'front/images/category_images/'.$imageName;
-                        // Upload the Image
-                        Image::make($image_tmp)->save($imagePath);
-                        // Save the Image
-                        $category->category_image = $imageName;
-                    }
-                } else {
-                    $category->category_image = "";
-                }
+            
 
                 $category->section_id = $data['section_id'];
                 $category->parent_id = $data['parent_id'];
                 $category->category_name = $data['category_name'];
-                $category->category_discount = $data['category_discount'];
+                // $category->category_discount = $data['category_discount'];
                 $category->description = $data['description'];
                 $category->url = $data['url'];
-                $category->meta_title= $data['meta_title'];
-                $category->meta_description = $data['meta_description'];
-                $category->meta_keywords = $data['meta_keywords'];
+                // $category->meta_title= $data['meta_title'];
+                // $category->meta_description = $data['meta_description'];
+                // $category->meta_keywords = $data['meta_keywords'];
                 $category->status = 1;
                 $category->save();
 

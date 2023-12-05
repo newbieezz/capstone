@@ -15,8 +15,7 @@ return new class extends Migration
     {
         Schema::create('bnpl_transactions', function (Blueprint $table) {
             $table->id();
-            $table->indt('user_id');
-            $table->string('');
+            $table->integer('user_id');
             $table->string('status');
             $table->timestamps();
         });

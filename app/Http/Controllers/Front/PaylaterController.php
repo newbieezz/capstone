@@ -29,7 +29,7 @@ class PaylaterController extends Controller
 
          if( $getUserBNPLstatus=="NotActivated"){
 
-            // echo "hakdogg";die;
+            
             return view('front.pay_later.pay_later')->with('getUserBNPLstatus');
 
          }

@@ -4,12 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use DateTimeInterface;
 
 class Product extends Model
 {
     use HasFactory;
 
+protected function serializeDate(DateTimeInterface $date): string
+{
+    return $date->format('Y-m-d H:i:s');
+}
     public function section(){
         //every product belongs to a section
         return $this->belongsTo('App\Models\Section','section_id');
@@ -23,7 +27,7 @@ class Product extends Model
     //relation to attributes
     public function attributes(){
         //one product can have many attributes
-        return $this->hasMany('App\Models\ProductsAttribute');
+        return $this->hasMany('App\Models\ProductsAttribute','product_id');
     }
 
     public function images(){
@@ -44,21 +48,20 @@ class Product extends Model
         //use array json to avoid more issue rather than using toArray
         $proDetails = json_decode(json_encode($proDetails),true);
         //fetch the category of the product
-        $catDetails = Category::select('category_discount')->where('id',$proDetails['category_id'])->first();
-        $catDetails = json_decode(json_encode($catDetails),true);
+        // $catDetails = Category::select('category_discount')->where('id',$proDetails['category_id'])->first();
+        // $catDetails = json_decode(json_encode($catDetails),true);
    
         //condition to compare if a product is having a product discount or not
         if($proDetails['product_discount'] > 0) {
             //if added and exist, calculate the discounted price
             $discounted_price = $proDetails['product_price'] - ($proDetails['product_price']*
                                 $proDetails['product_discount']/100);
-
-        } else if($catDetails['category_discount'] > 0){
-            //if product is not but category discount is added
-            $discounted_price = $proDetails['product_price'] - ($proDetails['product_price']*
-                                 $catDetails['category_discount']/100);
-
-        } else {
+        }
+        // } else if($catDetails['category_discount'] > 0){
+        //     //if product is not but category discount is added
+        //     $discounted_price = $proDetails['product_price'] - ($proDetails['product_price']*
+        //                          $catDetails['category_discount']/100);}
+         else {
             $discounted_price = 0;
         }
 
@@ -71,8 +74,8 @@ class Product extends Model
                       ('id',$product_id)->first();//main price from here
         $proDetails = json_decode(json_encode($proDetails),true);
         //fetch the category of the product
-        $catDetails = Category::select('category_discount')->where('id',$proDetails['category_id'])->first();
-        $catDetails = json_decode(json_encode($catDetails),true);
+        // $catDetails = Category::select('category_discount')->where('id',$proDetails['category_id'])->first();
+        // $catDetails = json_decode(json_encode($catDetails),true);
 
          //condition to compare if a product is having a product discount or not
          if($proDetails['product_discount'] > 0) {
@@ -80,11 +83,11 @@ class Product extends Model
             $final_price = $proAttrPrice['price'] - ($proAttrPrice['price']*
                                 $proDetails['product_discount']/100);
             $discount = $proAttrPrice['price'] - $final_price;
-        } else if($catDetails['category_discount'] > 0){
-            //if product is not but category discount is added
-            $final_price = $proAttrPrice['price'] - ($proAttrPrice['price']*
-                                 $catDetails['category_discount']/100);
-            $discount = $proAttrPrice['price'] - $final_price;
+        // } else if($catDetails['category_discount'] > 0){
+        //     //if product is not but category discount is added
+        //     $final_price = $proAttrPrice['price'] - ($proAttrPrice['price']*
+        //                          $catDetails['category_discount']/100);
+        //     $discount = $proAttrPrice['price'] - $final_price;
         } else {
             $final_price = $proAttrPrice['price'];
             $discount = 0;

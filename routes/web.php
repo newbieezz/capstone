@@ -32,8 +32,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
 
     //Admin Login Route 
     Route::match(['get','post'],'login','AdminController@login');
-    //E-WALLET
-Route::match(['get','post'],'/addFunds','EwalletController@addFunds');
+    
 Route::post('/transferToAdmin','EwalletController@transferToAdmin');
 Route::post('/deductCommission','EwalletController@deductCommission');
 Route::post('/transferToUser','EwalletController@transferToUser');
@@ -101,6 +100,10 @@ Route::post('/transferToUser','EwalletController@transferToUser');
         Route::get('delete-brand/{id}','BrandController@deleteBrand');
         // Add Brand Functionality 
         Route::match(['get','post'],'add-edit-brand/{id?}','BrandController@addEditBrand');
+         // Add Terms Functionality 
+         Route::match(['get','post'],'add-edit-terms/{id?}','TermsController@addEditTerms');
+         // Delete Terms Functionality 
+        Route::get('delete-terms/{id}','TermsController@deleteTerms');
 
         // PRODUCtS
         Route::get('products','ProductsController@products');
@@ -140,6 +143,10 @@ Route::post('/transferToUser','EwalletController@transferToUser');
         // Add-Edit Banner
         Route::match(['get','post'],'add-edit-banner/{id?}','BannersController@addEditBanner');
 
+        //TERMS
+        Route::get('terms','TermsController@terms');
+        // Update BannerStatus
+        
         //PRODUcT FILTERS
         Route::get('filters','FilterController@filters');
         Route::get('filters-value','FilterController@filtersValue');
@@ -165,14 +172,23 @@ Route::post('/transferToUser','EwalletController@transferToUser');
         Route::get('orders/{id}','OrderController@orderDetails');
         Route::post('/update-order-status','OrderController@updateOrderStatus');
         Route::post('/update-order-item-status','OrderController@updateOrderItemStatus');
+        Route::post('/update-rider','OrderController@updateRiderDetails');
 
         //Order Invoices
         Route::get('orders/invoice/{id}','OrderController@viewOrderInvoice');
         
         //Buy Now Pay Later & Installments
         Route::get('bpaylater','PayLaterController@paylaters');
+        Route::match(['get','post'],'set-interest','PayLaterController@setInterest');
+        Route::get('viewLoan','UserController@viewloan');
 
+        //E-WALLET
+        Route::match(['get','post'],'/addFunds','EwalletController@addFunds');
+        Route::get('wallet-transactions','EwalletController@viewWalletTransaction');
+        Route::match(['get','post'],'update-vendor-wallet/{id}','EwalletController@updateVendorWallet');
         
+        //Tickets and Request
+        // Route::get('tickets','');
 
     });
     
@@ -203,6 +219,10 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
     Route::get('vendor/login-register','VendorController@loginRegister');  
     //Vendor Register
     Route::post('vendor/register','VendorController@vendorRegister');
+
+    //Route for the Vendor Logn/Register
+    Route::get('vendor/login','VendorController@login');  
+
     //Send Confirm link/ Confirm Vendor Account
     Route::get('vendor/confirm/{code}','VendorController@confirmVendor');
 
@@ -225,6 +245,8 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
 
     //User Login-Register
     Route::get('user/login-register',['as'=>'login','uses'=>'UserController@loginRegister']);
+    //User Register Page only
+    Route::get('user/userReg', 'UserController@userReg');
     //User Register
     Route::post('user/register', 'UserController@userRegister');
     //User Login
@@ -259,10 +281,16 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
         Route::get('orderplaced','ProductController@orderplaced');
         //Users Orders
         Route::get('user/orders/{id?}','OrderController@orders');
+
         //Users Pay Later
         Route::get('user/pay-later','PayLaterController@index');
         Route::get('pay-later','PayLaterController@application');
         Route::post('pay-later-application','PayLaterApplicationController@saveApplication');
+
+        //Gcash Payment Method
+        Route::get('gcash','OrderController@gcash');
+        Route::match(['get','post'],'gcashpay','OrderController@gcashpay');
+
         //Paypal
         Route::get('paypal','PaypalController@paypal');
         Route::post('pay','PaypalController@pay')->name('payment');

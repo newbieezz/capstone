@@ -68,42 +68,15 @@
             @endif
           <li><a class="active" href="{{ url('/') }}">Home</a></li>
           <li><a href="{{ url('about') }}"><span>About</span></a></li>
-          <li class="dropdown"><a href="#"><span>@if(Auth::check())
-                        My Account
+          <li class="dropdown"><a href="{{ url('user/account') }}"><span>@if(Auth::check())
+            {{Auth::guard('web')->user()->name}}
                     @else
-                        Login/Register
+            <li><a href="{{ url('user/login-register') }}"><span>Login</span></a></li>
+            <li><a href="{{ url('user/userReg') }}"><span>Register</span></a></li>
+                    
                     @endif </span> <i class="bi bi-chevron-down"></i></a> 
             <ul class="g-dropdown" style="width:200px">
                 @if(Auth::check())
-                <li class="nav-item dropdown">
-                    <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
-                    <i class="icon-bell mx-0"></i>
-                    <span class="count"></span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-                        <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
-
-                        @foreach(Notification::where('id', Auth::guard('web')->user()->id)->orderByDesc('id')->get() as $key => $value)
-                            @if ($value->module == 'order')
-                            <a href="{{ url('admin/orders/'. $value->module_id)}}" class="dropdown-item preview-item">
-                            @else
-                            <a href="{{ url('admin/orders/'. $value->module_id)}}" class="dropdown-item preview-item">
-                            @endif
-                                <!-- <div class="preview-thumbnail">
-                                    <div class="preview-icon bg-success">
-                                        <i class="ti-info-alt mx-0"></i>
-                                    </div>
-                                </div> -->
-                                <div class="preview-item-content">
-                                    <h6 class="preview-subject font-weight-normal">{{ strtoupper($value->module) }}</h6>
-                                    <p class="font-weight-light small-text mb-0 text-muted">
-                                        {{ $value->message }}
-                                    </p>
-                                </div>
-                            </a>
-                        @endforeach
-                    </div>
-                </li>
                 <li>
                     <a href="{{ url('user/account') }}">
                         <i class="fas fa-cog u-s-m-r-9"></i>My Account</a>
@@ -121,24 +94,15 @@
                         <i class="fas fa-sign-in-alt u-s-m-r-9"></i>
                         Logout</a>
                 </li>
-            @else
-                <li>
-                    <a href="{{ url('user/login-register') }}">
-                        <i class="fas fa-sign-in-alt u-s-m-r-9"></i>
-                        Customer Login</a>
-                </li>
-                <li>
-                    <a href="{{ url('vendor/login-register') }}">
-                        <i class="fas fa-sign-in-alt u-s-m-r-9"></i>
-                        Vendor Login</a>
-                </li>
             @endif
             </ul>
+            <li><a href="{{ url('cart') }}">
+                <i class="fas fa-cart-plus u-s-m-r-9"></i><span class="item-counter"> 
+                    {{-- {{ $totalCartItems }} --}}
+                </span>My Cart</a>
+            </li>
         </li>
-          <li><a href="{{ url('cart') }}">
-            <i class="fas fa-cart-plus u-s-m-r-9"></i><span class="item-counter"> 
-                {{-- {{ $totalCartItems }} --}}
-            </span>My Cart</a></li>
+          
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -219,30 +183,10 @@
                             </nav>
                         </div>
                     </div>
-                    {{-- <div class="col-lg-9">
-                        <ul class="bottom-nav g-nav u-d-none-lg">
-                            <li>
-                                <a href="listing-without-filters.html">New Arrivals
-                                    <span class="superscript-label-new">NEW</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="listing-without-filters.html">Best Seller
-                                    <span class="superscript-label-hot">HOT</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="listing-without-filters.html">Featured
-                                </a>
-                            </li>
-                            <li>
-                                <a href="listing-without-filters.html">Discounted
-                                    <span class="superscript-label-discount">-30%</span>
-                                </a>
-                            </li>
-                    </div> --}}
+                        {{-- next to categories --}}
                 </div>
             </div>
+            
         </div>
         <!-- Bottom-Header /- -->
     </header>

@@ -48,7 +48,7 @@
                                         <div class="item">
                                             <div class="image-container">
                                                 <a class="item-img-wrapper-link" href="javascript:;">
-                                                    <?php $shop_image_path = 'front/images/shop_images/'.$vendors['shop_image']; ?>
+                                                    <?php $shop_image_path = 'admin/images/shops/'.$vendors['shop_image']; ?>
                                                     <!-- Check if the file exist or not, if not then show dummy image -->
                                                     @if(!empty($vendors['shop_image']) && file_exists($shop_image_path))
                                                         <img class="img-fluid" src="{{ asset($shop_image_path) }}" alt="Vendor">
@@ -393,7 +393,7 @@
     <!-- Product Collection /- -->
 
     <!-- Site-Priorities -->
-<section class="app-priority">
+{{-- <section class="app-priority">
         <div class="container">
             <div class="priority-wrapper u-s-p-b-80">
                 <div class="row">
@@ -444,6 +444,6 @@
                 </div>
             </div>
         </div>
-</section>
+</section> --}}
     <!-- Site-Priorities /- -->
 @endsection
