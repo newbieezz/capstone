@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class PaylaterController extends Controller
 {
@@ -33,27 +34,46 @@ class PaylaterController extends Controller
             return view('front.pay_later.pay_later')->with('getUserBNPLstatus');
 
          }
-        else{
-            $status = PayLaterApplication::get()->first()->toArray();
+        else if($getUserBNPLstatus=="Approved"){
         
-            // dd($status['appstatus']);
-            try {
                 $pay_laters = Paylater::with('orders')
                     ->where('user_id', Auth::user()->id)
                     ->where('due_date', '!=', null)
                     ->where('is_paid', 0)
-                    ->get();
+                    ->get()->toArray();
                 $credit_limit = CreditLimit::where('user_id', Auth::user()->id)->first();
                 return view('front.pay_later.pay_later')->with(compact('pay_laters', 'credit_limit','getUserBNPLstatus'));
-            } catch (\Throwable $th) {
-                throw $th;
-            } }
+        }
          return view('front.pay_later.pay_later')->with(compact('status','pay_laters', 'credit_limit','getUserBNPLstatus'));
 
     }
 
     public function application(){
         return view('front.pay_later.pay_later_application');    
+    }
+
+    //user pay now button 
+    public function userpayment($id=null){
+        if(empty($id)){
+            echo 'BAAKKKAAAA!!';
+
+            return view('front.pay_later.payment');
+        } else {
+            $pay_laters = Paylater::where('id',$id)->first();
+            // dd($pay_laters);
+            return view('front.pay_later.payment')->with(compact('pay_laters'));
+        }
+    }
+    public function userPayNow(Request $request){
+        $paylater_id=Session::get('id');
+        if($request->isMethod('post')){
+            $data = $request->all();
+            dd($data);
+        }
+        $pay_laters = Paylater::with('orders')
+                    ->where('user_id', Auth::user()->id)
+                    ->get()->toArray();
+        // dd($pay_laters['id']);
     }
 
     //credit limit, paylater informations w/ pay now button

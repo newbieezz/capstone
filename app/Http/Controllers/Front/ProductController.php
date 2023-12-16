@@ -507,26 +507,26 @@ class ProductController extends Controller
                     }
                     // $selectedVendorId 
                     //PayLater payment script
-                    // if ($payment_method == 'Paylater') {
-                    //     // $vendorDetails;
-                    //     $installment_id = explode('-',$data['payment_gateway'])[1];
+                    if ($payment_method == 'Paylater') {
+                        // $vendorDetails;
+                        $installment_id = explode('-',$data['payment_gateway'])[1];
                         
 
-                    //     for($x = 0; $x < $installment_weeks; $x++) {
-                    //         $paylater = new PayLater();
-                    //         $paylater->installment_id = $installment_id;
-                    //         $paylater->user_id = Auth::user()->id;
-                    //         $paylater->order_id = $order_id;
-                    //         $paylater->amount = round(($total_price + ($total_price * ($installment_rate/100))) / $installment_weeks , 2);
-                    //         $paylater->interest_rate = $installment_rate;
-                    //         $paylater->save();
-                    //     }
+                        for($x = 0; $x < $installment_weeks; $x++) {
+                            $paylater = new PayLater();
+                            $paylater->installment_id = $installment_id;
+                            $paylater->user_id = Auth::user()->id;
+                            $paylater->order_id = $order_id;
+                            $paylater->amount = round(($total_price + ($total_price * ($installment_rate/100))) / $installment_weeks , 2);
+                            $paylater->interest_rate = $installment_rate;
+                            $paylater->save();
+                        }
 
-                    //     $credit_limit = CreditLimit::where('user_id', Auth::user()->id)->first();
-                    //     $credit_limit->update([
-                    //         'current_credit_limit' => $credit_limit->current_credit_limit - ($total_price + ($total_price * ($installment_rate/100)))
-                    //     ]);
-                    // }
+                        $credit_limit = CreditLimit::where('user_id', Auth::user()->id)->first();
+                        $credit_limit->update([
+                            'current_credit_limit' => $credit_limit->current_credit_limit - ($total_price + ($total_price * ($installment_rate/100)))
+                        ]);
+                    }
 
                     //insert order id in session variable
                     Session::put('order_id',$order_id);

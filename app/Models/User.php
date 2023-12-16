@@ -48,11 +48,6 @@ class User extends Authenticatable
         return $this->hasMany(PayLaterApplication::class);
         
     }
-    public static function getUserBNPLstatus(){
-        $getUserBNPLstatus = User::select('bnpl_status')->where('id',Auth::user()->id)->first()->toArray();
-
-        return $getUserBNPLstatus['bnpl_status'];
-    }
 
     public function gcash_payments(){
         return $this->belongsTo('App\Models\GcashPayment','user_id');

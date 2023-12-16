@@ -43,7 +43,7 @@
                             <td>{{ date('Y-m-d', strtotime($pay_later['due_date'])) }}</td>
                             <td>₱ {{ $pay_later['amount'] }}</td>
                             <td>
-                            <button class="button button-outline-secondary w-100">Pay Now</button>
+                            <a href="{{url('payment/'.$pay_later['id'])}}"><button class="button button-outline-secondary w-100">Pay Now</button></a>
                             </td>
                         </tr>
                         @endforeach

@@ -33,8 +33,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
     //Admin Login Route 
     Route::match(['get','post'],'login','AdminController@login');
     
-Route::post('/transferToAdmin','EwalletController@transferToAdmin');
-Route::post('/deductCommission','EwalletController@deductCommission');
+
 Route::post('/transferToUser','EwalletController@transferToUser');
 
     //Addning the dashboard of the Admin Middleware
@@ -286,6 +285,8 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
         Route::get('user/pay-later','PayLaterController@index');
         Route::get('pay-later','PayLaterController@application');
         Route::post('pay-later-application','PayLaterApplicationController@saveApplication');
+        Route::match(['get','post'],'payment/{id?}','PaylaterController@userpayment');
+
 
         //Gcash Payment Method
         Route::get('gcash','OrderController@gcash');
