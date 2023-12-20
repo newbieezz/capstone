@@ -12,7 +12,7 @@
                         <a href="index.html">Home</a>
                     </li>
                     <li class="is-marked">
-                        <a href="listing.html">Shop</a>
+                        <a href="javascript;:">Shop</a>
                     </li>
                 </ul>
             </div>
@@ -20,7 +20,7 @@
     </div>
     <!-- Page Introduction Wrapper /- -->
     <!-- Shop-Page -->
-    <div class="page-shop u-s-p-t-80">
+    <div class="page-shop u-s-p-t-40">
         <div class="container">
             <!-- Shop-Intro -->
             <div class="shop-intro">

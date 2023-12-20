@@ -13,11 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('credit_scores', function (Blueprint $table) {
-            $table->id();
-            $table->integer('user_id');
-            $table->integer('score')->nullable();
-            $table->timestamps();
+        Schema::table('pay_later_applications',function($table){
+            $table->integer('vendor_id')->after('user_id');
         });
     }
 
@@ -28,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('credit_scores');
+        Schema::table('pay_later_applications',function($table){
+            $table->dropColumn('vendor_id');
+        });
     }
 };

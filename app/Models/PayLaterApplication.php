@@ -14,16 +14,12 @@ class PayLaterApplication extends Model
 
     protected $fillable = [
         'user_id',
-        'dob',
-        'pob',
-        'sof',
-        'comp_name',
-        'income' ,
+        'garantor_id',
+        'garantor_name', 
+        'work',
+        'salary',
         'valid_id',
         'selfie' ,
-        'emerCon_name' ,
-        'emerCon_mobile',
-        'relationship',
         'appstatus',
     ];
     public function users(){
@@ -35,7 +31,7 @@ class PayLaterApplication extends Model
         $this->attributes['dob'] =
         Carbon::createFromFormat(config('app.date_format'), $input)->format('Y-m-d');
     }
-
+ 
     public function getEntryDateAttribute($input)
     {
         return Carbon::createFromFormat('Y-m-d', $input)

@@ -50,32 +50,16 @@
                     </button>
                 </div>
             @endif 
-                <h2 class="account-h2 u-s-m-b-20">Emergency Contact</h2>
-                <h6 class="account-h6 u-s-m-b-30">Please be mindful and truthful!</h6>
+                <h2 class="account-h2 u-s-m-b-20">Fill up all information needed  </h2>
                     <p id="emerCon-error"></p>
+                    <div class="u-s-m-b-30">
+                        <label >Search Guarantors Name
+                            <span class="astk">*</span>
+                            </label>
+                            @include('front.pay_later.searchg')
+                    </div>
             <form action="{{url('pay-later-application')}}" method="post" enctype="multipart/form-data"> @csrf
                 <input type="hidden" name="appstatus" value="1" id="appstatus">
-                        <div class="u-s-m-b-30">
-                            <label >Name
-                                <span class="astk">*</span>
-                             </label>
-                            <input  name="emerCon_name" id="emerCon-name" class="text-field" placeholder="Complete Name">
-                            <p id="emerCon-name"></p>
-                        </div>
-                        <div class="u-s-m-b-30">
-                            <label >Phone Number
-                                <span class="astk">*</span>
-                            </label>
-                            <input name="emerCon_mobile" id="emerCon-mobile"  class="text-field" placeholder="Phone Number">
-                            <p id="emerCon-mobile"></p>
-                        </div>
-                        <div class="u-s-m-b-30">
-                            <label >Relationship
-                                <span class="astk">*</span>
-                            </label>
-                            <input name="relationship" id="emerCon-rs"  class="text-field" placeholder="Relationship">
-                            <p id="emerCon-rs"></p>
-                        </div>
                         <div class="u-s-m-b-30">
                             <label for="valid_id"> Government Valid ID
                                 <span class="astk">*</span>
@@ -90,46 +74,12 @@
                                 <input type="file" class="form-control" id="selfie" name="selfie">
                                 <p id="emerCon-selfie"></p>
                         </div>
-                        {{-- <div class="form-group">
-                            <label for="valid_id">Goverment ID upload</label>
-                            <input type="file" class="form-control" id="valid_id" name="valid_id" >
-                            <p id="emerCon-valid_id"></p>
-                        </div> --}}
-                        {{-- <div class="form-group">
-                            <label for="selfie">Selfie with ID</label>
-                            <input type="file" class="form-control" id="selfie" name="selfie" >
-                            <p id="emerCon-selfie"></p>
-                        </div> --}}
-                    <h2 class="account-h2 u-s-m-b-20">Additional Informations</h2>
-                    <h6 class="account-h6 u-s-m-b-30">Upload your Government ID and additional information needed.</h6>
-                    <p id="emerCon-success"></p>
-                        {{-- <div class="u-s-m-b-30">
-                            <label >Date of Birth
-                                <span class="astk">*</span>
-                            </label>
-                            <input class="date form-control datepicker" type="text" id="dob" name="dob">
-                            <p id="emerCon-dob"></p>
-                        </div> --}}
                         <div class="u-s-m-b-30">
-                            <label >Place of Birth
-                                <span class="astk">*</span>
-                            </label>
-                            <input type="text" id="users-pob" name="pob" class="text-field" placeholder="Place of Birth">
-                            <p id="emerCon-pob"></p>
-                        </div>
-                        <div class="u-s-m-b-30">
-                            <label >Employment/Source of Fund
+                            <label >Work
                                 <span class="astk">*</span>
                             </label>
                             <input type="mobile" id="users-sof" name="sof" class="text-field" placeholder="Job Position">
                             <p id="emerCon-sof"></p>
-                        </div>
-                        <div class="u-s-m-b-30">
-                            <label >Company Name
-                                <span class="astk">*</span>
-                            </label>
-                            <input type="mobile" id="users-compname" name="comp_name" class="text-field" placeholder="Company Name">
-                            <p id="emerCon-comp_name"></p>
                         </div>
                         <div class="u-s-m-b-30">
                             <label >Monthly Salary/Income

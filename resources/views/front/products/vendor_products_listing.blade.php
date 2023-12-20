@@ -3,7 +3,7 @@
  <div class="row product-container grid-style">
     @foreach($vendorProducts as $product)
         <!-- Display products wtih loop -->
-            <div class="product-item col-lg-4 col-md-6 col-sm-6">
+            <div class="product-item col-lg-3 col-md-5 col-sm-5">
                 <div class="item">
                     <div class="image-container">
                         <a class="item-img-wrapper-link" href="{{ url('product/'.$product['id']) }}">
@@ -73,5 +73,5 @@
                 </div>
             </div>
     @endforeach
-
+ </div>
 </div>

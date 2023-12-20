@@ -23,13 +23,16 @@
     </div>
     <!-- Page Introduction Wrapper /- -->
     <!-- Shop-Page -->
-    <div class="page-shop u-s-p-t-80">
+    <div class="page-shop u-s-p-t-40">
         <div class="container">
-            <div class="row">
                 <!-- Shop-Right-Wrapper -->
-                <div class="col-lg-10 col-md col-sm-12">
+                <div class="col-lg-12 col-md col-sm-8 ">
                     <!-- Page-Bar -->
                     <div class="page-bar clearfix">
+                        <form action="{{ url('pay-later') }}" method="post"> @csrf
+                            <input type="hidden" name="vendor_id" value="{{ $vendorid }}"/>
+                           <h4>Activate your PayLater Now! &nbsp;<button class="btn btn-primary" type="submit">Click to Apply</button></h4> 
+                        </form>
                     </div>
                     <!-- Page-Bar /- -->
                     <!-- Simple Paganitaion /- -->
@@ -42,7 +45,6 @@
                         <div> {{ $vendorProducts->links() }}</div> <div>&nbsp;</div> 
                     @endif
                 </div>
-            </div>
         </div>
     </div>
     <!-- Shop-Page /- -->

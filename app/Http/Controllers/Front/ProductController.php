@@ -213,9 +213,9 @@ class ProductController extends Controller
         // $productDetails = Product::with(['section','category','attributes'=>function($query){
         //     $query->where('stock','>',0)->where('status',1);
         //  },'images','brands','vendor'])->find($vendorid)->toArray();
-        $vendorProducts = $vendorProducts->paginate(10);
-        // echo "<pre>"; print_r($vendorProducts); die;
-       return view('front.products.vendor_listing')->with(compact('getVendorShop','vendorProducts'));
+        $vendorProducts = $vendorProducts->paginate(12);
+        // dd($vendorid);
+       return view('front.products.vendor_listing')->with(compact('getVendorShop','vendorProducts','vendorid'));
     }
 
     public function cartAdd(Request $request){
