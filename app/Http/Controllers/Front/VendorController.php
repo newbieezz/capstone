@@ -35,6 +35,7 @@ class VendorController extends Controller
                 "lastname" => "required",
                 "email" => "required|email|unique:admins|unique:vendors",//must be a unique email and be checked thru admins table for its uniqueness
                 "mobile" => "required|min:10|numeric|unique:vendors|unique:vendors", 
+                'password' => 'required|string|min:8|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
                 "accept" => "required",
             ];
 

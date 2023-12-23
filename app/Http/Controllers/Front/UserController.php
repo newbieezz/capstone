@@ -33,7 +33,7 @@ class UserController extends Controller
                 'name' => 'required|string|max:100',
                 'mobile' => 'required|numeric|digits:11',
                 'email' => 'required|email|unique:users',
-                'password' => 'required|min:6',
+                'password' => 'required|string|min:8|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
                 'accept' => 'required'
                 ],
                     [ //custom message
@@ -50,7 +50,6 @@ class UserController extends Controller
                 $user->mobile = $data['mobile'];
                 $user->email = $data['email'];
                 $user->password = bcrypt($data['password']);//encrypt in hash
-                $user->bnpl_status = "NotActivated";
                 $user->status = 0;
                 $user->save();
 

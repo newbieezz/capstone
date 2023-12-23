@@ -391,7 +391,7 @@ class ProductController extends Controller
                         // dd($vendorinstallment['vendorshopdetails']['installment_weeks']);
                         $installment_weeks = $vendorinstallment['vendorshopdetails']['installment_weeks'];
                         $installment_rate = $vendorinstallment['vendorshopdetails']['interest'];
-            $status = PayLaterApplication::get()->first()->toArray();
+            // $status = PayLaterApplication::get()->first()->toArray();
             $userpl = User::where('id',Auth::user()->id)->first()->toArray();
             // dd($selectedVendorId );
             //get the items for the selected vendor

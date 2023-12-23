@@ -21,13 +21,12 @@
     </div>
     <div class="page-cart u-s-p-t-80">
         <div class="container">
-            @if ($getUserBNPLstatus =='Pending' )
+            {{-- @if ($getUserBNPLstatus =='Pending' )
                 <div class="row" style="center">
                     <h1>Good Day!   </h1> <br> <br> <br>
                     <h2>Your Application is Pending / Under Review. We will inform you the updates by email.</h2>
                 </div>
             @elseif ($getUserBNPLstatus == 'Approved' )
-                {{-- Approved Users Pay Later Information Details --}}
                 <div class="row">
                     <h2>Credit Limit:  {{$credit_limit['current_credit_limit']}} <h6>&nbsp;&nbsp; </h6></h2> &nbsp;
                     <table class="table table-striped table-borderless">
@@ -77,7 +76,7 @@
                     <div style="row">
                     </div>
                 </div>
-            @endif      
+            @endif   --}}   
             
 
         </div>

@@ -130,7 +130,7 @@
                                             <label class="label-text" for="paypal">Paypal</label>
                                         </div> --}}
                                         {{-- FOR BUY NOW PAY LATER --}}
-                                        @if($userpl['bnpl_status']=="Approved")
+                                       {{-- @if($userpl['bnpl_status']=="Approved")
                                             <div class="u-s-m-b-13">
                                                 <label class="label-text" for="paylater">Buy Now, Pay Later</label>
                                                 
@@ -143,7 +143,7 @@
                                                     <span>For {{ round(($total_price + ($total_price * ($installment['interest_rate']/100))) / $installment['number_of_months'] , 2) }} Php/Month</span>
                                                 </div>
                                                 @endforeach --}}
-                                            </div>
+                                            {{--</div>
                                                 <div class="u-s-m-b-13">
                                                     @foreach($installments as $key => $installment)
                                                     <div style="margin-left:25px" class="u-s-m-b-13">
@@ -153,7 +153,7 @@
                                                     @endforeach
                                                 </div>
                                             
-                                        @endif
+                                        @endif --}}
                                         <div class="u-s-m-b-13">
                                             <input type="checkbox" required="" class="check-box" id="accept"  name="accept" value="Yes" title="Please agree to T&C" >
                                             <label class="label-text no-color" for="accept">I’ve read and accept the

@@ -26,25 +26,25 @@ class PaylaterController extends Controller
     public function index()
     {
         
-        $getUserBNPLstatus = User::getUserBNPLstatus('bnpl_status');
+        // $getUserBNPLstatus = User::getUserBNPLstatus('bnpl_status');
 
-         if( $getUserBNPLstatus=="NotActivated"){
+        //  if( $getUserBNPLstatus=="NotActivated"){
 
             
-            return view('front.pay_later.pay_later')->with('getUserBNPLstatus');
+        //     return view('front.pay_later.pay_later')->with('getUserBNPLstatus');
 
-         }
-        else if($getUserBNPLstatus=="Approved"){
+        //  }
+        // else if($getUserBNPLstatus=="Approved"){
         
-                $pay_laters = Paylater::with('orders')
-                    ->where('user_id', Auth::user()->id)
-                    ->where('due_date', '!=', null)
-                    ->where('is_paid', 0)
-                    ->get()->toArray();
-                $credit_limit = CreditLimit::where('user_id', Auth::user()->id)->first();
-                return view('front.pay_later.pay_later')->with(compact('pay_laters', 'credit_limit','getUserBNPLstatus'));
-        }
-         return view('front.pay_later.pay_later')->with(compact('status','pay_laters', 'credit_limit','getUserBNPLstatus'));
+        //         $pay_laters = Paylater::with('orders')
+        //             ->where('user_id', Auth::user()->id)
+        //             ->where('due_date', '!=', null)
+        //             ->where('is_paid', 0)
+        //             ->get()->toArray();
+        //         $credit_limit = CreditLimit::where('user_id', Auth::user()->id)->first();
+        //         return view('front.pay_later.pay_later')->with(compact('pay_laters', 'credit_limit','getUserBNPLstatus'));
+        // }
+         return view('front.pay_later.pay_later');//->with(compact('status','pay_laters', 'credit_limit','getUserBNPLstatus'));
 
     }
 
