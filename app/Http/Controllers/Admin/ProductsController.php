@@ -56,6 +56,7 @@ class ProductsController extends Controller
 
         return view('admin.products.products')->with(compact('adminType','prods'));
     }
+    
     public function products(){
         Session::put('page','products');
         $adminType = Auth::guard('admin')->user()->type;

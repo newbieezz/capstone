@@ -28,8 +28,16 @@
                 <!-- Shop-Right-Wrapper -->
                 <div class="col-lg-12 col-md col-sm-8 ">
                     <!-- Page-Bar -->
+                    @if(Session::has('success_message'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>Success: </strong> {{ Session::get('success_message')}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif 
                     <div class="page-bar clearfix">
-                        <form action="{{ url('pay-later') }}" method="post"> @csrf
+                        <form action="{{ url('pay-later/'.$vendorid) }}" method="post"> @csrf
                             <input type="hidden" name="vendor_id" value="{{ $vendorid }}"/>
                            <h4>Activate your PayLater Now! &nbsp;<button class="btn btn-primary" type="submit">Click to Apply</button></h4> 
                         </form>

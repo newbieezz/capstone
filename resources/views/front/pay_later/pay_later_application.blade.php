@@ -52,41 +52,49 @@
             @endif 
                 <h2 class="account-h2 u-s-m-b-20">Fill up all information needed  </h2>
                     <p id="emerCon-error"></p>
-                    <div class="u-s-m-b-30">
-                        <label >Search Guarantors Name
-                            <span class="astk">*</span>
-                            </label>
-                            @include('front.pay_later.searchg')
-                    </div>
-            <form action="{{url('pay-later-application')}}" method="post" enctype="multipart/form-data"> @csrf
-                <input type="hidden" name="appstatus" value="1" id="appstatus">
+            <form action="{{url('pay-later-application/'.$vendorid)}}" method="post" enctype="multipart/form-data"> @csrf
+                <input type="hidden" name="appstatus" value="Pending" id="appstatus">
+                <input type="hidden" name="vendorid" value="{{$vendorid}}" id="vendorid">
+                        <div class="form-group">
+                            <label for="garantor_id">Select Guarantor</label>
+                            <select name="garantor_id" id="garantor_id" class="form-control text-dark w-50" >
+                                <option value="">Select</option>
+                                @foreach($users as $user) <!--Guarantors -->
+                                    <option @if(!empty($user['id'])) selected="" @endif
+                                    value="{{ $user['id'] }}">{{ $user['name'] }} {{$user['lastname']}} -- {{$user['credit_score']}}</option>
+                                @endforeach
+                            </select>
+                        <input type="hidden" name="garantor_name" value={{ $user['name']  }}    id="garantor_name">
+                        <input type="hidden" name="garantor_lname" value={{ $user['lastname'] }}   id="garantor_lname">
+                        <input type="hidden" name="garantor_id" value={{ $user['id'] }}  id="garantor_id">
+                        </div>
                         <div class="u-s-m-b-30">
                             <label for="valid_id"> Government Valid ID
                                 <span class="astk">*</span>
                             </label>
-                            <input name="valid_id" id="valid_id" type="file" class="form-control">
-                            <p id="emerCon-valid_id"></p>
+                            <input name="valid_id" id="valid_id" type="file" class="form-control w-50">
+                            <p id="valid_id"></p>
                         </div>
                         <div class="u-s-m-b-30">
                             <label for="selfie"> Selfie with ID 
                                 <span class="astk">*</span>
                             </label>
-                                <input type="file" class="form-control" id="selfie" name="selfie">
-                                <p id="emerCon-selfie"></p>
+                                <input type="file" class="form-control w-50" id="selfie" name="selfie">
+                                <p id="selfie"></p>
                         </div>
                         <div class="u-s-m-b-30">
                             <label >Work
                                 <span class="astk">*</span>
-                            </label>
-                            <input type="mobile" id="users-sof" name="sof" class="text-field" placeholder="Job Position">
-                            <p id="emerCon-sof"></p>
+                            </label> <br>
+                            <input type="text" id="work" name="work" class="text-field w-50" placeholder="Job Position">
+                            <p id="work"></p>
                         </div>
                         <div class="u-s-m-b-30">
                             <label >Monthly Salary/Income
                                 <span class="astk">*</span>
-                            </label>
-                            <input type="mobile" id="users-income" name="income" class="text-field" placeholder="Monthly Salary/Income">
-                            <p id="emerCon-income"></p>
+                            </label> <br>
+                            <input type="text" id="salary" name="salary" class="text-field w-50" placeholder="Monthly Salary/Income">
+                            <p id="salary"></p>
                         </div>
                         <div class="u-s-m-b-30">
                             <input type="checkbox" class="check-box" id="accept" name="accept">

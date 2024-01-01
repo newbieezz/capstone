@@ -47,7 +47,7 @@
                   @endif
 
                   
-                  <form class="forms-sample" @if(empty($product['id'])) action="{{ url('admin/add-edit-product') }}"
+                <form class="forms-sample" @if(empty($product['id'])) action="{{ url('admin/add-edit-product') }}"
                   @else action="{{ url('admin/add-edit-product/'.$product['id']) }}" @endif
                   method="post"enctype="multipart/form-data"> @csrf
                   <div class="form-group">

@@ -20,9 +20,9 @@ return new class extends Migration
             $table->string('salary'); //monthly salary
             $table->string('valid_id');//valid id picture
             $table->string('selfie');//selfie with valid id
-            $table->tinyInteger('appstatus');
+            $table->string('appstatus');
             $table->integer('garantor_id');
-            $table->integer('garantor_name');
+            $table->string('garantor_name');
             $table->timestamps();
         });
     }

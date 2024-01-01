@@ -283,8 +283,8 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
 
         //Users Pay Later
         Route::get('user/pay-later','PayLaterController@index');
-        Route::match(['get','post'],'pay-later','PayLaterApplicationController@application');
-        Route::post('pay-later-application','PayLaterApplicationController@saveApplication');
+        Route::match(['get','post'],'pay-later/{vendorid}','PayLaterApplicationController@application');
+        Route::match(['get','post'],'pay-later-application/{vendorid}','PayLaterApplicationController@saveApplication');
         Route::match(['get','post'],'payment/{id?}','PaylaterController@userpayment');
         Route::get('searchg','PayLaterApplicationController@searchg');
         
