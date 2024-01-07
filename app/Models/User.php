@@ -41,4 +41,25 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+<<<<<<< Updated upstream
+=======
+
+    public function pay_later_applications(){
+        return $this->hasMany(PayLaterApplication::class);
+        
+    }
+
+    public function gcash_payments(){
+        return $this->belongsTo('App\Models\GcashPayment','user_id');
+        
+    }
+
+    public function paylaters(){
+        return $this->hasMany(PayLaterApplication::class);
+        
+    }
+
+    
+    
+>>>>>>> Stashed changes
 }

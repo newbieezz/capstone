@@ -44,10 +44,60 @@
                         <li class="nav-item"> <a  @if(Session::get('page')=="products") style="background:#4B49AC !important; color:aliceblue !important;" 
                                                   @else style="background: #fff !important; color:#4B49AC !important;" @endif
                             class="nav-link" href="{{ url('admin/products') }}">Products</a></li>
+<<<<<<< Updated upstream
                     </ul>
                 </div>
             </li>   
         @else
+=======
+                        <li class="nav-item"> <a  @if(Session::get('page')=="tickets") style="background:#4B49AC !important; color:aliceblue !important;" 
+                                                  @else style="background: #fff !important; color:#4B49AC !important;" @endif
+                            class="nav-link" href="{{ url('admin/tickets') }}">Tickets/Feedbacks</a></li>
+                    </ul>
+                </div>
+            </li>  
+            <!--Orders Management -->
+            <li class="nav-item">
+                <a @if(Session::get('page')=="orders" || Session::get('page')=="subscribers" ) 
+                    style="background: #4B49AC !important; color:#fff !important" @endif
+                    class="nav-link" data-toggle="collapse" href="#ui-orders" aria-expanded="false" aria-controls="ui-orders">
+                <i class="icon-head menu-icon"></i>
+                <span class="menu-title">Manage Orders</span>
+                <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="ui-orders">
+                    <ul class="nav flex-column sub-menu" style="background: #fff !important; color:#4B49AC !important">
+                        <li class="nav-item"> <a @if(Session::get('page')=="orders") style="background:#4B49AC !important; color:aliceblue !important;" 
+                                                 @else style="background: #fff !important; color:#4B49AC !important;" @endif
+                            class="nav-link" href="{{ url('admin/orders') }}">Orders</a></li>
+                                    <li class="nav-item"> <a  @if(Session::get('page')=="loans") style="background:#4B49AC !important; color:aliceblue !important;" 
+                                                              @else style="background: #fff !important; color:#4B49AC !important;" @endif
+                                        class="nav-link" href="{{ url('admin/viewLoan') }}">List of Loans</a></li>
+                        <li class="nav-item"> <a @if(Session::get('page')=="bpaylater") style="background:#4B49AC !important; color:aliceblue !important;" 
+                                                 @else style="background: #fff !important; color:#4B49AC !important;" @endif
+                            class="nav-link" href="{{ url('admin/set-interest') }}">Buy Now, Pay Later</a></li>                    
+                    </ul>
+                </div>
+            </li> 
+            <!--EWALLET Management -->
+            <li class="nav-item">
+                <a @if(Session::get('page')=="wallet") 
+                    style="background: #4B49AC !important; color:#fff !important" @endif
+                    class="nav-link" data-toggle="collapse" href="#ui-wallet" aria-expanded="false" aria-controls="ui-wallet">
+                <i class="icon-head menu-icon"></i>
+                <span class="menu-title">Manage Wallet</span>
+                <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="ui-wallet">
+                    <ul class="nav flex-column sub-menu" style="background: #fff !important; color:#4B49AC !important">
+                        <li class="nav-item"> <a @if(Session::get('page')=="wallet") style="background:#4B49AC !important; color:aliceblue !important;" 
+                                                 @else style="background: #fff !important; color:#4B49AC !important;" @endif
+                            class="nav-link" href="{{ url('admin/addFunds') }}">My Wallet</a></li>                  
+                    </ul>
+                </div>
+            </li> 
+        @else <!--For ADMIN/SUPERADMIN/SUBADMIN -->
+>>>>>>> Stashed changes
             <li class="nav-item">
                 <a @if(Session::get('page')=="update_admin_password" || Session::get('page')=="update_admin_details") style="background: #4B49AC !important; color:#fff !important"
                 @endif class="nav-link" data-toggle="collapse" href="#ui-settings" aria-expanded="false" aria-controls="ui-settings">
@@ -167,6 +217,7 @@
                     <li class="nav-item"> <a class="nav-link" href="pages/tables/basic-table.html">Basic table</a></li>
                 </ul>
             </div>
+<<<<<<< Updated upstream
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#icons" aria-expanded="false" aria-controls="icons">
@@ -212,5 +263,38 @@
             <span class="menu-title">Documentation</span>
             </a>
         </li>
+=======
+            </li>
+
+            
+            <!--Feedbacks  -->
+            <li class="nav-item">
+                <a @if(Session::get('page')=="banners") 
+                    style="background: #4B49AC !important; color:#fff !important" @endif
+                    class="nav-link" data-toggle="collapse" href="#ui-banners" aria-expanded="false" aria-controls="ui-banners">
+                <i class="icon-head menu-icon"></i>
+                <span class="menu-title">Feedback</span>
+                <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="ui-banners">
+                    <ul class="nav flex-column sub-menu" style="background: #fff !important; color:#4B49AC !important">
+                        <li class="nav-item"> <a @if(Session::get('page')=="feedback") style="background:#4B49AC !important; color:aliceblue !important;" 
+                                                 @else style="background: #fff !important; color:#4B49AC !important;" @endif
+                            class="nav-link" href="{{ url('admin/banners') }}">User</a></li>                 
+                            
+                            <li class="nav-item"> <a @if(Session::get('page')=="feebback") style="background:#4B49AC !important; color:aliceblue !important;" 
+                                                 @else style="background: #fff !important; color:#4B49AC !important;" @endif
+                            class="nav-link" href="{{ url('admin/banners') }}">Vendor</a></li>                  
+                    </ul>
+                </div>
+             </li>
+
+
+            
+
+            @endif
+
+        
+>>>>>>> Stashed changes
     </ul>
 </nav>

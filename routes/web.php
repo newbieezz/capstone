@@ -61,6 +61,8 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         //Admin Logout
          Route::get('logout','AdminController@logout');
 
+         
+
 
         // SECTIONS
         Route::get('sections','SectionController@sections');
@@ -143,6 +145,41 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::match(['get','post'],'add-edit-filter-value/{id?}','FilterController@addEditFilterValue');
         //For the categoryFilter
         Route::post('category-filters','FilterController@categoryFilters');
+<<<<<<< Updated upstream
+=======
+
+
+        // USERS
+        Route::get('users','UserController@users');
+        Route::post('update-user-status','UserController@updateUserStatus');
+        Route::get('user-paylater','UserController@usersPayLater');
+        Route::post('/update-paylater-status','UserController@updateAppstatus'); 
+
+        //  ORDERS
+        Route::get('orders','OrderController@orders');
+        Route::get('orders/{id}','OrderController@orderDetails');
+        Route::post('/update-order-status','OrderController@updateOrderStatus');
+        Route::post('/update-order-item-status','OrderController@updateOrderItemStatus');
+        Route::post('/update-rider','OrderController@updateRiderDetails');
+
+        //Order Invoices
+        Route::get('orders/invoice/{id}','OrderController@viewOrderInvoice');
+        
+        //Buy Now Pay Later & Installments
+        Route::get('bpaylater','PayLaterController@paylaters');
+        Route::match(['get','post'],'set-interest','PayLaterController@setInterest');
+        Route::get('viewLoan','UserController@viewloan');
+
+        //E-WALLET
+        Route::match(['get','post'],'/addFunds','EwalletController@addFunds');
+        Route::get('wallet-transactions','EwalletController@viewWalletTransaction');
+        Route::match(['get','post'],'update-vendor-wallet/{id}','EwalletController@updateVendorWallet');
+        
+        //Tickets and Request
+        Route::get('tickets','TicketController@index');
+        Route::post('request','TicketController@request');       
+
+>>>>>>> Stashed changes
     });
 });
 
@@ -183,6 +220,67 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
     Route::post('user/register', 'USerController@userRegister');
     //User  Logout
     Route::get('user/logout','UserController@userlogout');
+<<<<<<< Updated upstream
+=======
+    //Confirm User Account
+    Route::get('user/confirm/{code}','UserController@confirmAccount');
+    //User Forgot Password
+    Route::match(['get','post'],'user/forgot-password', 'UserController@forgotPassword');
+
+    //protected routes/ needs to login first before user can open
+    Route::group(['middleware'=>['auth']],function(){
+         //User Account
+        Route::match(['GET','POST'],'user/account', 'UserController@userAccount');
+        //User Update Password
+        Route::post('user/update-password','UserController@userUpdatePassword');
+
+        //User Check Out Page
+        Route::match(['GET','POST'],'checkout/{id?}','ProductController@checkout');
+        //to admins ewallet transaction fee deduction
+        // Route::post('checkout/', [EwalletController::class, 'checkout'])->name('checkout');
+
+        //Get Delivery Address
+        Route::post('get-delivery-address','AddressController@getDeliveryAddress');
+        //SAVE Delivery Address
+        Route::post('save-address','AddressController@saveDeliveryAddress');
+        //Remove Delivery Address
+        Route::post('remove-delivery-address','AddressController@removeAddress');
+
+        //Success Order Placed
+        Route::get('orderplaced','ProductController@orderplaced');
+        //Users Orders
+        Route::get('user/orders/{id?}','OrderController@orders');
+
+        //Users Pay Later
+        Route::get('user/pay-later','PayLaterController@index');
+        Route::match(['get','post'],'pay-later/{vendorid}','PayLaterApplicationController@application');
+        Route::match(['get','post'],'pay-later-application/{vendorid}','PayLaterApplicationController@saveApplication');
+        Route::match(['get','post'],'payment/{id?}','PaylaterController@userpayment');
+        Route::get('searchg','PayLaterApplicationController@searchg');
+        
+
+
+        //Gcash Payment Method
+        Route::get('gcash','OrderController@gcash');
+        Route::match(['get','post'],'gcashpay','OrderController@gcashpay');
+
+        //Paypal
+        Route::get('paypal','PaypalController@paypal');
+        Route::post('pay','PaypalController@pay')->name('payment');
+        Route::get('success','PaypalController@success');
+        Route::get('error','PaypalController@error');
+        //Recieve Order/Delivery
+        // Route::post('/order-received','OrderController@receiveOrder');
+        Route::match(['get','post'],'user/order-received','OrderController@receiveOrder');
+       
+        //Tickets & Request
+        Route::post('feedback','TicketController@feedback');
+       
+
+
+    });
+   
+>>>>>>> Stashed changes
 });
 
 

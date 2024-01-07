@@ -1,4 +1,13 @@
+<<<<<<< Updated upstream
 <?php use App\Models\Product;  ?>
+=======
+<?php use App\Models\Product;
+    use App\Models\Vendor;  
+    use App\Models\User;  
+use Illuminate\Support\Facades\Auth;
+
+?>
+>>>>>>> Stashed changes
 @extends('front.layout.layout')
 @section('content')
 <!-- Main-Slider -->
@@ -27,9 +36,72 @@
             </div>
         </div>
     </div>
+<<<<<<< Updated upstream
  @endif
     <!-- Banner-Layer /- -->
     <!-- Latest Collection -->
+=======
+ @endif --}}
+
+<!-- List of Stores/Shops -->
+
+<section>
+    <div class="container">
+        <div class="sec-maker-header text-center">
+            <h3 class="sec-maker-h3">Available Stores</h3>
+            
+            <div class="wrapper-content">
+                <div class="outer-area-tab">
+                    <div class="tab-content">
+                        <div class="tab-pane active show fade" id="vendors">
+                            <div class="slider-fouc">
+                                <div class="products-slider owl-carousel" data-item="4">
+                                     <!-- ForeachLoop of Array for the list of stores/vendors available to display -->
+                                    @foreach($getVendorDetails as $vendors)
+                                        <!-- Fetching the list of stores/vendors available to display -->
+                                        <div class="item">
+                                            <div class="image-container">
+                                                <a class="item-img-wrapper-link" href="javascript:;">
+                                                    <?php $shop_image_path = 'admin/images/shops/'.$vendors['shop_image']; ?>
+                                                    <!-- Check if the file exist or not, if not then show dummy image -->
+                                                    @if(!empty($vendors['shop_image']) && file_exists($shop_image_path))
+                                                        <img class="img-fluid" src="{{ asset($shop_image_path) }}" alt="Vendor">
+                                                    @else
+                                                        <img class="img-fluid" src="{{ asset('front/images/shop_images/noimage.png') }}" alt="NoImage">
+                                                    @endif
+                                                </a>
+                                            </div>
+                                            <div class="item-content">
+                                                <div class="what-product-is">
+                                                    <ul class="bread-crumb">
+                                                        <li>
+                                                        </li>
+                                                    </ul>
+                                                    <h6 class="item-title">
+                                                        <a href="/products/{{ $vendors['vendor_id'] }}">{{ $vendors['shop_name'] }}</a>
+                                                    </h6>
+                                                    <div class="item-stars">
+                                                        <div class='star' title="0 out of 5 - based on 0 Reviews">
+                                                            <span style='width:0'></span>
+                                                        </div>
+                                                        <span>(0)</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Product Collection /- -->
+>>>>>>> Stashed changes
 <section class="section-maker">
         <div class="container">
             <div class="sec-maker-header text-center">
@@ -49,6 +121,8 @@
                     </li>
                 </ul>
             </div>
+
+
             <div class="wrapper-content">
                 <div class="outer-area-tab">
                     <div class="tab-content">
@@ -331,7 +405,36 @@
                     </div>
                 </div>
             </div>
+
         </div>
+            @if(Auth::user())
+                @if(Session::has('success_message'))
+                      <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Success: </strong> {{ Session::get('success_message')}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                  @endif
+                <div class="sec-maker-header text-center">
+                    <h3 class="sec-maker-h3">FEEDBACK</h3>
+                    <ul class="nav tab-nav-style-1-a justify-content-center">
+                    <form class="forms-sample" action="{{ url('feedback') }}"
+                            method="post"enctype="multipart/form-data"> @csrf
+                    
+                        <div class="form-group">
+                            <input type='hidden' id="user_id" name="user_id" value="{{$users['id']}}">
+                            <input type="text" class="form-control" id="message" 
+                                placeholder="" name="message" required="" value="">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    
+                    </form>
+                    </ul>
+                </div>
+            @endif
+        
 </section>
     <!-- Top Collection /- -->
     <!-- Banner-Layer -->

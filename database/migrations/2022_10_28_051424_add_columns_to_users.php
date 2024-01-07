@@ -14,12 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('address')->after('name');
-            $table->string('city')->after('address');
-            $table->string('zipcode')->after('city');
-            $table->string('pincode')->after('zipcode');
-            $table->string('mobile')->after('pincode');
-            $table->tinyInteger('status')->after('password');
+            $table->string('lastname')->after('name');
+            $table->string('address')->after('lastname');
+            $table->string('mobile')->after('address');
+            $table->tinyInteger('status')->after('mobile');
         });
     }
 
@@ -32,9 +30,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('address');
-            $table->dropColumn('city');
-            $table->dropColumn('zipcode');
-            $table->dropColumn('pincode');
+            $table->dropColumn('lastname');
             $table->dropColumn('mobile');
             $table->dropColumn('status');
         });
