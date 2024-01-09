@@ -79,6 +79,21 @@ class UserController extends Controller
         }
     }
 
+    public function getGuarantors(Request $request) {
+        try {
+            $request = $request->only('name');
+
+            $guarantors = User::where('name', 'like', "%".$request['name']."%")
+                            ->where('credit_score', '>=', 3000)
+                            ->where('id', '!=', Auth::user()->id)
+                            ->get();
+
+            return response()->json(['guarantors'=> $guarantors]);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     public function userAccount(Request $request){
         if($request->ajax()){
             $data = $request->all();

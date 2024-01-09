@@ -368,6 +368,12 @@ class ProductController extends Controller
             $deliveryAddresses = DeliveryAddress::deliveryAddresses(); //show the addresses
             $getCartItems = Cart::getCartItems();
             // dd($deliveryAddresses);
+            if($image = $request->file('valid_id')){
+                $path = 'front/images/users/validid';
+                $name = date('YmdHis') . "." . $image->getClientOriginalExtension();
+                $image->move($path, $name);
+                $data['valid_id'] = "$name";
+            }
             
             //if cart is empty then redirect user to the cart page
             if(count($getCartItems) == 0){
@@ -402,12 +408,19 @@ class ProductController extends Controller
 
             if($request->isMethod('post')){ 
                 $data = $request->all();
+                $image = $request->file('valid_id');
+                if($image){
+                    $path = 'front/images/users/validid';
+                    $name = date('YmdHis') . "." . $image->getClientOriginalExtension();
+                    $image->move($path, $name);
+                    $data['valid_id'] = "$name";
+                }
                 // echo "<pre>"; print_r($data);
 
                 //check the delivery address id if delivery address ic clicked 
                     if(empty($data['address_id'])){
                         $message = "Please select Delivery Address! ";
-                        return redirect()->back()->with('error_message',$message);
+                        // return redirect()->back()->with('error_message',$message);
                     }
 
                     //payment method validation

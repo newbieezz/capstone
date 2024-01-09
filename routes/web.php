@@ -303,7 +303,8 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
         // Route::post('/order-received','OrderController@receiveOrder');
         Route::match(['get','post'],'user/order-received','OrderController@receiveOrder');
        
-
+        //Get Guarantors
+        Route::get('search-guarantor','UserController@getGuarantors');
 
     });
    
