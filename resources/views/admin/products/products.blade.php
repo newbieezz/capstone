@@ -29,7 +29,7 @@
                                       <th> Date Created </th> 
                                       <th> Name </th> 
                                       <th> Code </th>
-                                      <th> Size </th>
+                                      <th> Measurement </th>
                                       <th> Stocks</th>
                                       <th> Price </th>  
                                       <th> Photo </th>   
@@ -42,10 +42,19 @@
                                   <tr> 
                                       <td> {{ $product['created_at'] }}  </td>
                                       <td> {{ $product['product_name']}}  </td>
-                                      <td>  {{$product['product_code']}} </td> 
-                                      <td>    </td>
-                                      <td>  </td> 
-                                      <td> {{ $product['product_price']}}  </td>  
+                                      <td> {{$product['product_code']}} </td> 
+                                      <td> @if(!empty($product['size']))
+                                              {{$product['size']}} 
+                                            @elseif(!empty($product['weight']))
+                                              {{$product['weight']}} 
+                                            @elseif(!empty($product['volume']))
+                                              {{$product['volume']}} 
+                                            @elseif(!empty($product['color']))
+                                              {{$product['color']}} 
+                                           @endif
+                                      </td>
+                                      <td> {{$product['stock_quantity']}}  </td>
+                                      <td> {{ $product['selling_price']}}  </td>  
                                       <td> @if(!empty($product['product_image']))
                                               <img src="{{ asset('front/images/product_images/small/'.$product['product_image']) }}">
                                             @else
@@ -65,8 +74,6 @@
                                       <td>    &nbsp;
                                           <a title="Edit Product" href="{{ url('admin/add-edit-product/'.$product['id']) }}">
                                           <i style="font-size:30px" {{--class="mdi mdi-lead-pencil"--}}> </i>Edit</a> &nbsp; &nbsp; 
-                                              <a title="Add Attributes" href="{{ url('admin/add-edit-attributes/'.$product['id']) }}">
-                                              <i style="font-size:30px" {{--class="mdi mdi-plus-circle"--}}> <element onclick="attributes"></element></i>Stocks </a> &nbsp; &nbsp;  
                                           <a title="Add Multiple Image" href="{{ url('admin/add-images/'.$product['id']) }}">
                                           <i style="font-size:30px" {{--class="mdi mdi-library-plus"--}}> </i> Image</a> &nbsp; &nbsp;
                                               <a title="Delete" href="javascript:void(0)" class="confirmDelete" module="product" moduleid="{{$product['id']}}">

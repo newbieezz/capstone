@@ -39,7 +39,7 @@
                                             ₱ {{ $getDiscountAttributePrice['final_price'] }}
                                         </div>
                                         <div class="item-old-price" style="margin-left:-40px;">
-                                            ₱ {{ $getDiscountAttributePrice['product_price'] }}
+                                            ₱ {{ $getDiscountAttributePrice['selling_price'] }}
                                         </div>
                                     </div>
                                 @else
@@ -89,8 +89,6 @@
         @endforeach
     </div>
     <!-- Products-List-Wrapper /- -->
-
-    <!-- Coupon /- -->
 
     <!-- Billing -->
     <div class="calculation u-s-m-b-60">

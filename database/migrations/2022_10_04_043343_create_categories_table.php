@@ -15,16 +15,11 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->integer('parent_id'); //0 as the parent id
-            $table->integer('section_id');
-            $table->string('category_name');
-            $table->string('category_image');
-            $table->float('category_discount');
+            $table->integer('parent_id')->nullable(); //0 as the parent id
+            $table->string('category_name')->nullable();
+            $table->string('category_image')->nullable();
             $table->text('description');
             $table->string('url');
-            $table->string('meta_title'); //columns for the server side
-            $table->string('meta_description');
-            $table->string('meta_keywords'); 
             $table->tinyInteger('status');
             $table->timestamps();
         });

@@ -98,11 +98,11 @@
                                     </div>
                                     <div class="original-price">
                                         <span>Original Price:</span>
-                                        <span>₱ {{ $productDetails['product_price'] }}</span>
+                                        <span>₱ {{ $productDetails['selling_price'] }}</span>
                                     </div>
                                 @else
                                     <div class="price">
-                                        <h4>₱ {{ $productDetails['product_price'] }}</h4>
+                                        <h4>₱ {{ $productDetails['selling_price'] }}</h4>
                                     </div>
                                 @endif 
                             </span>
@@ -144,64 +144,62 @@
                             <input type="hidden" name="product_id" value="{{ $productDetails['id'] }}">
                             <div class="section-5-product-variants u-s-p-y-14">
                                 <div class="sizes u-s-m-b-11">
-                                    <span>Available Unit:</span>
-                                    <div class="size-variant select-box-wrapper">
-                                        <select name="size" id="getPrice" product-id="{{ $productDetails['id'] }}" class="select-box product-size" required="">
-                                            <option value="">Select</option>
-                                            @foreach($productDetails['attributes'] as $attribute)
-                                                {{-- @if (empty($attribute['size'] ))
-                                                    <option value="{{ $attribute['weight'] }}">{{ $attribute['weight'] }} {{$attribute['measurement'] }}</option>
-                                                @else --}}
-                                                    <option value="{{ $attribute['size'] }}">{{ $attribute['size'] }}</option>
-                                                {{-- @endif --}}
-                                            @endforeach
-                                        </select>
-                                    </div>
+                                    <span>Available Unit:  
+                                        @if(!empty($productDetails['size']))
+                                            {{$productDetails['size']}} <input type="hidden" name="size" value="{{$productDetails['size']}}">
+                                        @elseif(!empty($productDetails['weight']))
+                                            {{$productDetails['weight']}} <input type="hidden" name="size" value="{{$productDetails['weight']}}">
+                                        @elseif(!empty($productDetails['volume']))
+                                            {{$productDetails['volume']}} <input type="hidden" name="size" value="{{$productDetails['volume']}}">
+                                        @elseif(!empty($productDetails['color']))
+                                            {{$productDetails['color']}} <input type="hidden" name="size" value="{{$productDetails['color']}}">
+                                        @endif
+                                    </span>
                                 </div>
                             </div>
-                        <div class="section-6-social-media-quantity-actions u-s-p-y-14">
-                                {{-- <div class="quick-social-media-wrapper u-s-m-b-22">
-                                    <span>Share:</span>
-                                    <ul class="social-media-list">
-                                        <li>
-                                            <a href="#">
-                                                <i class="fab fa-facebook-f"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i class="fab fa-twitter"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i class="fab fa-google-plus-g"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i class="fas fa-rss"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i class="fab fa-pinterest"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div> --}}
-                                <div class="quantity-wrapper u-s-m-b-22">
-                                    <span>Quantity:</span>
-                                    <div class="quantity">
-                                        <input type="number" class="quantity-text-field" name="quantity" value="1">
+                            <div class="section-6-social-media-quantity-actions u-s-p-y-14">
+                                    {{-- <div class="quick-social-media-wrapper u-s-m-b-22">
+                                        <span>Share:</span>
+                                        <ul class="social-media-list">
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fab fa-facebook-f"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fab fa-twitter"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fab fa-google-plus-g"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fas fa-rss"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fab fa-pinterest"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div> --}}
+                                    <div class="quantity-wrapper u-s-m-b-22">
+                                        <span>Quantity:</span>
+                                        <div class="quantity">
+                                            <input type="number" class="quantity-text-field" name="quantity" value="1">
+                                        </div>
                                     </div>
-                                </div>
-                                <div>
-                                    <button class="button button-outline-secondary" type="submit">Add to cart</button>
-                                    <button class="button button-outline-secondary far fa-heart u-s-m-l-6"></button>
-                                    <button class="button button-outline-secondary far fa-envelope u-s-m-l-6"></button>
-                                </div>
-                        </div>
+                                    <div>
+                                        <button class="button button-outline-secondary" type="submit">Add to cart</button>
+                                        <button class="button button-outline-secondary far fa-heart u-s-m-l-6"></button>
+                                        <button class="button button-outline-secondary far fa-envelope u-s-m-l-6"></button>
+                                    </div>
+                            </div>
                         </form>
                     </div>
                     <!-- Product-details /- -->
@@ -268,13 +266,13 @@
                                                         ₱ {{ $getDiscountedPrice }}
                                                     </div>
                                                     <div class="item-old-price">
-                                                        ₱ {{ $product['product_price'] }}
+                                                        ₱ {{ $product['selling_price'] }}
                                                     </div>
                                                 </div>
                                             @else
                                             <div class="price-template">
                                                 <div class="item-new-price">
-                                                    ₱ {{ $product['product_price'] }}
+                                                    ₱ {{ $product['selling_price'] }}
                                                 </div>
                                             </div>
                                             @endif
@@ -356,13 +354,13 @@
                                                         ₱ {{ $getDiscountedPrice }}
                                                     </div>
                                                     <div class="item-old-price">
-                                                        ₱ {{ $product['product_price'] }}
+                                                        ₱ {{ $product['selling_price'] }}
                                                     </div>
                                                 </div>
                                             @else
                                             <div class="price-template">
                                                 <div class="item-new-price">
-                                                    ₱ {{ $product['product_price'] }}
+                                                    ₱ {{ $product['selling_price'] }}
                                                 </div>
                                             </div>
                                             @endif

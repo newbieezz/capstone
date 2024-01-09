@@ -18,10 +18,9 @@ return new class extends Migration
             $table->integer('vendor_id'); // from vendor table
             $table->string('shop_name');
             $table->string('shop_address');
-            $table->string('shop_city');
-            $table->string('shop_pincode');
-            $table->string('shop_mobile');
-            $table->string('shop_website');
+            $table->string('shop_mobile')->nullable();
+            $table->string('shop_website')->nullable();
+            $table->string('shop_image')->nullable();
             $table->string('address_proof');
             $table->string('address_proof_image');
             $table->string('business_license_number');

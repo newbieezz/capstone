@@ -159,13 +159,13 @@
                                                             ₱ {{ $getDiscountedPrice }}
                                                         </div>
                                                         <div class="item-old-price">
-                                                            ₱ {{ $product['product_price'] }}
+                                                            ₱ {{ $product['selling_price'] }}
                                                         </div>
                                                     </div>
                                                 @else
                                                 <div class="price-template">
                                                     <div class="item-new-price">
-                                                        ₱ {{ $product['product_price'] }}
+                                                        ₱ {{ $product['selling_price'] }}
                                                     </div>
                                                 </div>
                                                 @endif
@@ -182,9 +182,9 @@
                             <div class="slider-fouc">
                                 <div class="products-slider owl-carousel" data-item="4">
                                     <!-- ForeachLoop of Array for the latest products to display -->
-                                   @foreach($bestSeller as $product)
+                                   {{-- @foreach($bestSeller as $product) --}}
                                     <!-- Fetching the Image to be displayed --> 
-                                   <?php $product_image_path = 'front/images/product_images/small/'.$product['product_image']; ?>
+                                   {{-- <?php $product_image_path = 'front/images/product_images/small/'.$product['product_image']; ?>
                                        <div class="item">
                                            <div class="image-container">
                                                <a class="item-img-wrapper-link" href="{{ url('product/'.$product['id']) }}">
@@ -228,13 +228,13 @@
                                                            ₱ {{ $getDiscountedPrice }}
                                                        </div>
                                                        <div class="item-old-price">
-                                                           ₱ {{ $product['product_price'] }}
+                                                           ₱ {{ $product['selling_price'] }}
                                                        </div>
                                                    </div>
                                                @else
                                                <div class="price-template">
                                                    <div class="item-new-price">
-                                                       ₱ {{ $product['product_price'] }}
+                                                       ₱ {{ $product['selling_price'] }}
                                                    </div>
                                                </div>
                                                @endif
@@ -243,7 +243,7 @@
                                                <span>NEW</span>
                                            </div>
                                        </div>
-                                   @endforeach
+                                   @endforeach --}}
                                </div>
                             </div>
                         </div>
@@ -297,13 +297,13 @@
                                                            ₱ {{ $getDiscountedPrice }}
                                                        </div>
                                                        <div class="item-old-price">
-                                                           ₱ {{ $product['product_price'] }}
+                                                           ₱ {{ $product['selling_price'] }}
                                                        </div>
                                                    </div>
                                                @else
                                                <div class="price-template">
                                                    <div class="item-new-price">
-                                                       ₱ {{ $product['product_price'] }}
+                                                       ₱ {{ $product['selling_price'] }}
                                                    </div>
                                                </div>
                                                @endif
@@ -366,13 +366,13 @@
                                                            ₱ {{ $getDiscountedPrice }}
                                                        </div>
                                                        <div class="item-old-price">
-                                                           ₱ {{ $product['product_price'] }}
+                                                           ₱ {{ $product['selling_price'] }}
                                                        </div>
                                                    </div>
                                                @else
                                                <div class="price-template">
                                                    <div class="item-new-price">
-                                                       ₱ {{ $product['product_price'] }}
+                                                       ₱ {{ $product['selling_price'] }}
                                                    </div>
                                                </div>
                                                @endif

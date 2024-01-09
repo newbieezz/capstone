@@ -23,8 +23,7 @@ class IndexController extends Controller
         // dd($categories);
         //fetch the products from the products table and show the last 8 products  added
         $newProducts = Product::orderBy('id','Desc')->where('status',1)->limit(8)->get()->toArray();
-        //query for showing the bestseller products
-        $bestSeller = Product::where(['is_bestseller'=>'Yes','status'=>1])->inRandomOrder()->get()->toArray();
+        
         //show products with discounted price
         $discountedProds = Product::where('product_discount','>',0)->where('status',1)->limit(4)->inRandomOrder()->get()->toArray();
         //dd($discountedProds);
@@ -34,7 +33,7 @@ class IndexController extends Controller
         $getVendorDetails = VendorsBusinessDetails::get()->toArray();
         // dd($getVendorDetails);
 
-        return view('front.index')->with(compact('sliderbanners','fixbanners','newProducts','bestSeller','discountedProds','featured','vendor','getVendorDetails','sections','categories'));
+        return view('front.index')->with(compact('categories','sliderbanners','fixbanners','newProducts','discountedProds','featured','vendor','getVendorDetails','sections','categories'));
     }
 
     public function about(){

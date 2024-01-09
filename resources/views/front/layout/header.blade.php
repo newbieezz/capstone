@@ -27,11 +27,14 @@
     <div class="container d-flex align-items-center justify-content-between">
 
       <div class="logo">
-        <h1 class="text-light"><a href="{{ url('/') }}">P-Store</a></h1>
+        {{-- <h1 class="text-light"><a href="{{ url('/') }}">P-Store</a></h1> --}}
         <!-- Uncomment below if you prefer to use an image logo -->
-        <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+        <a href="{{ url('/') }}"><img src="{{ asset('admin/images/logo.png') }}" class="mr-2" alt="logo" style="width: 100px"/></a>
       </div>
-
+      <div class="container-fluid">
+        <hr class="m-0">
+      </div>
+  
       <nav id="navbar" class="navbar">
         <ul>
         
@@ -122,6 +125,9 @@
         <div class="full-layer-mid-header">
             <div class="container">
             </div>
+        </div>
+        <div class="container-fluid">
+            <hr class="m-8">
         </div>
         <!-- Mid-Header /- -->
         <!-- Bottom-Header -->

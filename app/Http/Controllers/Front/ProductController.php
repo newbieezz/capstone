@@ -157,12 +157,12 @@ class ProductController extends Controller
 
     //detail.blade.php list of products details
     public function detail($id){
-        $productDetails = Product::with(['section','category','attributes'=>function($query){
-                            $query->where('stock','>',0)->where('status',1);
+        $productDetails = Product::with(['section','category'=>function($query){
+                            $query->where('status',1);
                          },'images','brands','vendor'])->find($id)->toArray();
         //call category for the breadcrumbs, pass the urlt o get the complete category details
         $categoryDetails = Category::categoryDetails($productDetails['category']['url']);
-        // dd($productDetails);
+        // dd($categoryDetails);
 
         //get related/similar products ids
         $similarProducts = Product::with('brands')->where('category_id',$productDetails['category']['id'])
@@ -191,7 +191,7 @@ class ProductController extends Controller
         //fetch the porducts, get recently viewed products
         $recenltyViewedProd = Product::with('brands')->whereIn('id',$recentProductsId)->get()->toArray();
 
-        $totalStock = ProductsAttribute::where('product_id',$id)->sum('stock');
+        $totalStock = Product::where('id',$id)->sum('stock_quantity');
         return view('front.products.detail')->with(compact('productDetails','categoryDetails','totalStock','similarProducts','recenltyViewedProd'));
     }
 
@@ -227,9 +227,10 @@ class ProductController extends Controller
             }
 
             //check product stock is available or not
-            $getProductStock = ProductsAttribute::getProductStock($data['product_id'],$data['size']);
+            $getStock = Product::getStock($data['product_id']);
+            // dd($getStock);
             //condition if stock less than number of product stock
-            if($getProductStock<$data['quantity']){
+            if($getStock<$data['quantity']){
                 return redirect()->back()->with('error_message','Required Quantity is not available!');
             }
 
@@ -264,7 +265,7 @@ class ProductController extends Controller
             $item->size = $data['size'];
             $item->quantity = $data['quantity'];
             $item->save();
-
+            // dd($data);
             return redirect()->back()->with('success_message','Product has been added to Cart!');
         }
     }
@@ -295,11 +296,11 @@ class ProductController extends Controller
             $cartDetails = Cart::find($data['cartid']);
 
             //get available product stock
-            $availableStock = ProductsAttribute::select('stock')->where(['product_id'=>
-                    $cartDetails['product_id'],'size'=>$cartDetails['size']])->first()->toArray();
+            $availableStock = Product::select('stock_quantity')->where(['id'=>
+                    $cartDetails['product_id']])->first()->toArray();
 
             //check availability of stock
-            if($data['qty'] > $availableStock['stock']){
+            if($data['qty'] > $availableStock['stock_quantity']){
                 $getCartItems = Cart::getCartItems();
                 return response()->json([
                     'status'=>false,
@@ -309,18 +310,18 @@ class ProductController extends Controller
              ]);
             }   
 
-            //chech if product size is available
-            $availableSize = ProductsAttribute::where(['product_id'=>$cartDetails['product_id'],
-                        'size'=>$cartDetails['size'],'status'=>1])->count();
-            if($availableSize == 0){
-                $getCartItems = Cart::getCartItems();
-                return response()->json([
-                    'status'=>false,
-                    'message'=>'Product Size is not available. Please remove this Product and choose another one!',
-                    'view'=>(String)View::make('front.products.cart_items')
-                     ->with(compact('getCartItems'))
-                 ]);
-            }
+            // //chech if product size is available
+            // $availableSize = Product::where(['id'=>$cartDetails['product_id'],
+            //             'size'=>$cartDetails['size'],'status'=>1])->count();
+            // if($availableSize == 0){
+            //     $getCartItems = Cart::getCartItems();
+            //     return response()->json([
+            //         'status'=>false,
+            //         'message'=>'Product Size is not available. Please remove this Product and choose another one!',
+            //         'view'=>(String)View::make('front.products.cart_items')
+            //          ->with(compact('getCartItems'))
+            //      ]);
+            // }
             
             //update qty in carts table
             Cart::where('id',$data['cartid'])->update(['quantity'=>$data['qty']]);
@@ -501,8 +502,8 @@ class ProductController extends Controller
                         //reduce stock script starts
                         $orderDetails = Order::with('orders_products')->where('id',$order_id)->first()->toArray();
                         // dd($orderDetails);
-                        $getProductStock = ProductsAttribute::getProductStock($item['product_id'],$item['size']);
-                        $newStock = $getProductStock - $item['quantity'];
+                        $getStock = Product::getStock($item['product_id']);
+                        $newStock = $getStock - $item['quantity'];
 
                         if (!$newStock) {
                             Notification::insert([
@@ -513,9 +514,18 @@ class ProductController extends Controller
                                 'receiver' => 'vendor',
                                 'message' => $order['product_name'] . ' is out of stock.'
                             ]);
+                        } elseif ($newStock <= $getStock){
+                            Notification::insert([
+                                'module' => 'product',
+                                'module_id' => $item['product_id'],
+                                'user_id' => $orderDetails['vendor_id'],
+                                'sender' => 'product',
+                                'receiver' => 'vendor',
+                                'message' => $order['product_name'] . ' needs to be restocked.'
+                            ]);
                         }
                         // update the new stock on each product
-                        ProductsAttribute::where(['product_id'=>$item['product_id'],'size'=>$item['size']])->update(['stock'=>$newStock]);
+                        Product::where(['id'=>$item['product_id']])->update(['stock_quantity'=>$newStock]);
                         // dd($newStock);
                     }
                     // $selectedVendorId 

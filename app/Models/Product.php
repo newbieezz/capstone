@@ -43,7 +43,7 @@ protected function serializeDate(DateTimeInterface $date): string
 
     //for the product discount, static to call it anywhere such as model controller etc
     public static function getDiscountedPrice($product_id){
-        $proDetails = Product::select('product_price','product_discount','category_id')->where
+        $proDetails = Product::select('selling_price','product_discount','category_id')->where
                       ('id',$product_id)->first();
         //use array json to avoid more issue rather than using toArray
         $proDetails = json_decode(json_encode($proDetails),true);
@@ -54,7 +54,7 @@ protected function serializeDate(DateTimeInterface $date): string
         //condition to compare if a product is having a product discount or not
         if($proDetails['product_discount'] > 0) {
             //if added and exist, calculate the discounted price
-            $discounted_price = $proDetails['product_price'] - ($proDetails['product_price']*
+            $discounted_price = $proDetails['selling_price'] - ($proDetails['selling_price']*
                                 $proDetails['product_discount']/100);
         }
         // } else if($catDetails['category_discount'] > 0){
@@ -68,9 +68,9 @@ protected function serializeDate(DateTimeInterface $date): string
         return $discounted_price;
     }
     public static function getDiscountAttributePrice($product_id,$size){
-        $proAttrPrice = ProductsAttribute::where(['product_id'=>$product_id,'size'=>$size])->first()->toArray();
+        // $proAttrPrice = ProductsAttribute::where(['product_id'=>$product_id,'size'=>$size])->first()->toArray();
         //get product and category discount, fetch it from products table
-        $proDetails = Product::select('product_discount','category_id')->where
+        $proDetails = Product::select('product_discount','category_id','selling_price')->where
                       ('id',$product_id)->first();//main price from here
         $proDetails = json_decode(json_encode($proDetails),true);
         //fetch the category of the product
@@ -80,19 +80,19 @@ protected function serializeDate(DateTimeInterface $date): string
          //condition to compare if a product is having a product discount or not
          if($proDetails['product_discount'] > 0) {
             //if added and exist, calculate the discounted price
-            $final_price = $proAttrPrice['price'] - ($proAttrPrice['price']*
+            $final_price = $proDetails['selling_price'] - ($proDetails['selling_price'] *
                                 $proDetails['product_discount']/100);
-            $discount = $proAttrPrice['price'] - $final_price;
+            $discount = $proDetails['selling_price']  - $final_price;
         // } else if($catDetails['category_discount'] > 0){
         //     //if product is not but category discount is added
         //     $final_price = $proAttrPrice['price'] - ($proAttrPrice['price']*
         //                          $catDetails['category_discount']/100);
         //     $discount = $proAttrPrice['price'] - $final_price;
         } else {
-            $final_price = $proAttrPrice['price'];
+            $final_price = $proDetails['selling_price'] ;
             $discount = 0;
         }
-        return array('product_price'=>$proAttrPrice['price'],'final_price'=>$final_price,'discount'=>$discount);
+        return array('selling_price'=>$proDetails['selling_price'] ,'final_price'=>$final_price,'discount'=>$discount);
     }
     // public function brand(){
     //     //every product belongs to some brand
@@ -130,5 +130,10 @@ protected function serializeDate(DateTimeInterface $date): string
         Cart::where('product_id',$product_id)->delete();
     }
 
+    public static function getStock($id){
+        $getStock = Product::select('stock_quantity')->where(['id'=>$id])->first();
+
+        return $getStock->stock_quantity;
+    }
  
 }

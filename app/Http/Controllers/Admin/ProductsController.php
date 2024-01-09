@@ -24,38 +24,6 @@ use App\Models\Vendor;
 
 class ProductsController extends Controller
 {
-    public function productsz(){
-        Session::put('page','products');
-
-        $adminType = Auth::guard('admin')->user()->type;
-        $vendor_id = Auth::guard('admin')->user()->vendor_id;
-        $vendor = Vendor::where('id',$vendor_id)->first();
-        if($adminType=="vendor" && $vendor_id == $vendor['id']){
-            //check vendor status
-            $vendorStatus = Auth::guard('admin')->user()->status; //if 0 redirect to ask to fill for more details before he/she cann add some product
-            if($vendorStatus==0){
-                return redirect('admin/update-vendor-details/personal')->with('error_message','Your Vendor Account is not approved yet. Please make sure too fill your valid personal, business and bank details!');
-            }
-            $prods = DB::table('products')
-            ->join('products_attributes', 'products.id', '=', 'products_attributes.product_id')
-            ->join('categories', 'products.category_id', '=', 'categories.id')
-            ->select('products.*', 'products_attributes.size', 'products_attributes.stock','products_attributes.price','categories.category_name')
-            ->get();
-        // dd($prods);
-        }
-        // $products = Product::with(['section'=>function($query){
-        //     $query->select('id','name');
-        //     },'category'=>function($query){
-        //         $query->select('id','category_name');
-        //     }
-        // ]); //subquery-> add the section and category relation
-
-        
-
-        // dd($prods);
-
-        return view('admin.products.products')->with(compact('adminType','prods'));
-    }
     
     public function products(){
         Session::put('page','products');
@@ -118,6 +86,7 @@ class ProductsController extends Controller
         //generate random alpha numeric for product code
         $prod_code = Str::random(12);
         //get the data
+       
         if($request->isMethod('post')){
             $data = $request->all();
                 
@@ -126,13 +95,13 @@ class ProductsController extends Controller
                 'category_id' => 'required',
                 'product_name' => 'required|regex:/^[\pL\s\-]+$/u',
                 // 'product_code' => 'required',
-                // 'product_price' => 'required|numeric',
+                'product_price' => 'required|numeric',
             ];
             $customMessages = [
                 'category_id.required' => 'Category is required!',
                 'product_name.required' => 'Product Name is required!',
                 // 'product_code.required' => 'Product Code is required!',
-                // 'product_price.required' => 'Product Price is required!',
+                'product_price.required' => 'Product Price is required!',
                 'product_price.numeric' => 'Valid Product Price is required!',
             ];
                 $this->validate($request,$rules,$customMessages);
@@ -157,25 +126,10 @@ class ProductsController extends Controller
 
                     }
                 } 
-                //Upload the product video
-                // if($request->hasFile('product_video')){
-                //     $video_tmp = $request->file('product_video');
-                //     if($video_tmp->isValid()){
-                //         //Upload the video in folder
-                //         $extension = $video_tmp->getClientOriginalExtension();
-                //         $videoName = rand(111,99999).'.'.$extension;
-                //         //modify the video name
-                //         $videoPath = 'front/videos/product_videos/';
-                //         //move the image from tmp to actual folder
-                //         $video_tmp->move($videoPath,$videoName);
-
-                //         //Insert video name in products table
-                //         $product->product_video = $videoName;
-                //     }
-                // }
             
              //insert/save the data into the products table
             $categoryDetails = Category::find($data['category_id']);
+            
             $product->section_id = $categoryDetails['section_id'];
             //save the category id from the form
             $product->category_id = $data['category_id'];
@@ -218,12 +172,15 @@ class ProductsController extends Controller
             } else {
                 $product->is_featured = "No";
             }
-            if(!empty($data['is_bestseller'])){
-                $product->is_bestseller = $data['is_bestseller'];
-            } else {
-                $product->is_bestseller = "No";
-            }
+            $product->weight = $data['weight'];
+            $product->color = $data['color'];
+            $product->size = $data['size'];
+            $product->volume = $data['volume'];
+            $product->markup = $data['markup'];
+            $product->stock_quantity = $data['stock_quantity'];
+            $product->restock_threshold = $data['restock_threshold'];
             $product->status = 1;
+            $product->selling_price = $data['product_price'] + $data['markup'];
             // dd($product);
             $product->save();
             return redirect('admin/products')->with('success_message', $message);
@@ -233,6 +190,7 @@ class ProductsController extends Controller
 
         // get sections with categories and sub categories
         $categories = Section::with('categories')->get()->toArray();
+        // dd($categories);
         // get all the brands
         $brands = Brand::where('status',1)->get()->toArray();
         return view('admin.products.add_edit_product')->with(compact('title','categories','brands','product'));

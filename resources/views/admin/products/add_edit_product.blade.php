@@ -50,6 +50,16 @@
                 <form class="forms-sample" @if(empty($product['id'])) action="{{ url('admin/add-edit-product') }}"
                   @else action="{{ url('admin/add-edit-product/'.$product['id']) }}" @endif
                   method="post"enctype="multipart/form-data"> @csrf
+                  {{-- <div class="form-group">
+                    <label for="category_id">Select Category</label>
+                    <select name="category_id" id="category_id" class="form-control text-dark" >
+                        <option value="">Select</option>
+                            @foreach($categories as $category) <!--CATEGORY -->
+                            <option @if(!empty($product['category_id']==$category['id'])) selected="" @endif
+                              value="{{ $category['id'] }}">&nbsp;&nbsp;&raquo;&nbsp;{{ $category['category_name'] }}</option>
+                        @endforeach
+                    </select>
+                  </div> --}}
                   <div class="form-group">
                     <label for="category_id">Select Category</label>
                     <select name="category_id" id="category_id" class="form-control text-dark" >
@@ -99,6 +109,28 @@
                             @else value="{{ old('product_price') }}" @endif>
                       </div>
                       <div class="form-group">
+                        <label for="markup">Product Markup (profit margin to add for Selling price) </label>
+                        <input type="number" class="form-control" id="markup" 
+                            placeholder="Enter price to add (ex. 6)" name="markup"    
+                            @if(!empty($product['markup'])) value="{{ $product['markup'] }}" 
+                            @else value="{{ old('markup') }}" @endif>
+                      </div>
+                      <div class="form-group">
+                        <label for="stock_quantity">Stock Quantity </label>
+                        <input type="number" class="form-control" id="stock_quantity" 
+                            placeholder="Enter Stocks Available" name="stock_quantity"    
+                            @if(!empty($product['stock_quantity'])) value="{{ $product['stock_quantity'] }}" 
+                            @else value="{{ old('stock_quantity') }}" @endif>
+                      </div>
+                      <div class="form-group">
+                        <label for="restock_threshold">Restock Threshold </label>
+                        <p><i>Value indicating when the product should be restocked.</i></p>
+                        <input type="number" class="form-control" id="restock_threshold" 
+                            placeholder="Enter Restock Quantity" name="restock_threshold"    
+                            @if(!empty($product['restock_threshold'])) value="{{ $product['restock_threshold'] }}" 
+                            @else value="{{ old('restock_threshold') }}" @endif>
+                      </div>
+                      <div class="form-group">
                         <label for="product_discount">Product Discount (%)</label>
                         <input type="text" class="form-control" id="product_discount" 
                             placeholder="Enter product Discount" name="product_discount"    
@@ -118,6 +150,34 @@
                         <label for="description">Product Description</label>
                         <textarea class="form-control" name="description" id="description" rows="3" 
                               >{{ $product['description'] }}</textarea>
+                      </div>
+                      <div class="form-group">
+                        <label for="weight">Weight (Optional: Depending on type of Product) </label>
+                        <input type="text" class="form-control" id="weight" 
+                            placeholder="Enter Weight ( ex. 1kg )" name="weight"    
+                            @if(!empty($product['weight'])) value="{{ $product['weight'] }}" 
+                            @else value="{{ old('weight') }}" @endif>
+                      </div>
+                      <div class="form-group">
+                        <label for="volume">Volume (Optional: Depending on type of Product) </label>
+                        <input type="text" class="form-control" id="volume" 
+                            placeholder="Enter Volume ( ex. 500ml )" name="volume"    
+                            @if(!empty($product['volume'])) value="{{ $product['volume'] }}" 
+                            @else value="{{ old('volume') }}" @endif>
+                      </div>
+                      <div class="form-group">
+                        <label for="color">Color (Optional: Depending on type of Product) </label>
+                        <input type="text" class="form-control" id="color" 
+                            placeholder="Enter Color ( ex. red )" name="color"    
+                            @if(!empty($product['color'])) value="{{ $product['color'] }}" 
+                            @else value="{{ old('color') }}" @endif>
+                      </div>
+                      <div class="form-group">
+                        <label for="size">Size (Optional: Depending on type of Product) </label>
+                        <input type="text" class="form-control" id="size" 
+                            placeholder="Enter Size ( ex. Large )" name="size"    
+                            @if(!empty($product['size'])) value="{{ $product['size'] }}" 
+                            @else value="{{ old('size') }}" @endif>
                       </div>
                       <div class="form-group">
                         <label for="is_featured">Featured Item</label>
