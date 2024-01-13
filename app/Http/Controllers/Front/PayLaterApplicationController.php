@@ -103,7 +103,4 @@ class PayLaterApplicationController extends Controller
         }
         // return view('front.pay_later.pay_later_application');
     }
-
-    
-
 }

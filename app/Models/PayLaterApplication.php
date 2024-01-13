@@ -25,6 +25,13 @@ class PayLaterApplication extends Model
     public function users(){
         return $this->belongsTo('App\Models\User','user_id');
     }
+    public function vendor(){
+        return $this->belongsTo('App\Models\Vendor','vendor_id');
+    }
+
+    public function garantor(){
+        return $this->belongsTo('App\Models\User','garantor_id');
+    }
 
     public function setEntryDateAttribute($input)
     {

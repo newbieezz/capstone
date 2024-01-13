@@ -55,7 +55,12 @@ Route::post('/transferToUser','EwalletController@transferToUser');
         Route::match(['get','post'],'update-vendor-details/{slug}','AdminController@updateVendorDetails');
         //Update Vendor Commission
         // Route::post('update-vendor-commission','AdminController@updateVendorCommission');
-        
+
+        Route::get('paylater/pending','PayLaterController@pending');
+        Route::get('paylater/pending/{id}','PayLaterController@getById');
+        Route::post('paylater/pending/{id}/approved','PayLaterController@approveById');
+        Route::post('paylater/pending/{id}/declined','PayLaterController@declineById');
+        Route::get('paylater/approved','PayLaterController@approved');
         // View Admin / Subadmins / Vendors
         Route::get('admins/{type?}','AdminController@admins');
 

@@ -32,6 +32,24 @@
                 </div>
             </li> 
             <li class="nav-item">
+                <a  @if(Session::get('page')=="approved" || Session::get('page')=="pending" ) 
+                style="background: #4B49AC !important; color:#fff !important" @endif class="nav-link" data-toggle="collapse" href="#ui-paylater" aria-expanded="false" aria-controls="ui-paylater">
+                <i class="icon-layout menu-icon"></i>
+                <span class="menu-title">Paylater</span>
+                <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="ui-paylater">
+                    <ul class="nav flex-column sub-menu" style="background: #fff !important; color:#4B49AC !important">
+                        <li class="nav-item"> <a @if(Session::get('page')=="pending") style="background:#4B49AC !important; color:aliceblue !important;" 
+                                                  @else style="background: #fff !important; color:#4B49AC !important;" @endif 
+                            class="nav-link" href="{{ url('admin/paylater/pending') }}">Pending</a></li>
+                        <li class="nav-item"> <a @if(Session::get('page')=="approved") style="background:#4B49AC !important; color:aliceblue !important;" 
+                                                 @else style="background: #fff !important; color:#4B49AC !important;" @endif 
+                            class="nav-link" href="{{ url('admin/paylater/approved') }}">Approved</a></li>
+                    </ul>
+                </div>
+            </li> 
+            <li class="nav-item">
                 <a @if(Session::get('page')=="sections" || Session::get('page')=="categories" || Session::get('page')=="brands" || Session::get('page')=="products") 
                     style="background: #4B49AC !important; color:#fff !important" @endif
                     class="nav-link" data-toggle="collapse" href="#ui-catalogue" aria-expanded="false" aria-controls="ui-catalogue">

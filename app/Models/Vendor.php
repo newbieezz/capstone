@@ -38,4 +38,7 @@ class Vendor extends Model implements Wallet
     
     }
     
+    public function paylaters() {
+        return $this->belongsTo('App\Models\Vendor','id','vendor_id');
+    }
 }
