@@ -22,6 +22,7 @@ use App\Models\Notification;
 use App\Models\PayLaterApplication;
 use App\Models\TransactionFee;
 use App\Models\User;
+use App\Models\VendorsBusinessDetails;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
@@ -393,11 +394,20 @@ class ProductController extends Controller
 
             //get the selected vendor
             $selectedVendorId = $item['product']['vendor_id'] ;
-            $installments = Installment::all();
-            $vendorinstallment = Vendor::with('vendorshopdetails')->where('id',$selectedVendorId )->get()->first();
+            $vendorinstallment = Vendor::with('vendorshopdetails')->where('id',$selectedVendorId )->first();
                         // dd($vendorinstallment['vendorshopdetails']['installment_weeks']);
-                        $installment_weeks = $vendorinstallment['vendorshopdetails']['installment_weeks'];
-                        $installment_rate = $vendorinstallment['vendorshopdetails']['interest'];
+            $installment_details = [];
+
+            $installment_details['weeks'] = $vendorinstallment['vendorshopdetails']['installment_weeks'];
+            $installment_details['rate'] = $vendorinstallment['vendorshopdetails']['interest'];
+
+            
+            $paylater_application = PayLaterApplication::where('appstatus', 'Approved')
+                    ->where('vendor_id', $item['product']['vendor_id'])
+                    ->where('user_id', Auth::user()->id)
+                    ->with(['users', 'vendor', 'garantor'])
+                    ->first();
+
             // $status = PayLaterApplication::get()->first()->toArray();
             $userpl = User::where('id',Auth::user()->id)->first()->toArray();
             // dd($selectedVendorId );
@@ -449,7 +459,7 @@ class ProductController extends Controller
                     } else if($data['payment_gateway'] == "Gcash"){
                         $payment_method = "Gcash";
                         $order_status = "Processing";
-                    } else if(str_contains($data['payment_gateway'], 'paylater')){
+                    } else if(str_contains($data['payment_gateway'], 'Paylater')){
                         $payment_method = "Paylater";
                         $order_status = "Processing";
                     } else {
@@ -531,24 +541,23 @@ class ProductController extends Controller
                     // $selectedVendorId 
                     //PayLater payment script
                     if ($payment_method == 'Paylater') {
-                        // $vendorDetails;
-                        $installment_id = explode('-',$data['payment_gateway'])[1];
-                        
+                        $installment = VendorsBusinessDetails::where('vendor_id', $orderDetails['vendor_id'])
+                        ->first();
 
-                        for($x = 0; $x < $installment_weeks; $x++) {
+                        for($x = 0; $x < $installment['weeks']; $x++) {
                             $paylater = new PayLater();
-                            $paylater->installment_id = $installment_id;
                             $paylater->user_id = Auth::user()->id;
                             $paylater->order_id = $order_id;
-                            $paylater->amount = round(($total_price + ($total_price * ($installment_rate/100))) / $installment_weeks , 2);
-                            $paylater->interest_rate = $installment_rate;
+                            $paylater->amount = round(($total_price + ($total_price * ($installment['weeks']/100))) / $$installment['weeks'] , 2);
+                            $paylater->interest_week = $installment['weeks'];
+                            $paylater->interest_rate = $installment['rate'];
                             $paylater->save();
                         }
 
-                        $credit_limit = CreditLimit::where('user_id', Auth::user()->id)->first();
-                        $credit_limit->update([
-                            'current_credit_limit' => $credit_limit->current_credit_limit - ($total_price + ($total_price * ($installment_rate/100)))
-                        ]);
+                        // $credit_limit = CreditLimit::where('user_id', Auth::user()->id)->first();
+                        // $credit_limit->update([
+                        //     'current_credit_limit' => $credit_limit->current_credit_limit - ($total_price + ($total_price * ($installment_rate/100)))
+                        // ]);
                     }
 
                     //insert order id in session variable
@@ -597,8 +606,9 @@ class ProductController extends Controller
                 return redirect('orderplaced');
             }
 
-        $installments = Installment::all();
-        return view('front.products.checkout')->with(compact('deliveryAddresses','selectedVendorId','selectedVendorItems','getCartItems', 'installments','userpl')); //show checkout page   
+        
+
+        return view('front.products.checkout')->with(compact('deliveryAddresses','selectedVendorId','selectedVendorItems','getCartItems','userpl', 'installment_details', 'paylater_application')); //show checkout page   
     }
 
     //user order placed

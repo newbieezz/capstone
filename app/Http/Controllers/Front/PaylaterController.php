@@ -36,15 +36,14 @@ class PaylaterController extends Controller
         //  }
         // else if($getUserBNPLstatus=="Approved"){
         
-        //         $pay_laters = Paylater::with('orders')
-        //             ->where('user_id', Auth::user()->id)
-        //             ->where('due_date', '!=', null)
-        //             ->where('is_paid', 0)
-        //             ->get()->toArray();
+        $pay_laters = Paylater::with('orders')
+            ->where('user_id', Auth::user()->id)
+            ->where('due_date', '!=', null)
+            ->where('is_paid', 0)
+            ->get()->toArray();
         //         $credit_limit = CreditLimit::where('user_id', Auth::user()->id)->first();
-        //         return view('front.pay_later.pay_later')->with(compact('pay_laters', 'credit_limit','getUserBNPLstatus'));
-        // }
-         return view('front.pay_later.pay_later');//->with(compact('status','pay_laters', 'credit_limit','getUserBNPLstatus'));
+        return view('front.pay_later.pay_later')->with(compact('pay_laters'));
+        //  return view('front.pay_later.pay_later');//->with(compact('status','pay_laters', 'credit_limit','getUserBNPLstatus'));
 
     }
 
