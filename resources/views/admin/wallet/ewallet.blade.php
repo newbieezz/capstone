@@ -31,7 +31,7 @@
                                 <label for="proof_image">Proof of Payment</label>
                                 <input type="file" class="form-control" id="proof_image" name="proof_image" required="" style="width: 40%">
                                 @if(!empty(Auth::guard('admin')->user()->proof_image))
-                                  <a target="_blank" href="{{ url('admin/images/gcashproofs/'.Auth::guard('admin')->user()->proof_image) }}"> View Current Image</a>
+                                  <a target="_blank" href="{{ url('admin/images/proofs/'.$walletTransaction['proof_image']) }}"> View Current Image</a>
                                   <input type="hidden" name="current_proof" value="{{Auth::guard('admin')->user()->proof_image}}">
                                 @endif
                             </div>

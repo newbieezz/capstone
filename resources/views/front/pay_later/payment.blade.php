@@ -32,7 +32,7 @@
                         <input type="hidden" name="user_id" value="{{ Auth::user()->id }}"> <br> <br>
                         <div class="table-responsive pt-3"> 
                                 <h5><i>Note: Send GCash screenshot for Proof of Payment.</i></h5> <br><br>
-                                {{-- <h4>Vendor Gcash number: <b> {{$vendor['account_number']}}</b></h4> --}}
+                                <h4>Vendor Gcash number: <b> {{$vendor['account_number']}}</b></h4>
                                 <div class="form-group">
                                     <label for="payment_proof">Proof of Payment</label>
                                     <input type="file" class="form-control" id="payment_proof" name="payment_proof" required="" style="width: 30%">

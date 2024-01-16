@@ -28,7 +28,9 @@ class OrderController extends Controller
             return view('front.orders.orders')->with(compact('orders'));
         } else {
             $orderDetails = Order::with('orders_products')->where('id',$id)->orderBy('id','Desc')->first()->toArray();//fetch the details from id
-            $rider = Rider::where('order_id',$orderDetails['id'])->first()->toArray();
+            // $rider = Rider::first()->toArray();
+            $rider = Rider::where('order_id',$orderDetails['id'])->first();
+            
             return view('front.orders.order_details')->with(compact('orderDetails','rider'));
             
         }
@@ -75,6 +77,7 @@ class OrderController extends Controller
 
     public function gcashpay(Request $request){
         Session::get('user_name');
+        // Session::get('order_id');
             if($request->isMethod('post')){
                 $data = $request->all();
                 
@@ -88,7 +91,7 @@ class OrderController extends Controller
                     $received = "Yes";
 
                     $gcash = new GcashPayment;
-                    $gcash->order_id = Session::get('order_id');;
+                    $gcash->order_id = Session::get('order_id');
                     $gcash->user_id = Auth::user()->id;
                     $gcash->payer_id = mt_rand(100000,999999);
                     $gcash->amount = Session::get('grand_total');
@@ -122,30 +125,12 @@ class OrderController extends Controller
                         'message' => Auth::user()->name . ' has made an order. Please check order ID: ' . $order_id
                     ]);
 
-                    foreach($orderDetails['orders_products'] as $key => $order){
-                        //reduce stock script starts
-                        // dd($orderDetails);
-                        $getProductStock = ProductsAttribute::getProductStock($order['product_id'],$order['product_size']);
-                        $newStock = $getProductStock - $order['product_qty'];
-                        ProductsAttribute::where(['product_id'=>$order['product_id'],'size'=>$order['product_size']])->update(['stock'=>$newStock]);
-    
-                        if (!$newStock) {
-                            Notification::insert([
-                                'module' => 'product',
-                                'module_id' => $order['product_id'],
-                                'user_id' => $orderDetails['orders_products'][$key]['vendor_id'],
-                                'sender' => 'product',
-                                'receiver' => 'vendor',
-                                'message' => $order['product_name'] . ' is out of stock.'
-                            ]);
-                        }
-    
-                    }
-
+                
             
             //empty the cart
             Cart::where('user_id',Auth::user()->id)->delete();
-            return view('front.paypal.ordersuccess');
+            return view('front.pay_later.paymentsuccess');
+            
         }
     }
 

@@ -162,8 +162,8 @@ $getVendorTransferFee = Vendor::getVendorTransferFee(Auth::guard('admin')->user(
                                 - for item {{ $getItemDetails['product_code'] }}
                               @endif
                             @endif
-                            @endforeach
-                            <br>{{ date('Y-m-d h:i:s', strtotime($orderDetails['created_at'])) }} <br>    
+                            <br>{{ date('Y-m-d h:i:s', strtotime($orderDetails['created_at'])) }} <br>  
+                          @endforeach  
                     @else
                       This feature is restricted!
                     @endif

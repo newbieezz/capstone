@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Product;
 use App\Models\Vendor;
+use App\Models\Notification;
 use App\Models\VendorsBusinessDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +14,6 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
-
 class VendorController extends Controller
 {
     public function loginRegister(){
@@ -99,6 +99,15 @@ class VendorController extends Controller
             Mail::send('emails.vendor_confirmation',$messageData,function($message)use($email){
                 $message->to($email)->subject('Confirm your Vendor Account');
             });
+            //send notif
+            Notification::insert([
+                'module' => 'vendorAccount',
+                'module_id' => $vendor_id,
+                'user_id' => $vendor_id,
+                'sender' => 'vendor',
+                'receiver' => 'admin',
+                'message' => $data['name'] . ' has created an Account. '
+            ]);
             DB::commit();
 
             //redirect with success message

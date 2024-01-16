@@ -90,6 +90,7 @@
                                 </label>
                                 <input type="password" id="user-password" name="password" class="text-field" placeholder="User Password">
                                 <p id="register-password"></p>
+                                <p><i>( Must contain Big Letters, symbol, number and at least minimun of 8 characters long )</i></p>
                             </div>
                             <div class="u-s-m-b-30">
                                 <input type="checkbox" class="check-box" id="accept" name="accept">

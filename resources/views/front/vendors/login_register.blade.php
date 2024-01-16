@@ -84,13 +84,13 @@
                                 <label for="vendorname">First Name
                                     <span class="astk">*</span>
                                 </label>
-                                <input type="text" id="vendorname" name="name" class="text-field" placeholder="Vendor First Name">
+                                <input type="text" id="vendorname" name="name" class="text-field" placeholder="Enter First Name">
                             </div>
                             <div class="u-s-m-b-30">
                                 <label for="vendorlastname">Last Name
                                     <span class="astk">*</span>
                                 </label>
-                                <input type="text" id="vendorlastname" name="lastname" class="text-field" placeholder="Vendor Last  Name">
+                                <input type="text" id="vendorlastname" name="lastname" class="text-field" placeholder="Enter Last Name">
                             </div>
                             <div class="u-s-m-b-30">
                                 <label for="vendormobile">Mobile
@@ -102,13 +102,14 @@
                                 <label for="vendoremail">Email
                                     <span class="astk">*</span>
                                 </label>
-                                <input type="text" id="vendoremail" name="email" class="text-field" placeholder="Vendor Email">
+                                <input type="text" id="vendoremail" name="email" class="text-field" placeholder="Enter Email">
                             </div>
                             <div class="u-s-m-b-30">
                                 <label for="vendorpassword">Password
                                     <span class="astk">*</span>
                                 </label>
-                                <input type="password" id="vendorpassword" name="password" class="text-field" placeholder="Vendor Password">
+                                <input type="password" id="vendorpassword" name="password" class="text-field" placeholder="Enter Strong Password">
+                                <p><i>( Must contain Big Letters, symbol, number and at least minimun of 8 characters long )</i></p>
                             </div>
                             <div class="u-s-m-b-30">
                                 <input type="checkbox" class="check-box" id="accept" name="accept">

@@ -135,5 +135,11 @@ protected function serializeDate(DateTimeInterface $date): string
 
         return $getStock->stock_quantity;
     }
+
+    public static function reStock($id){
+        $reStock = Product::select('restock_threshold')->where(['id'=>$id])->first();
+
+        return $reStock->restock_threshold;
+    }
  
 }

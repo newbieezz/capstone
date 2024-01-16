@@ -82,10 +82,10 @@ class OrderController extends Controller
             $orderDetails = Order::with('orders_products')->where('id',$id)->first()->toArray();
         }
         
-
+        $rider = Rider::where('order_id',$orderDetails['id'])->first();
         $orderStatus = OrderStatus::where('status',1)->get()->toArray();
         $orderLog = OrdersLog::with('orders_products')->where('order_id',$id)->orderBy('id','Desc')->get()->toArray();
-        return view('admin.orders.order_details')->with(compact('orderDetails','userDetails','orderStatus','orderLog'));
+        return view('admin.orders.order_details')->with(compact('orderDetails','rider','userDetails','orderStatus','orderLog'));
     }
 
     public function updateOrderStatus(Request $request){
@@ -99,7 +99,7 @@ class OrderController extends Controller
             $log = new OrdersLog();
             $log->order_id = $data['order_id'];
             $log->order_status = $data['order_status'];
-            // $log->save();
+            $log->save();
 
             //get delivery address
             $deliveryDetails = Order::select('mobile','email','name')->where('id',$data['order_id'])->first()->toArray();
@@ -109,7 +109,7 @@ class OrderController extends Controller
 
                 
 
-            if ($data['order_status'] == 'Delivered') {
+            if ($data['order_status'] == 'Accept') {
                 $pay_later = PayLater::where('order_id', $data['order_id'])->get();
                 foreach ($pay_later as $key => $value) {
                     PayLater::find($value['id'])->update([

@@ -22,25 +22,19 @@
                                 </tr> 
                               </thead> 
                               <tbody> 
-                              {{-- @foreach ($loans as $loan)
-                              {{-- if product info is not coming then it won't display --}}
-{{--                               
+                            @foreach ($loans as $loan)
                                 <tr> 
-                                     <td> {{ date('Y-m-d h:i:s', strtotime($loan['created_at'])) }} </td> 
+                                     <td> {{ date('Y-m-d', strtotime($loan['created_at'])) }} </td> 
                                      <td> {{ $loan['user_id']}}  </td> 
                                      <td> {{ $loan['due_date']}}  </td> 
                                      <td>₱ {{ $loan['amount'] }} </td>
                                      <td> {{ $loan['interest_rate'] }} %</td>
-                                     <td> {{ $loan['is_paid'] }} </td>
-                                     <td>
-                                        {{-- <a title="View Order Details" href="{{ url('admin/orders/'.$loan['id']) }}">
-                                            <i style="font-size:25px;" class="mdi mdi-file-document"></i></a> &nbsp;&nbsp;
-                                        <a target="_blank" title="View Order Invoice" href="{{ url('admin/orders/invoice/'.$loan['id']) }}">
-                                            <i style="font-size:25px;" class="mdi mdi-printer"></i></a> --}}
-                                     {{-- </td>
+                                     <td> @if($loan['is_paid']==0) Not Paid
+                                         @else Paid @endif
+                                     </td>
                                  </tr> 
-                               @endforeach
-                              </tbody>   --}}
+                            @endforeach
+                              </tbody>  
                               </table> 
                               </div> 
                             </div> 

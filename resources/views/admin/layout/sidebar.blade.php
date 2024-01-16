@@ -46,6 +46,9 @@
                         <li class="nav-item"> <a @if(Session::get('page')=="approved") style="background:#4B49AC !important; color:aliceblue !important;" 
                                                  @else style="background: #fff !important; color:#4B49AC !important;" @endif 
                             class="nav-link" href="{{ url('admin/paylater/approved') }}">Approved</a></li>
+                        <li class="nav-item"> <a @if(Session::get('page')=="bpaylater") style="background:#4B49AC !important; color:aliceblue !important;" 
+                                                 @else style="background: #fff !important; color:#4B49AC !important;" @endif
+                            class="nav-link" href="{{ url('admin/set-interest') }}">Installment</a></li>  
                     </ul>
                 </div>
             </li> 
@@ -88,10 +91,7 @@
                             class="nav-link" href="{{ url('admin/orders') }}">Orders</a></li>
                                     <li class="nav-item"> <a  @if(Session::get('page')=="loans") style="background:#4B49AC !important; color:aliceblue !important;" 
                                                               @else style="background: #fff !important; color:#4B49AC !important;" @endif
-                                        class="nav-link" href="{{ url('admin/viewLoan') }}">List of Loans</a></li>
-                        <li class="nav-item"> <a @if(Session::get('page')=="bpaylater") style="background:#4B49AC !important; color:aliceblue !important;" 
-                                                 @else style="background: #fff !important; color:#4B49AC !important;" @endif
-                            class="nav-link" href="{{ url('admin/set-interest') }}">Buy Now, Pay Later</a></li>                    
+                                        class="nav-link" href="{{ url('admin/viewLoan') }}">List of Loans</a></li>                  
                     </ul>
                 </div>
             </li> 
@@ -154,9 +154,6 @@
                         <li class="nav-item"> <a @if(Session::get('page')=="view_users") style="background:#4B49AC !important; color:aliceblue !important;" 
                                                  @else style="background: #fff !important; color:#4B49AC !important;" @endif 
                             class="nav-link" href="{{ url('admin/users') }}">Customer/User</a></li>
-                        <li class="nav-item"> <a @if(Session::get('page')=="users_paylater") style="background:#4B49AC !important; color:aliceblue !important;" 
-                                                 @else style="background: #fff !important; color:#4B49AC !important;" @endif 
-                            class="nav-link" href="{{ url('admin/user-paylater') }}">Users PayLater Application</a></li>
                     </ul>
                 </div>
             </li>

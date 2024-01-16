@@ -175,6 +175,7 @@ class AdminController extends Controller
             $vendorCount = Vendor::where('id',Auth::guard('admin')->user()->vendor_id)->count();
             if($vendorCount > 0 ){
                 $vendorDetails = Vendor::where('id',Auth::guard('admin')->user()->vendor_id)->first()->toArray();
+           
             } else {
                 $vendorDetails = array();
             }
@@ -255,6 +256,7 @@ class AdminController extends Controller
             $vendorCount = VendorsBusinessDetails::where('vendor_id',Auth::guard('admin')->user()->vendor_id)->count();
             if($vendorCount > 0 ) {
                 $vendorDetails = VendorsBusinessDetails::where('vendor_id',Auth::guard('admin')->user()->vendor_id)->first()->toArray();
+
             } else { //empty array 
                 $vendorDetails = array();
             }
@@ -280,12 +282,12 @@ class AdminController extends Controller
                         // Update in vendors_banks_details Table
                         VendorsBankDetails::where('vendor_id', Auth::guard('admin')->user()->vendor_id)->update(['account_holder_name'=>$data['account_holder_name']
                         ,'account_number'=>$data['account_number']]);
-                        return redirect()->back()->with('success_message','Vendor bank details updated successfully!');
+                        return redirect()->back()->with('success_message','Vendor gcash details updated successfully!');
                     } else {
                         // Update and Insert in vendors_banks_details Table
                         VendorsBankDetails::insert(['vendor_id'=> Auth::guard('admin')->user()->vendor_id,'account_holder_name'=>$data['account_holder_name']
                         ,'account_number'=>$data['account_number']]);
-                        return redirect()->back()->with('success_message','Vendor bank details updated successfully!'); 
+                        return redirect()->back()->with('success_message','Vendor gcash details updated successfully!'); 
                     }
             }
             $vendorCount = $vendorDetails = VendorsBankDetails::where('vendor_id',Auth::guard('admin')->user()->vendor_id)->count();
@@ -364,14 +366,17 @@ class AdminController extends Controller
 
     // View Vendor Details by the Admin
     public function viewVendorDetails($id){
-        Session::put('page','update_vendor_details');
-
-        $vendorDetails = Admin::with('vendorPersonal','vendorBusiness','vendorBank')->where('id',$id)->first();
+        Session::put('page','view_vendor_details');
+        // dd($id)
+        $vendorDetails = Vendor::where('id',$id)->first()->toArray();
+        $venBusiness = VendorsBusinessDetails::where('vendor_id',$id)->first()->toArray();
+        $venBank = VendorsBankDetails::where('vendor_id',$id)->first()->toArray();
         $vendorDetails = json_decode(json_encode($vendorDetails),true);
-        // dd($vendorDetails);
+                // dd($venBusiness);
+                // dd($venBank);
         
 
-        return view('admin.admins.view_vendor_details')->with(compact('vendorDetails'));
+        return view('admin.admins.view_vendor_details')->with(compact('vendorDetails','venBusiness','venBank'));
     }
 
     // Update Admin Status

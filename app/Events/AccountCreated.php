@@ -35,6 +35,6 @@ class AccountCreated
      */
     public function broadcastOn()
     {
-        return ['acc-created'];
+        return ['account-created'];
     }
 }

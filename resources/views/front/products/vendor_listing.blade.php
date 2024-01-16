@@ -37,10 +37,12 @@
                         </div>
                     @endif 
                     <div class="page-bar clearfix">
-                        <form action="{{ url('pay-later/'.$vendorid) }}" method="post"> @csrf
-                            <input type="hidden" name="vendor_id" value="{{ $vendorid }}"/>
-                           <h4>Activate your PayLater Now! &nbsp;<button class="btn btn-primary" type="submit">Click to Apply</button></h4> 
-                        </form>
+                        {{-- @if($details==null ) --}}
+                            <form action="{{ url('pay-later/'.$vendorid) }}" method="post"> @csrf
+                                <input type="hidden" name="vendor_id" value="{{ $vendorid }}"/>
+                            <h4>Activate your PayLater Now! &nbsp;<button class="btn btn-primary" type="submit">Click to Apply</button></h4> 
+                            </form>
+                        {{-- @endif --}}
                     </div>
                     <!-- Page-Bar /- -->
                     <!-- Simple Paganitaion /- -->

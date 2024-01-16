@@ -39,10 +39,10 @@
                                 <p>{{ $product['description'] }} </p>
                             </div>
                             <div class="item-stars">
-                                <div class='star' title="4.5 out of 5 - based on 23 Reviews">
+                                <div class='star' title="No Reviews yet">
                                     <span style='width:67px'></span>
                                 </div>
-                                <span>(23)</span>
+                                <span>(0)</span>
                             </div>
                         </div>
                         <!-- Call the dunction created inside the products model for the discounted price -->
@@ -53,13 +53,13 @@
                                     ₱ {{ $getDiscountedPrice }}
                                 </div>
                                 <div class="item-old-price">
-                                    ₱ {{ $product['product_price'] }}
+                                    ₱ {{ $product['selling_price'] }}
                                 </div>
                             </div>
-                        @else
+                        @elseif(empty($getDiscountedPrice))
                         <div class="price-template">
                             <div class="item-new-price">
-                                ₱ {{ $product['product_price'] }}
+                                ₱ {{ $product['selling_price'] }}
                             </div>
                         </div>
                         @endif

@@ -31,6 +31,7 @@ $(document).ready(function(){
             var quantity = $(this).data('qty');
             //if clicked qty increase by 1
             new_qty = parseInt(quantity) + 1 ;
+            
         }
         if($(this).hasClass('minus-a')){//will tell if the user click or not
             //get the qty
@@ -52,6 +53,7 @@ $(document).ready(function(){
             url:'/cart/update',
             type:'post',
             success:function(resp){
+                $(".totalCartItems").html(resp.totalCartItems);
                 if(resp.status==false){
                     alert(resp.message);
                 }
@@ -76,6 +78,7 @@ $(document).ready(function(){
                 url:'/cart/delete',
                 type:'post',
                 success:function(resp){
+                    $(".totalCartItems").html(resp.totalCartItems);
                     $("#appendCartItems").html(resp.view);
                 },error:function(){
                     alert("Error");

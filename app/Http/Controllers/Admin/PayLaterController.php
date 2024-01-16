@@ -15,13 +15,13 @@ use App\Models\Vendor;
 use App\Models\VendorsBusinessDetails;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Notification;
 
 class PayLaterController extends Controller
 {
     public function paylaters(Request $request){
         Session::put('page','bpaylater');
-
+        
     }
 
     public function setInterest(Request $request){
@@ -47,21 +47,31 @@ class PayLaterController extends Controller
         Session::put('page','pending');
         $pendings = PayLaterApplication::where('appstatus', 'Pending')
         ->where('vendor_id', Auth::guard('admin')->user()->id)
+        ->with(['users', 'vendor', 'garantor'])->first()
+        ->paginate(6);
+        dd($pendings);
+        return view('admin.paylater_applications.pending', compact('pendings','users'));
+    }
+
+    public function approved () {
+        Session::put('page','approved');
+        $approved = PayLaterApplication::where('appstatus', 'Approved')
+        ->where('vendor_id', Auth::guard('admin')->user()->id)
         ->with(['users', 'vendor', 'garantor'])
         ->paginate(6);
+        // dd($approved );
 
-        return view('admin.paylater_applications.pending', compact('pendings'));
+        return view('admin.paylater_applications.approved', compact('approved'));
     }
     
     public function getById ($id) {
         Session::put('page', 'details');
-        $details = PayLaterApplication::where('appstatus', 'Pending')
-        ->where('vendor_id', Auth::guard('admin')->user()->id)
-        ->where('id', $id)
-        ->with(['users', 'vendor', 'garantor'])
-        ->first();
+        $details = PayLaterApplication::get()->toArray();
+        $userDetails = User::get()->toArray();
 
-        return view('admin.paylater_applications.details', compact('details'));
+        // dd($details);
+
+        return view('admin.paylater_applications.details', compact('details','userDetails','id'));
     }
 
     public function approveById ($id) {
@@ -69,6 +79,14 @@ class PayLaterController extends Controller
         ->where('vendor_id', Auth::guard('admin')->user()->id)
         ->where('id', $id)
         ->update(['appstatus' => 'Approved']);
+        // Notification::insert([
+        //     'module' => 'paylater',
+        //     'module_id' => $details['user_id'],
+        //     'user_id' => $details['vendor_id'],
+        //     'sender' => 'vendor',
+        //     'receiver' => 'customer',
+        //     'message' => ' Your application has been Approved.'
+        // ]);
 
         return response()->json(['message' => 'Success']);
 

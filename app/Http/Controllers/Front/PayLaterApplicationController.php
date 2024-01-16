@@ -9,6 +9,7 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Vendor;
+use App\Models\Notification;
 
 class PayLaterApplicationController extends Controller
 {
@@ -95,7 +96,14 @@ class PayLaterApplicationController extends Controller
                 $paylaterapp->save();
                     // dd($data);
                     
-                // User::where('id',Auth::user()->id)->update(['bnpl_status'=>'Pending']);
+                    Notification::insert([
+                        'module' => 'garantor',
+                        'module_id' => Auth::user()->id,
+                        'user_id' => $data['garantor_id'],
+                        'sender' => 'customer',
+                        'receiver' => 'customer',
+                        'message' => Auth::user()->name . ' has made you a guarantor. Click to see Details of Application. '
+                    ]);
 
                 $message = "Application is submitted successfully. We will inform you through email for further updates.";
                 return redirect('products/'.$vendorid)->with('success_message',$message);
@@ -103,4 +111,37 @@ class PayLaterApplicationController extends Controller
         }
         // return view('front.pay_later.pay_later_application');
     }
+
+    public function garantor($garantorid){
+        $garantor = PayLaterApplication::where('garantor_id',Auth::user()->id)->get()->toArray();
+        $userDetails = User::get()->toArray();
+        // dd($userDetails );
+        return view('front.pay_later.paylaterapplication')->with(compact('garantor','userDetails'));
+    }
+
+    public function updateApplication(Request $request) {
+        $garantor = PayLaterApplication::where('garantor_id',Auth::user()->id)->first();
+        $userDetails = User::where('id',$garantor['user_id'])->first();
+        if($request->isMethod('post')){
+            $data = $request->all();
+            // dd($data);
+            $status = $data['status'];
+            $details = PayLaterApplication::where('appstatus', 'Pending')
+            ->where('garantor_id', Auth::user()->id)
+            ->update(['garantorstatus' => $status]);
+        }
+        Notification::insert([
+            'module' => 'paylater',
+            'module_id' => Auth::user()->id,
+            'user_id' => $data['userid'],
+            'sender' => 'garantor',
+            'receiver' => 'customer',
+            'message' => ' Your guarantor ' . $status.' your request.'
+        ]);
+        // return view('front.pay_later.paylaterapplication', compact('details','garantor','userDetails'));
+        $message = "Updated successfuly!";
+            return redirect()->back()->with('success_message',$message);
+    }
+
+   
 }

@@ -33,7 +33,12 @@
                     @foreach ($pay_laters as $pay_later)
                     <tr>
                         <td><a href="{{ url('user/orders/'.$pay_later['order_id']) }}">{{ $pay_later['order_id'] }}</a></td>
-                        <td>{{ date('Y-m-d', strtotime($pay_later['due_date'])) }}</td>
+                        <td> @if (empty($pay_later['due_date']))
+                                Order Not Yet Accepted
+                            @else
+                                {{ date('Y-m-d', strtotime($pay_later['due_date'])) }}
+                            @endif
+                        </td>
                         <td>₱ {{ $pay_later['amount'] }}</td>
                         <td>
                         <a href="{{url('payment/'.$pay_later['id'])}}"><button class="button button-outline-secondary w-100">Pay Now</button></a>
@@ -41,23 +46,24 @@
                     </tr>
                     @endforeach
                 </table>
-            </div>
+            </div> <br><br>
             <div class="row">
                 <h2>My Transactions <h6>&nbsp;&nbsp; </h6></h2> &nbsp;
                 <table class="table table-striped table-borderless">
                     <tr>
-                        <th>Order ID</th>
-                        <th>Paid</th>
+                        <th>Amount</th>
+                        <th>Date Paid</th>
                         <th></th>
                         <th></th>
                     </tr>
-                    <tr>
-                        <td>
-                        </td>
-                    </tr>
+                    @foreach ($paids as $paid)
+                        <tr>
+                            <td> ₱ {{ $paid['amount'] }} </td>
+                            <td> {{ date('Y-m-d', strtotime($paid['updated_at'])) }} </td>
+                        </tr>
+                    @endforeach
                 </table>
             </div> 
         </div>
-    </div> <br><br><br><br><br><br><br><br><br>
-
+    </div>  
 @endsection

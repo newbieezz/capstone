@@ -32,10 +32,26 @@ use App\Models\Order;
                         <tr><td>Order Status</td><td>{{ $orderDetails['order_status'] }}</td></tr>
                         <tr><td>Order Total</td><td>₱ {{ $orderDetails['grand_total'] }}</td></tr>
                         <tr><td>Payment Method</td><td>{{ $orderDetails['payment_method'] }}</td></tr>
-                        <tr><td>Delivery Riders Name</td><td>{{ $rider['name'] }}</td></tr>
-                        <tr><td>Plate Number</td><td>{{ $rider['plate_num'] }}</td></tr>
-                        <tr><td>Mobile Number</td><td>{{ $rider['mobile'] }}</td></tr>
-                        <tr><td><b>Delivery Fee</b></td><td>To Pay :  <b>₱ {{ $rider['delivery_fee'] }}</b></td></tr>
+                        <tr><td>Delivery Riders Name</td> 
+                            @if(empty($rider)) <td></td>
+                            @else
+                            <td>{{ $rider['name'] }}</td></tr>
+                            @endif
+                        <tr><td>Plate Number</td>
+                            @if(empty($rider)) <td></td>
+                            @else
+                            <td>{{ $rider['plate_num'] }}</td></tr>
+                            @endif
+                        <tr><td>Mobile Number</td>
+                            @if(empty($rider)) <td></td>
+                            @else
+                            <td>{{ $rider['mobile'] }}</td></tr>
+                            @endif
+                        <tr><td><b>Delivery Fee</b></td>
+                            @if(empty($rider)) <td></td>
+                            @else
+                            <td>To Pay :  <b>₱ {{ $rider['delivery_fee'] }}</b></td></tr>
+                            @endif
                     </table>
                     <table class="table table-striped table-borderless">
                         <tr  class="table-success">

@@ -53,7 +53,7 @@
           <div class="col-md-12 grid-margin">
               <div class="row">
                   <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                      <h3 class="font-weight-bold">Update Vendor Details</h3>
+                      <h3 class="font-weight-bold">Update Application</h3>
                   </div>
               </div>
           </div>
@@ -94,7 +94,7 @@
                 @endif
                 <form class="forms-sample" action="{{ url('admin/update-vendor-details/business') }}"
                       method="post"enctype="multipart/form-data"> @csrf
-                  <input type="hidden" id="paylater_application_id" class="form-control" readonly="" value="{{ $details['id'] }}"> 
+                  {{-- <input type="hidden" id="paylater_application_id" class="form-control" readonly="" value="{{ $details['id'] }}">  --}}
                   <div class="form-group">
                     <label>Firstname</label>
                     <input class="form-control" readonly="" value="{{ $details['users']['name'] }}"> 
@@ -140,11 +140,11 @@
           </div>
       </div>         
   </div> 
+</div>
   </div> 
   <!-- content-wrapper ends -->
   <!-- partial:partials/_footer.html -->
   @include('admin.layout.footer')
   <!-- partial -->
-</div>
 
 @endsection

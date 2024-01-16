@@ -90,12 +90,11 @@ class UserController extends Controller
 
     public function viewloan(){
         Session::put('page','loans');
-        $loans = Paylater::get()->first()->toArray();
+        $loans = Paylater::get()->toArray();
 
-        $user = User::with('paylaters')->where('id',$loans['user_id'])->first()->toArray();
         
-    //    dd($user);
-       return view('admin.paylater.loan');
+    //    dd($loans);
+       return view('admin.paylater.loan')->with(compact('loans'));
 
     }
 

@@ -214,9 +214,12 @@ class ProductController extends Controller
         // $productDetails = Product::with(['section','category','attributes'=>function($query){
         //     $query->where('stock','>',0)->where('status',1);
         //  },'images','brands','vendor'])->find($vendorid)->toArray();
+        $details = PayLaterApplication::where('vendor_id',$vendorid)->get()->toArray();
+        // $userdetails = User::where('id',$detail[])->first();
+        // dd($details);
+
         $vendorProducts = $vendorProducts->paginate(12);
-        // dd($vendorid);
-       return view('front.products.vendor_listing')->with(compact('getVendorShop','vendorProducts','vendorid'));
+       return view('front.products.vendor_listing')->with(compact('details','getVendorShop','vendorProducts','vendorid'));
     }
 
     public function cartAdd(Request $request){
@@ -328,6 +331,7 @@ class ProductController extends Controller
             Cart::where('id',$data['cartid'])->update(['quantity'=>$data['qty']]);
             $getCartItems = Cart::getCartItems(); //call cartitems to pass
             $groupedProducts = [];
+            $totalCartItems = totalCartItems();
             foreach ($getCartItems as $item) {
                 $vendorShop = $item['product']['vendor_id'];
                 if (!isset($groupedProducts[$vendorShop])) {
@@ -337,6 +341,7 @@ class ProductController extends Controller
             }
             return response()->json([
                    'status'=>true,
+                   'totalCartItems'=>$totalCartItems,
                    'view'=>(String)View::make('front.products.cart_items')
                     ->with(compact('getCartItems','groupedProducts'))
             ]);
@@ -349,7 +354,7 @@ class ProductController extends Controller
 
             Cart::where('id',$data['cartid'])->delete();
             $getCartItems = Cart::getCartItems(); //call cartitems to pass
-
+            $totalCartItems = totalCartItems();
             $groupedProducts = [];
             foreach ($getCartItems as $item) {
                 $vendorShop = $item['product']['vendor_id'];
@@ -359,6 +364,7 @@ class ProductController extends Controller
                 $groupedProducts[$vendorShop][] = $item;
             }
             return response()->json([
+                   'totalCartItems'=>$totalCartItems,
                    'view'=>(String)View::make('front.products.cart_items')
                     ->with(compact('getCartItems','groupedProducts'))
             ]);
@@ -514,7 +520,7 @@ class ProductController extends Controller
                         // dd($orderDetails);
                         $getStock = Product::getStock($item['product_id']);
                         $newStock = $getStock - $item['quantity'];
-
+                        $reStock = Product::reStock($item['product_id']);
                         if (!$newStock) {
                             Notification::insert([
                                 'module' => 'product',
@@ -524,14 +530,14 @@ class ProductController extends Controller
                                 'receiver' => 'vendor',
                                 'message' => $order['product_name'] . ' is out of stock.'
                             ]);
-                        } elseif ($newStock <= $getStock){
+                        } elseif ($newStock <= $reStock){
                             Notification::insert([
                                 'module' => 'product',
                                 'module_id' => $item['product_id'],
                                 'user_id' => $orderDetails['vendor_id'],
                                 'sender' => 'product',
                                 'receiver' => 'vendor',
-                                'message' => $order['product_name'] . ' needs to be restocked.'
+                                'message' => $getProductDetails['product_name'] . ' needs to be restocked.'
                             ]);
                         }
                         // update the new stock on each product
@@ -543,14 +549,26 @@ class ProductController extends Controller
                     if ($payment_method == 'Paylater') {
                         $installment = VendorsBusinessDetails::where('vendor_id', $orderDetails['vendor_id'])
                         ->first();
-
-                        for($x = 0; $x < $installment['weeks']; $x++) {
+                        if($installment['installment_weeks'] == 1){
+                            $installment_id = 2;
+                        } elseif($installment['installment_weeks'] == 2){
+                            $installment_id = 3;
+                        } elseif($installment['installment_weeks'] == 3){
+                            $installment_id = 4;
+                        } elseif($installment['installment_weeks'] == 4){
+                            $installment_id = 5;
+                        }
+                        for($x = 0; $x < $installment['installment_weeks']; $x++) {
+                            $final_price = round(($total_price + ($total_price * ($installment['installment_weeks']/100))) / $installment['installment_weeks'] , 2);
                             $paylater = new PayLater();
                             $paylater->user_id = Auth::user()->id;
                             $paylater->order_id = $order_id;
-                            $paylater->amount = round(($total_price + ($total_price * ($installment['weeks']/100))) / $$installment['weeks'] , 2);
-                            $paylater->interest_week = $installment['weeks'];
-                            $paylater->interest_rate = $installment['rate'];
+                            $paylater->installment_id = $installment_id;
+                            $paylater->amount = $final_price;
+                            $paylater->installment_week = $installment['installment_weeks'];
+                            $paylater->interest_rate = $installment['interest'];
+                    // dd($paylater);
+
                             $paylater->save();
                         }
 
@@ -593,8 +611,6 @@ class ProductController extends Controller
                     } else if($data['payment_gateway']=="Paypal"){
                         // Paypal - Redirect User to Paypal page after saving order
                         return redirect('/paypal');
-                    } else if(str_contains($data['payment_gateway'], 'paylater')){
-                        //paylater logic to be implemented
                     } else if($data['payment_gateway']=="Gcash"){
                         // Paypal - Redirect User to Paypal page after saving order
                         return redirect('/gcash');
@@ -602,7 +618,7 @@ class ProductController extends Controller
                     else {
                         echo "Other Prepaid payment methods coming soon!";
                     }
-                
+                // dd($paylater);
                 return redirect('orderplaced');
             }
 

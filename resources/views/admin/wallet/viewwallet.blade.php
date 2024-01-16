@@ -32,7 +32,7 @@
                            <td> {{ $wallet['amount']}}  </td> 
                            <td> {{ $wallet['reference']}}  </td>
                            <td> @if($wallet['proof_image'] != "")
-                                   <img src="{{ asset('admin/images/gcashproofs/'.$wallet['proof_image']) }}" />
+                                   <img src="{{ asset('admin/images/proofs/'.$wallet['proof_image']) }}" />
                                 @else
                                    <img src="{{ asset('admin/images/photos/noimage.gif') }}" />
                                 @endif

@@ -187,7 +187,7 @@ Route::post('/transferToUser','EwalletController@transferToUser');
         Route::get('viewLoan','UserController@viewloan');
 
         //E-WALLET
-        Route::match(['get','post'],'/addFunds','EwalletController@addFunds');
+        Route::match(['get','post'],'addFunds','EwalletController@addFunds');
         Route::get('wallet-transactions','EwalletController@viewWalletTransaction');
         Route::match(['get','post'],'update-vendor-wallet/{id}','EwalletController@updateVendorWallet');
         
@@ -292,8 +292,9 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
         Route::match(['get','post'],'pay-later-application/{vendorid}','PayLaterApplicationController@saveApplication');
         Route::match(['get','post'],'payment/{id?}','PaylaterController@userpayment');
         Route::get('searchg','PayLaterApplicationController@searchg');
-        
-
+        Route::match(['get','post'],'gcashpaylater','PaylaterController@gcashpaylater');
+        Route::get('user/paylaterApplication/{garantorid}','PayLaterApplicationController@garantor');
+        Route::post('paylater/update','PayLaterApplicationController@updateApplication');
 
         //Gcash Payment Method
         Route::get('gcash','OrderController@gcash');

@@ -7,7 +7,7 @@
                     <div class="col-lg-12 grid-margin stretch-card"> 
                         <div class="card"> 
                             <div class="card-body"> 
-                              <h4 class="card-title">Buy Now Pay Later</h4> 
+                              <h4 class="card-title">Update Installment Interest</h4> 
                                 @if(Session::has('success_message'))
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                                     <strong>Success: </strong> {{ Session::get('success_message')}}
@@ -17,13 +17,12 @@
                                 </div>
                                 @endif
                                 <div class="table-responsive pt-3"> 
-                                <h5 class="card-title">Update Installment Interest</h5> 
                                 <div>
                                     @if(Auth::guard('admin')->user()->type=="vendor" )
                                     <form action="{{ url('admin/set-interest') }}" method="post" enctype="multipart/form-data"> @csrf
                                         <div class="form-group">
                                             <label>Current Installment Week & Interest</label>
-                                            <input class="form-control" readonly="" value="{{ $shopDetails['installment_weeks'] }} weeks - {{$shopDetails['interest']}} % interest"> 
+                                            <input class="form-control" readonly="" value="{{ $shopDetails['installment_weeks'] }} weeks with {{$shopDetails['interest']}} % interest"> 
                                         </div>
                                         <div class="form-group">
                                             <input type="hidden" name="vendor_id" value="{{ $vendor ['id'] }}">

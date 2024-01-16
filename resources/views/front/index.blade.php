@@ -45,7 +45,7 @@
                                      <!-- ForeachLoop of Array for the list of stores/vendors available to display -->
                                     @foreach($getVendorDetails as $vendors)
                                         <!-- Fetching the list of stores/vendors available to display -->
-                                        <div class="item">
+                                        <div class="item" style="height: 400px;">
                                             <div class="image-container">
                                                 <a class="item-img-wrapper-link" href="javascript:;">
                                                     <?php $shop_image_path = 'admin/images/shops/'.$vendors['shop_image']; ?>
